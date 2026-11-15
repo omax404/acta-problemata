@@ -1,4 +1,4 @@
-"""Orchestration: fetch -> synthesize -> guard -> diagram -> render -> deliver.
+﻿"""Orchestration: fetch -> synthesize -> guard -> diagram -> render -> deliver.
 
 The vault guarantees a publishable edition even with zero network / zero keys.
 Each stage is a small function; `run` only sequences them and owns the timings.
@@ -44,7 +44,7 @@ def _verify(case: LLMCase) -> VerifiedFormula:
 
 
 def _vault_content(repo_root: Path, led: dict, today: date) -> Content:
-    entries = json.loads((repo_root / "data" / "case_vault.json").read_text())
+    entries = json.loads((repo_root / "data" / "case_vault.json").read_text(encoding="utf-8"))
     fresh = [e for e in entries if not L.is_seen(led, e["id"], today)]
     pool = fresh or sorted(entries, key=lambda e: led["seen"].get(e["id"], "0000"))
     errors = []
@@ -157,7 +157,7 @@ def _solution_url(cfg: dict, repo_slug: str, edition_no: int) -> str:
 
 def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> dict:
     t0 = time.perf_counter()
-    cfg = json.loads((repo_root / "config.json").read_text())
+    cfg = json.loads((repo_root / "config.json").read_text(encoding="utf-8"))
     today = datetime.now(UTC).date()
     led = L.load(repo_root / "data" / "ledger.json")
     edition_no = L.next_edition(led, today)
@@ -197,7 +197,7 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
                "dry_run": dry_run, "fit": fit, "delivery_errors": delivery_errors,
                "timings_s": timings, "total_s": total}
     (repo_root / "build").mkdir(exist_ok=True)
-    (repo_root / "build" / "summary.json").write_text(json.dumps(summary, indent=2))
+    (repo_root / "build" / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     if total > NFR_BUDGET_S:
         log.warning("NFR-02 budget exceeded: %.1fs > %ds", total, NFR_BUDGET_S)
     log.info("edition №%d ready in %.1fs (%s)", edition_no, total, content.origin)

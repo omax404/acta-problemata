@@ -1,4 +1,4 @@
-"""Enhancement 2: static GitHub Pages solution gateway (QR target).
+﻿"""Enhancement 2: static GitHub Pages solution gateway (QR target).
 Zero JS dependencies; derivation is generated deterministically from SymPy.
 """
 from __future__ import annotations
@@ -53,14 +53,14 @@ document.getElementById('snip').textContent)">Copy SymPy snippet</button>
 <a href="../index.html">Archive</a></p>
 <p class="meta">Check your own answer in a terminal: <code>acta check &lt;value&gt; --edition {n}</code></p>
 </body></html>"""
-    (sol / f"{slug}.html").write_text(page)
+    (sol / f"{slug}.html").write_text(page, encoding="utf-8")
 
     payload = {"edition": n, "date": edition["date"], "unit": vf.unit,
                "result": vf.computed_result, "full_precision": vf.full_precision,
                "symbolic": vf.symbolic, "variables": vf.variables,
                "significant_figures": 3}
-    (sol / f"{slug}.json").write_text(json.dumps(payload, indent=2))
-    (sol / "latest.json").write_text(json.dumps(payload, indent=2))
+    (sol / f"{slug}.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    (sol / "latest.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     items = "".join(
         f"<li>{h['date']} — <a href='archive/{h['pdf'].split('/')[-1]}'>№{h['edition']}</a> "
@@ -71,4 +71,4 @@ document.getElementById('snip').textContent)">Copy SymPy snippet</button>
         f"<!doctype html><html><head><meta charset='utf-8'><title>Acta Problemata — Archive</title>"
         f"<style>{_CSS}</style></head><body><h1>Acta Problemata — Archive</h1>"
         f"<p class='meta'>{ledger['streak']}-day streak · {ledger['edition_number']} editions</p>"
-        f"<ul>{items}</ul></body></html>")
+        f"<ul>{items}</ul></body></html>", encoding="utf-8")

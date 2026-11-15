@@ -56,7 +56,7 @@ def test_layout_always_one_page(repo, label, over):
 
 
 def _vault_llmcase(repo):
-    e = json.loads((repo / "data" / "case_vault.json").read_text())[0]
+    e = json.loads((repo / "data" / "case_vault.json").read_text(encoding="utf-8"))[0]
     return LLMCase.model_validate(e["case"])
 
 
@@ -103,7 +103,7 @@ def test_delivery_failure_never_loses_the_edition(repo, monkeypatch):
     monkeypatch.setattr(deliver, "send_email", boom)
     monkeypatch.setattr(deliver, "send_printer", boom)
     s = pipeline.run(repo, force_vault=True)
-    led = json.loads((repo / "data" / "ledger.json").read_text())
+    led = json.loads((repo / "data" / "ledger.json").read_text(encoding="utf-8"))
     assert led["streak"] == 1 and led["edition_number"] == 1      # published + recorded
     assert (repo / "docs" / "archive" / "acta-0001.pdf").exists()
     assert len(s["delivery_errors"]) == 2                         # but never silent
@@ -127,7 +127,7 @@ def test_pdf_has_metadata(repo):
 def test_tall_figure_cannot_starve_body_text(repo):
     """Regression: the civil-column diagram (tall) used to force 7.2 pt text and kill the worksheet."""
     import json as _json
-    e = [x for x in _json.loads((repo / "data" / "case_vault.json").read_text()) if x["id"] == "vault-civ-001"][0]
+    e = [x for x in _json.loads((repo / "data" / "case_vault.json").read_text(encoding="utf-8")) if x["id"] == "vault-civ-001"][0]
     svg = render_diagram(e["case"]["diagram"]["kind"], {}, repo / "build" / "d.svg")
     pdf = repo / "o.pdf"
     render_edition(_edition(), svg, "https://example.org/s/7", repo, pdf)

@@ -37,7 +37,7 @@ def test_injection_blocked(expr, vars_):
 
 
 def test_vault_cases_all_valid():
-    for e in json.loads((ROOT / "data" / "case_vault.json").read_text()):
+    for e in json.loads((ROOT / "data" / "case_vault.json").read_text(encoding="utf-8")):
         case = LLMCase.model_validate(e["case"])
         vf = verify_formula(case.formula.symbolic,
                             {v.symbol: v.value for v in case.formula.variables},

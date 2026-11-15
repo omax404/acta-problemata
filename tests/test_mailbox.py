@@ -99,7 +99,7 @@ def test_oversized_attachment_skipped(env):
 def test_urls_in_short_mail_go_to_urls_txt(env):
     FakeIMAP.boxes = [_msg(subject="[Thermal] link", body="see https://example.org/tender/42 please")]
     mailbox.pull(env)
-    assert "https://example.org/tender/42 | Thermal" in (env / "inbox" / "urls.txt").read_text()
+    assert "https://example.org/tender/42 | Thermal" in (env / "inbox" / "urls.txt").read_text(encoding="utf-8")
 
 
 def test_network_error_never_raises(env, monkeypatch):

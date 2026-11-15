@@ -1,4 +1,4 @@
-"""Polite web access + text extraction for problem sources.
+﻿"""Polite web access + text extraction for problem sources.
 
 Rules this module enforces (so adding a site can never turn the daily job into a scraper):
   * robots.txt is honoured; an unreadable/forbidden robots.txt means "blocked" (conservative);
@@ -81,7 +81,7 @@ def polite_get(url: str, cache_dir: Path | None = None) -> Fetched:
     if cache_dir:
         body, meta = cache_dir / f"{key}.bin", cache_dir / f"{key}.ct"
         if body.exists() and meta.exists():
-            return Fetched(body.read_bytes(), meta.read_text(), url)
+            return Fetched(body.read_bytes(), meta.read_text(encoding="utf-8"), url)
     if not allowed(url):
         raise FetchBlocked(f"robots.txt does not allow {url}")
     host = urlparse(url).netloc
@@ -101,7 +101,7 @@ def polite_get(url: str, cache_dir: Path | None = None) -> Fetched:
     if cache_dir:
         cache_dir.mkdir(parents=True, exist_ok=True)
         body.write_bytes(data)
-        meta.write_text(ctype)
+        meta.write_text(ctype, encoding="utf-8")
     return Fetched(data, ctype, url)
 
 

@@ -1,4 +1,4 @@
-"""Git-backed state: edition counter, streak, 180-day dedupe window (FR-01.3).
+﻿"""Git-backed state: edition counter, streak, 180-day dedupe window (FR-01.3).
 Same-day re-runs are idempotent: they reuse the edition number and replace
 the day's history entry instead of double-counting the streak.
 """
@@ -14,13 +14,13 @@ DEFAULT = {"edition_number": 0, "streak": 0, "last_run_date": None, "history": [
 
 def load(path: Path) -> dict:
     if path.exists():
-        return {**DEFAULT, **json.loads(path.read_text())}
+        return {**DEFAULT, **json.loads(path.read_text(encoding="utf-8"))}
     return json.loads(json.dumps(DEFAULT))
 
 
 def save(path: Path, ledger: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(ledger, indent=2) + "\n")
+    path.write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
 
 
 def is_seen(ledger: dict, case_id: str, today: date, window: int = DEDUP_WINDOW_DAYS) -> bool:

@@ -1,4 +1,4 @@
-"""FR-04: Typst compilation with a deterministic single-page fit loop.
+﻿"""FR-04: Typst compilation with a deterministic single-page fit loop.
 Prefers the Typst CLI (FR-04.1); falls back to the `typst` Python binding
 for local dev. Overflow is fixed by truncating the narrative, never the layout.
 """
@@ -37,7 +37,7 @@ def display_result(x: float) -> str:
 def svg_aspect(path: Path) -> float:
     """height/width of an SVG from its viewBox (0.5 if unknown) - lets the template cap tall figures."""
     import re
-    head = path.read_text(errors="ignore")[:2000]
+    head = path.read_text(encoding="utf-8", errors="ignore")[:2000]
     m = re.search(r'viewBox="\s*[-\d.]+[ ,]+[-\d.]+[ ,]+([\d.]+)[ ,]+([\d.]+)"', head)
     return round(float(m.group(2)) / float(m.group(1)), 3) if m and float(m.group(1)) else 0.5
 
@@ -88,7 +88,7 @@ def render_edition(edition: dict, diagram_svg: Path, qr_url: str,
     for cut in TRUNCATION_LADDER:
         edition["narrative"] = original if cut is None else \
             " ".join(original.split()[:cut]).rstrip(",;:") + " \u2026"
-        (build / "edition.json").write_text(json.dumps(edition, ensure_ascii=False, indent=1))
+        (build / "edition.json").write_text(json.dumps(edition, ensure_ascii=False, indent=1), encoding="utf-8")
         ms = _compile(build, out_pdf)
         pages = len(PdfReader(str(out_pdf)).pages)
         log.info("render: %s words -> %d page(s), %.0f ms",

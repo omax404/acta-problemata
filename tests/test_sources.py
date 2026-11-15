@@ -121,7 +121,7 @@ def test_disabled_registry_entries_are_never_fetched(repo, monkeypatch):
 
 
 def test_registry_covers_every_listed_source():
-    reg = json.loads((ROOT / "data" / "sources.json").read_text())
+    reg = json.loads((ROOT / "data" / "sources.json").read_text(encoding="utf-8"))
     hosts = " ".join(s["url"] for s in reg)
     for h in ("marchespublics.gov.ma", "maroc-business.com", "appeldoffres.ma", "marchespublic360.ma",
               "kerix.net", "telecontact.ma", "kompass.com", "grabcad.com/challenges", "wazokucrowd.com",
@@ -143,31 +143,31 @@ def test_anonymize_rule_in_prompt(monkeypatch):
 
 def test_end_to_end_inbox_to_edition(repo, monkeypatch):
     (repo / "inbox" / "Fluids__header.txt").write_text(LONG)
-    vault = json.loads((repo / "data" / "case_vault.json").read_text())
+    vault = json.loads((repo / "data" / "case_vault.json").read_text(encoding="utf-8"))
     fluid = next(e for e in vault if e["id"] == "vault-fluid-001")
     monkeypatch.setattr(synthesize, "synthesize", lambda *a, **k: LLMCase.model_validate(fluid["case"]))
-    cfg = json.loads((repo / "config.json").read_text())
+    cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
     cfg["source_order"] = ["inbox"]
     (repo / "config.json").write_text(json.dumps(cfg))
     s = pipeline.run(repo)
     assert s["origin"] == "inbox" and s["pages"] == 1
-    led = json.loads((repo / "data" / "ledger.json").read_text())
+    led = json.loads((repo / "data" / "ledger.json").read_text(encoding="utf-8"))
     assert "inbox:Fluids__header" in led["seen"]
 
 
 def _solution_html(repo, url):
     from acta.math_guard import verify_formula
     from acta.pages import write_solution_pages
-    vault = json.loads((repo / "data" / "case_vault.json").read_text())[0]
+    vault = json.loads((repo / "data" / "case_vault.json").read_text(encoding="utf-8"))[0]
     case = LLMCase.model_validate(vault["case"])
     vf = verify_formula(case.formula.symbolic, {v.symbol: v.value for v in case.formula.variables},
                         case.formula.unit)
-    cfg = json.loads((repo / "config.json").read_text())
+    cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
     c = pipeline.Content(case, vault["id"], "inbox", url)
     ed = pipeline.build_edition(c, vf, cfg, edition_no=1, today=TODAY, repo_slug="o/r", solution_url="https://x/s")
     led = {"seen": {}, "history": [], "edition_number": 1, "streak": 1}
     write_solution_pages(repo, ed, vf, led)
-    return (repo / "docs" / "solutions" / "edition-0001.html").read_text()
+    return (repo / "docs" / "solutions" / "edition-0001.html").read_text(encoding="utf-8")
 
 
 def test_solution_page_links_public_source(repo):

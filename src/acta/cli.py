@@ -75,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "sources-check":
         return cmd_sources_check(root)
     if a.cmd == "verify-vault":
-        entries = json.loads((root / "data" / "case_vault.json").read_text())
+        entries = json.loads((root / "data" / "case_vault.json").read_text(encoding="utf-8"))
         for e in entries:
             case = LLMCase.model_validate(e["case"])
             vf = verify_formula(case.formula.symbolic,
@@ -92,7 +92,7 @@ def main(argv: list[str] | None = None) -> int:
     if not f.exists():
         print("No solution found. Run `acta preview` or `acta run` first.", file=sys.stderr)
         return 2
-    sol = json.loads(f.read_text())
+    sol = json.loads(f.read_text(encoding="utf-8"))
     try:
         user = parse_number(a.value)
     except ValueError:

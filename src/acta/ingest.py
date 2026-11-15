@@ -99,7 +99,7 @@ def _inbox(led: dict, today: date, repo_root: Path | None) -> list[SourceDoc]:
     root = (repo_root or Path(__file__).resolve().parents[2]) / "inbox"
     if not root.is_dir():
         return []
-    for f in sorted(root.iterdir()):
+    for f in sorted(root.iterdir(), key=lambda q: q.name):
         if f.suffix.lower() not in (".txt", ".md", ".pdf") or f.name in ("README.md", "urls.txt") \
                 or f.name.startswith(("_", ".")):
             continue

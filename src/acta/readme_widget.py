@@ -1,4 +1,4 @@
-"""Enhancement 5: streak badge + archive table + monthly domain pie in README."""
+﻿"""Enhancement 5: streak badge + archive table + monthly domain pie in README."""
 from __future__ import annotations
 
 import json
@@ -36,15 +36,15 @@ pie showData title Editions by domain
 ```
 {END}"""
     readme = repo_root / "README.md"
-    text = readme.read_text() if readme.exists() else "# Acta Problemata\n"
+    text = readme.read_text(encoding="utf-8") if readme.exists() else "# Acta Problemata\n"
     if BEGIN in text and END in text:
         text = text[:text.index(BEGIN)] + block + text[text.index(END) + len(END):]
     else:
         text += "\n\n" + block + "\n"
-    readme.write_text(text)
+    readme.write_text(text, encoding="utf-8")
 
     badges = repo_root / "badges"
     badges.mkdir(exist_ok=True)
     (badges / "streak.json").write_text(json.dumps(
         {"schemaVersion": 1, "label": "streak",
-         "message": f"{ledger['streak']} days", "color": "8a6d3b"}))
+         "message": f"{ledger['streak']} days", "color": "8a6d3b"}), encoding="utf-8")
