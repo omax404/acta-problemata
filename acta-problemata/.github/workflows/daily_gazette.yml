@@ -1,0 +1,85 @@
+name: Daily Gazette
+on:
+  schedule:
+    - cron: "0 6 * * *"        # 06:00 UTC (GitHub cron is best-effort; see notes)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: daily-gazette
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install package
+        run: pip install -e .
+
+      - name: Pull inbox mail (optional)
+        env:
+          IMAP_HOST: ${{ secrets.IMAP_HOST }}
+          IMAP_USER: ${{ secrets.IMAP_USER }}
+          IMAP_PASS: ${{ secrets.IMAP_PASS }}
+          INBOX_ALLOWED_SENDERS: ${{ secrets.INBOX_ALLOWED_SENDERS }}
+        run: acta mail-pull
+
+      - name: Publish edition
+        id: acta
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}     # all optional —
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}         # vault works with
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}     # zero secrets
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          PRINTER_HOST: ${{ secrets.PRINTER_HOST }}
+          PRINTER_QUEUE: ${{ secrets.PRINTER_QUEUE }}
+          PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+        run: |
+          acta run
+          echo "edition=$(jq -r .edition build/summary.json)" >> "$GITHUB_OUTPUT"
+          # delivery problems must be visible but never block publication
+          jq -r '.delivery_errors[]?' build/summary.json | while read -r e; do
+            echo "::warning title=Delivery failed::$e"
+          done
+
+      - name: Commit edition (Git = the database)
+        run: |
+          git config user.name "acta-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ledger.json README.md docs badges inbox
+          git commit -m "edition No.${{ steps.acta.outputs.edition }} — $(date -u +%F)" || exit 0
+          for i in 1 2 3; do
+            git pull --rebase origin "$GITHUB_REF_NAME" && git push && break
+            sleep 5
+          done
+
+      - name: Alert on failure (NFR-01)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create pipeline-failure --color B60205 --force || true
+          body="Failed run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          existing=$(gh issue list --label pipeline-failure --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "Pipeline failed ($(date -u +%F))" --label pipeline-failure --body "$body"
+          fi

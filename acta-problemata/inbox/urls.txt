@@ -1,0 +1,2 @@
+# One public URL per line, optionally "| Domain". Example (delete the leading # to use):
+# https://example.org/public-tender-notice | Fluids
