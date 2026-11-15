@@ -11,11 +11,20 @@ typesets one pixel-stable A4 page; GitHub Actions delivers it at 06:00 UTC.
     acta check 8.10e-4      # verify your answer against the latest edition
     acta run --dry-run      # full pipeline, no delivery
 
+## Secret handling
+AI keys and mail secrets are never committed to this repository.
+Use GitHub Actions secrets (or a local `.env` file that is ignored by git) instead.
+Set these values in the repo settings or environment variables before running live AI generation:
+
+- `GEMINI_API_KEY`
+- `GROQ_API_KEY`
+- `OPENAI_API_KEY`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_TO`
+
 ## Daily automation
 1. Fork, then add Repository Secrets (all optional): `GEMINI_API_KEY`,
    `GROQ_API_KEY`, `OPENAI_API_KEY`, `SMTP_HOST/PORT/USER/PASS`, `MAIL_TO`.
-   Gmail: use an app password, host `smtp.gmail.com`, port 465. Keep API keys in
-   repository secrets/environment variables—never paste them into source code.
+   Gmail: use an app password, host `smtp.gmail.com`, port 465.
 2. Settings → Pages → deploy from branch `main`, folder `/docs`.
 3. Edit `config.json` (domain, difficulty). Enable Actions. Done.
 With zero keys the pipeline publishes verified vault cases — the streak never dies.

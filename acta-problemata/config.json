@@ -7,7 +7,7 @@
   "name_companies": false,
   "pages_base_url": "",
   "llm": {
-    "provider_order": ["gemini", "groq", "openai"],
+    "provider_order": [],
     "gemini_model": "gemini-flash-latest",
     "groq_model": "llama-3.3-70b-versatile",
     "openai_model": "gpt-4o-mini",
