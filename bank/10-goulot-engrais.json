@@ -1,0 +1,53 @@
+{
+ "slug": "goulot-engrais",
+ "lang": "fr",
+ "status": "realistic",
+ "source_url": "",
+ "title": "Loi de Little et engorgement d'une unité de broyage d'engrais",
+ "sector": "Mines & Chimie lourde",
+ "sector_code": "CHM",
+ "region": "Casablanca-Settat",
+ "level": 2,
+ "context": "Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation. Il faut quantifier l'en-cours moyen et la capacité critique de l'installation.",
+ "data": [
+  [
+   "Débit moyen d'alimentation matière",
+   "λ",
+   "45 t/h"
+  ],
+  [
+   "Temps de séjour moyen dans le process",
+   "W",
+   "2,4 h"
+  ],
+  [
+   "Augmentation de charge prévue",
+   "ΔD",
+   "+40 % (63 t/h)"
+  ],
+  [
+   "Capacité nominale de stockage tampon",
+   "L_max",
+   "120 tonnes"
+  ]
+ ],
+ "questions": [
+  "L'en-cours moyen matière L dans le système en régime nominal (loi de Little) ;",
+  "L'en-cours prévu sous une hausse de 40 % si le temps de séjour reste identique ;",
+  "Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t déborde à 63 t/h."
+ ],
+ "formulas": [
+  "L = \\lambda \\cdot W \\quad (\\text{Loi de Little})",
+  "W_{\\text{crit}} = \\frac{L_{\\max}}{\\lambda_{\\text{pic}}}"
+ ],
+ "answer_key": [
+  "L nominal = 108,0 tonnes",
+  "L à +40 % = 151,2 tonnes",
+  "W critique à 63 t/h = 1,90 h (114 min) avant saturation du stockage tampon"
+ ],
+ "formulas_tex": [
+  "L = \\lambda \\cdot W",
+  "W_{\\text{crit}} = \\frac{L_{\\max}}{\\lambda_{\\text{pic}}}"
+ ],
+ "id": 10
+}

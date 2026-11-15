@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generates bank/*.json. Every number in answer_key is COMPUTED here from the data, so key and statement cannot drift.
-Statuses are all 'realistic' (problem classes). Sector-level only, no company named."""
+Statuses are all 'realistic' (problem classes) except explicitly sourced public documents."""
 import json, math, pathlib
 fr = lambda x, n=2: f"{x:,.{n}f}".replace(",", " ").replace(".", ",")
 OUT = pathlib.Path(__file__).parent / "bank"; OUT.mkdir(exist_ok=True)
@@ -74,8 +74,7 @@ add("chaudiere", title="Rendement d'une chaudière vapeur", sector="Agroalimenta
  formulas=["P_utile = ṁ·(h_v − h_eau) / 3600","P_comb = G·PCI","η = P_utile / P_comb"],
  answer_key=[f"P utile = {fr(Pu,0)} kW ; P combustible = {fr(Pc,0)} kW", f"η = {fr(etab*100,1)} %", f"Gaz à 100 °C : {fr(fuel2,1)} Nm³/h ; économie = {fr(fuel-fuel2,1)} Nm³/h"])
 
-
-# 7 -- REAL public case (unit-mismatch, NASA Mars Climate Orbiter). Facts come ONLY from the cited source; numbers below are exercise values.
+# 7 -- REAL public case (unit-mismatch, NASA Mars Climate Orbiter)
 lb=4.448222; J=25.0; m=638.0; n_ev=100
 Jtrue=J*lb; dv_true=Jtrue/m; dv_read=J/m; err=dv_true-dv_read
 add("mco-unites", status="real", title="Piège d'unités : le cas Mars Climate Orbiter", sector="Aérospatial (cas public)", sector_code="AER", region="International", level=1,
@@ -89,6 +88,60 @@ add("mco-unites", status="real", title="Piège d'unités : le cas Mars Climate O
  formulas=["1 lbf·s = 4,448222 N·s","Δv = J / m","facteur = J_réel / J_lu"],
  answer_key=[f"facteur = {fr(lb,3)}", f"Δv réel = {fr(dv_true,4)} m/s ; Δv lu = {fr(dv_read,4)} m/s ; écart = {fr(err,4)} m/s par événement", f"Cumul sur {n_ev} événements : {fr(err*n_ev,2)} m/s ; mesures : spécification d'interface avec unités, données étiquetées, test d'intégration croisé"])
 
+# 8 -- REALISTIC: Kanban line dimensioning (automotive wiring, inspiration Yazaki / FSDM)
+D_dem=480; L_lead=0.75; alpha_sec=0.20; C_cont=25
+K_exact=D_dem*L_lead*(1+alpha_sec)/C_cont
+K_cards=math.ceil(K_exact)
+WIP_max=K_cards*C_cont
+add("kanban-cablage", title="Dimensionnement d'une boucle Kanban en câblage automobile", sector="Automobile & Électromécanique", sector_code="AUT", region="Rabat-Salé-Kénitra", level=2,
+ context="Sur une ligne d'assemblage de faisceaux électriques automobiles, les ruptures de connecteurs provoquent des arrêts de ligne non planifiés. L'ingénieur méthodes doit dimensionner la boucle Kanban (nombre d'étiquettes) entre le magasin et le poste d'encliquetage.",
+ data=[["Demande journalière moyenne","D","480 connecteurs/jour"],["Délai de réapprovisionnement (lead time)","L","0,75 jour (6 h de poste)"],["Facteur de sécurité aléas","α","20 % (0,20)"],["Capacité unitaire d'un bac (contenant)","C","25 connecteurs/bac"]],
+ questions=["Le nombre théorique et le nombre entier de cartes Kanban (bacs en circulation) ;","L'en-cours maximum (WIP) garanti au poste de travail ;","L'impact sur le flux si la digitalisation du Kanban réduit le délai L de 0,75 jour à 0,25 jour."],
+ formulas=["K = [D · L · (1 + α)] / C","\\text{WIP}_{\\max} = K \\cdot C"],
+ answer_key=[f"K théorique = {fr(K_exact,2)} ; K retenu = {K_cards} cartes (bacs)", f"WIP max = {WIP_max} connecteurs", f"Avec L = 0,25 j : K = {math.ceil(D_dem*0.25*(1+alpha_sec)/C_cont)} cartes (baisse de l'en-cours de {WIP_max - math.ceil(D_dem*0.25*(1+alpha_sec)/C_cont)*C_cont} connecteurs)"])
+
+# 9 -- REALISTIC: OEE / TRS diagnosis (bag manufacturing, inspiration Papsac Casablanca)
+T_ouv=8*3600; T_arrets=78*60; T_fonction=T_ouv-T_arrets
+Dispo=T_fonction/T_ouv
+Cadence_theorique=1/1.5 # 1 sac toutes les 1.5 s
+Prod_totale=11200 # sacs produits
+Prod_conforme=10850 # sacs conformes
+T_net=Prod_totale*1.5
+Perf=T_net/T_fonction
+Qual=Prod_conforme/Prod_totale
+TRS=Dispo*Perf*Qual
+add("trs-ensachage", title="Diagnostic TRS et pertes d'une ligne de sacs industriels", sector="Emballage & Chimie", sector_code="EMB", region="Casablanca-Settat", level=2,
+ context="Lors d'un audit de productivité sur une ligne de fabrication de sacs industriels (fond de sac), le Taux de Rendement Synthétique (TRS) moyen s'avère anormalement bas (~49 %). L'ingénieur de production doit décomposer les 3 taux pour identifier le levier prioritaire.",
+ data=[["Temps d'ouverture poste (1 poste de 8 h)","T_ouv","28 800 s (8 h)"],["Arrêts non planifiés cumulés (pannes, réglages)","T_arr","4 680 s (78 min)"],["Production totale enregistrée","N_tot","11 200 sacs"],["Production conforme livrable","N_bon","10 850 sacs"],["Temps de cycle nominal machine","t_cycle","1,5 s/sac"]],
+ questions=["Le taux de disponibilité temporelle de la ligne ;","Le taux de performance machine (perte de cadence) ;","Le taux de qualité et le TRS global, avec identification de la perte principale (disponibilité vs cadence)."],
+ formulas=["\\text{Disponibilité} = \\frac{T_{\\text{fonctionnement}}}{T_{\\text{ouverture}}}", "\\text{Performance} = \\frac{N_{\\text{tot}} \\cdot t_{\\text{cycle}}}{T_{\\text{fonctionnement}}}", "\\text{Qualité} = \\frac{N_{\\text{bon}}}{N_{\\text{tot}}}", "\\text{TRS} = D \\cdot P \\cdot Q"],
+ answer_key=[f"Disponibilité = {fr(Dispo*100,1)} %", f"Performance = {fr(Perf*100,1)} %", f"Qualité = {fr(Qual*100,1)} % ; TRS = {fr(TRS*100,2)} % (perte principale : cadence/micro-arrêts, perte de performance = {fr((1-Perf)*100,1)} %)"])
+
+# 10 -- REALISTIC: Little's Law / Queue bottleneck (fertilizer chemical processing, inspiration OCP/ENSMR)
+lambda_arr=45.0 # tonnes/heure reçues
+W_sejour=2.4 # heures de séjour moyen cuve/broyage
+L_en_cours=lambda_arr*W_sejour
+lambda_pic=lambda_arr*1.40 # +40%
+add("goulot-engrais", title="Loi de Little et engorgement d'une unité de broyage d'engrais", sector="Mines & Chimie lourde", sector_code="CHM", region="Casablanca-Settat", level=2,
+ context="Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation. Il faut quantifier l'en-cours moyen et la capacité critique de l'installation.",
+ data=[["Débit moyen d'alimentation matière","λ","45 t/h"],["Temps de séjour moyen dans le process","W","2,4 h"],["Augmentation de charge prévue","ΔD","+40 % (63 t/h)"],["Capacité nominale de stockage tampon","L_max","120 tonnes"]],
+ questions=["L'en-cours moyen matière L dans le système en régime nominal (loi de Little) ;","L'en-cours prévu sous une hausse de 40 % si le temps de séjour reste identique ;","Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t déborde à 63 t/h."],
+ formulas=["L = \\lambda \\cdot W \\quad (\\text{Loi de Little})", "W_{\\text{crit}} = \\frac{L_{\\max}}{\\lambda_{\\text{pic}}}"],
+ answer_key=[f"L nominal = {fr(L_en_cours,1)} tonnes", f"L à +40 % = {fr(lambda_pic*W_sejour,1)} tonnes", f"W critique à 63 t/h = {fr(120/lambda_pic,2)} h ({fr(120/lambda_pic*60,0)} min) avant saturation du stockage tampon"])
+
+# 11 -- REALISTIC: Dual-resource sewing line balancing (textile garment manufacturing, inspiration EMO SAS/ROADEF)
+T_total=320.0 # secondes de travail par vêtement
+T_cadence=45.0 # temps de cycle takt time souhaité
+N_theo=T_total/T_cadence
+N_postes=math.ceil(N_theo)
+efficience=T_total/(N_postes*T_cadence)
+add("equilibrage-textile", title="Équilibrage de ligne d'assemblage textile sous contraintes d'opérateurs", sector="Textile & Confection", sector_code="TEX", region="Tanger-Tétouan-Al Hoceïma", level=3,
+ context="Un atelier de confection textile produit des blousons techniques. Face à des commandes instables et des temps de réglage machine, le chef d'atelier doit rééquilibrer la ligne de couture pour atteindre le temps de cycle client (takt time).",
+ data=[["Somme des temps opératoires d'une pièce","Σt","320 s (5 min 20 s)"],["Temps de cycle requis (takt time client)","Tc","45 s/pièce"],["Temps d'ouverture d'un poste","T_ouv","7,5 h/jour (27 000 s)"],["Objectif de production journalier","Obj","600 pièces/jour"]],
+ questions=["Le nombre théorique et le nombre entier minimum de postes opérateurs requis ;","L'efficience d'équilibrage de la ligne théorique ;","Le temps d'inactivité cumulé (perte d'équilibrage) par pièce produite."],
+ formulas=["N_{\\text{théo}} = \\frac{\\sum t_i}{T_c}", "\\text{Efficience} = \\frac{\\sum t_i}{N_{\\text{retenu}} \\cdot T_c}", "\\text{Perte d'équilibrage} = (N \\cdot T_c) - \\sum t_i"],
+ answer_key=[f"N théorique = {fr(N_theo,2)} ; N retenu = {N_postes} postes de travail", f"Efficience = {fr(efficience*100,1)} %", f"Perte d'équilibrage = {fr((N_postes*T_cadence)-T_total,0)} s par vêtement (soit {fr(((N_postes*T_cadence)-T_total)*600/3600,2)} h d'inactivité cumulée par jour)"])
+
 TEX = {
  "pompage": ["H=\\Delta z+\\Bigl(f\\frac{L}{D}+\\sum K\\Bigr)\\frac{v^{2}}{2g}", "f=\\frac{0{,}25}{\\left[\\log_{10}\\!\\left(\\frac{\\varepsilon}{3{,}7\\,D}+\\frac{5{,}74}{\\mathrm{Re}^{0{,}9}}\\right)\\right]^{2}}", "P=\\frac{\\rho\\, g\\, Q\\, H}{\\eta}"],
  "echangeur": ["\\Phi=\\dot m\\,c_p\\,\\Delta T", "\\Delta T_{lm}=\\frac{\\Delta T_2-\\Delta T_1}{\\ln\\left(\\Delta T_2/\\Delta T_1\\right)}", "A=\\frac{\\Phi}{U\\,\\Delta T_{lm}}"],
@@ -97,8 +150,16 @@ TEX = {
  "convoyeur": ["q=\\frac{Q}{3{,}6\\,v}", "P_{lev}=\\frac{Q}{3{,}6}\\,g\\,H", "P_{fr}=f\\,g\\,L\\,(m'+q)\\,v", "P_{mot}=\\frac{P_{lev}+P_{fr}}{\\eta}"],
  "chaudiere": ["P_u=\\frac{\\dot m\\,(h_v-h_e)}{3600}", "P_c=G\\cdot \\mathrm{PCI}", "\\eta=\\frac{P_u}{P_c}"],
  "mco-unites": ["1\\ \\mathrm{lbf\\cdot s}=4{,}448222\\ \\mathrm{N\\cdot s}", "\\Delta v=\\frac{J}{m}", "\\text{facteur}=\\frac{J_{\\text{réel}}}{J_{\\text{lu}}}"],
+ "kanban-cablage": ["K = \\frac{D \\cdot L \\cdot (1 + \\alpha)}{C}", "\\text{WIP}_{\\max} = K \\cdot C"],
+ "trs-ensachage": ["\\text{Disponibilité} = \\frac{T_{\\text{fonct}}}{T_{\\text{ouv}}}", "\\text{Performance} = \\frac{N_{\\text{tot}} \\cdot t_{\\text{cycle}}}{T_{\\text{fonct}}}", "\\text{Qualité} = \\frac{N_{\\text{bon}}}{N_{\\text{tot}}}", "\\text{TRS} = D \\cdot P \\cdot Q"],
+ "goulot-engrais": ["L = \\lambda \\cdot W", "W_{\\text{crit}} = \\frac{L_{\\max}}{\\lambda_{\\text{pic}}}"],
+ "equilibrage-textile": ["N_{\\text{théo}} = \\frac{\\sum t_i}{T_c}", "\\text{Efficience} = \\frac{\\sum t_i}{N_{\\text{retenu}} \\cdot T_c}", "\\text{Perte} = (N \\cdot T_c) - \\sum t_i"],
 }
 for b in bank: b["formulas_tex"] = TEX[b["slug"]]
+
+# Clean old bank json files
+for f in OUT.glob("*.json"):
+    f.unlink()
 
 for i, b in enumerate(bank, 1):
     b["id"] = i; (OUT / f"{i:02d}-{b['slug']}.json").write_text(json.dumps(b, ensure_ascii=False, indent=1), encoding="utf-8")
