@@ -51,7 +51,7 @@ def _extract_json(text: str) -> dict:
 
 
 def _call_gemini(prompt: str, cfg: dict, timeout: float) -> str:
-    model = cfg.get("gemini_model", "gemini-3.6-flash")
+    model = cfg.get("gemini_model", "gemini-flash-latest")
     r = requests.post(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
         headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"], "Content-Type": "application/json"},
