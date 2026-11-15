@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acta Problemata · Archive</title><meta name="description" content="Problèmes industriels réalistes et cas publics sourcés pour jeunes ingénieurs.">
+<style>
+:root{--p:#DCD7CF;--p2:#E7E2DA;--k:#151515;--o:#E8500C;--m:'DejaVu Sans Mono','SFMono-Regular',Menlo,Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--p) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .08 0 0 0 0 .08 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--k);font-family:Inter,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--m);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.or{color:var(--o)}
+a{color:inherit}:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+.tick{background:var(--k);color:var(--p);overflow:hidden;white-space:nowrap;padding:7px 0}
+.tick div{display:inline-block;padding-left:100%;animation:tk 48s linear infinite}.tick b{color:var(--o);font-weight:400;margin:0 14px}
+@keyframes tk{to{transform:translateX(-100%)}}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:44px 0 26px;position:relative}
+.dots{display:grid;grid-template-columns:repeat(5,8px);gap:9px;margin-bottom:22px}.dots i{width:6px;height:6px;border-radius:50%;background:var(--o)}
+.big{font-weight:200;font-size:clamp(96px,17vw,190px);line-height:.85;letter-spacing:-.05em;margin:0}
+h1{font-weight:300;font-size:clamp(26px,4.4vw,46px);line-height:1.08;text-transform:uppercase;letter-spacing:.02em;margin:18px 0 14px}
+.lead{max-width:46ch;font-size:15px;line-height:1.55;margin:0 0 20px}
+.bars{width:min(300px,70%);height:14px;background:repeating-linear-gradient(var(--k) 0 1px,transparent 1px 4px)}
+.poster{position:relative;aspect-ratio:1;max-width:520px;width:100%;margin-left:auto}
+.poster:before{content:"";position:absolute;left:50%;top:-4%;bottom:-6%;width:2px;background:var(--o);transform:translateX(-50%)}
+.orb{position:absolute;border:1.4px dotted var(--o);border-radius:50%;animation:sp 140s linear infinite}
+.o1{inset:3%}.o2{inset:-6%;animation-duration:220s;animation-direction:reverse}
+.orb:after{content:"";position:absolute;top:-5px;left:50%;width:10px;height:10px;border-radius:50%;background:var(--k)}
+.o2:after{background:var(--o);width:8px;height:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.poster img{position:absolute;left:50%;top:52%;width:62%;transform:translate(-50%,-50%);filter:drop-shadow(0 18px 24px rgba(0,0,0,.18))}
+.sun{position:absolute;left:50%;top:15%;width:24%;aspect-ratio:1;border-radius:50%;background:var(--o);transform:translate(-50%,-50%);mix-blend-mode:multiply;z-index:2;animation:fl 9s ease-in-out infinite}
+@keyframes fl{50%{transform:translate(-50%,-44%)}}
+.tag{position:absolute;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px solid var(--k);padding:16px 0 10px}
+.chip,select,input{font:11px var(--m);letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--k);background:transparent;color:var(--k);padding:8px 11px;border-radius:0;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--k);color:var(--p)}.chip:hover,select:hover{border-color:var(--o)}input{cursor:text;min-width:170px}
+.cnt{margin-left:auto}.sp{flex-basis:100%;height:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:8px 0 40px}
+.card{position:relative;display:flex;flex-direction:column;gap:6px;border:1px solid var(--k);background:var(--p2);padding:16px 16px 14px;text-decoration:none;min-height:250px;animation:in .5s both;transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--o);border-color:var(--o)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.card canvas{width:100%;height:auto;max-width:190px;display:block;margin:6px 0 2px}
+.no{font-weight:200;font-size:54px;line-height:1;letter-spacing:-.03em}.t{font-size:15px;line-height:1.28;text-transform:uppercase;font-weight:500;flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.bd{background:var(--o);padding:3px 8px;color:var(--k)}.bd.real{background:var(--k);color:var(--p)}
+.go{transition:transform .18s}.card:hover .go{transform:translateX(5px)}
+.empty{display:none;padding:40px 0}
+.rule{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;border-left:4px solid var(--o);background:var(--p2);padding:22px 24px;margin:6px 0 60px}
+.rule h2{font-weight:300;font-size:22px;text-transform:uppercase;margin:0 0 8px}.rule p{margin:0 0 8px;font-size:13.5px;line-height:1.55;max-width:70ch}
+.qr{width:104px;border:2px solid var(--o);display:block}
+footer{border-top:1px solid var(--k);padding:16px 0 34px}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.poster{margin:30px auto 0;max-width:380px}.rule{grid-template-columns:1fr}.cnt{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="tick mono" aria-hidden="true"><div>ARCHIVE_LOG<b>//</b>NODE: MA<b>//</b>STATUS: ONLINE<b>//</b>DAILY EDITION 06:00 UTC<b>//</b>RÉEL OU RÉALISTE, JAMAIS AMBIGU<b>//</b>SECTEUR SEULEMENT, AUCUNE ENTREPRISE DÉSIGNÉE<b>//</b>ARCHIVE_LOG<b>//</b>NODE: MA<b>//</b>STATUS: ONLINE</div></div>
+<div class="wrap">
+<section class="hero">
+ <div><div class="dots" aria-hidden="true"><script>document.write("<i></i>".repeat(25))</script></div>
+  <p class="big" id="n">00</p><p class="mono" style="margin:6px 0 0">Problèmes dans l'archive // <span class="or">N° <span id="today"></span></span></p>
+  <h1>Des problèmes d'usine.<br>Des solutions à montrer.</h1>
+  <p class="lead">Un problème industriel par jour pour jeunes ingénieurs. Vous le résolvez, vous présentez votre fiche solution, et vous contactez l'entreprise vous-même.</p><div class="bars" aria-hidden="true"></div></div>
+ <div class="poster" aria-hidden="true"><i class="orb o2"></i><i class="orb o1"></i><img src="assets/logo.png" alt=""><div class="sun"></div>
+  <span class="tag" style="left:0;top:8%">N° <b class="or" id="today2"></b></span><span class="tag" style="right:0;bottom:6%">Acta_Problemata</span></div>
+</section>
+<div class="bar" role="group" aria-label="Filtres">
+ <span class="mono">Niveau</span><button class="chip" data-l="1" aria-pressed="false">★☆☆</button><button class="chip" data-l="2" aria-pressed="false">★★☆</button><button class="chip" data-l="3" aria-pressed="false">★★★</button>
+ <select id="s" aria-label="Secteur"><option value="">Secteur : tous</option></select><select id="r" aria-label="Région"><option value="">Région : toutes</option></select>
+ <input id="q" type="search" placeholder="Recherche…" aria-label="Recherche"><span class="mono cnt" id="c"></span></div>
+<main class="grid" id="g"></main><div class="empty mono" id="e">Aucun résultat pour ces filtres.</div>
+<section class="rule"><div><h2>Règle d'honnêteté</h2>
+ <p><b>Cas public réel :</b> issu d'un document public, source indiquée sur la fiche.</p>
+ <p><b>Problème réaliste :</b> classe de problèmes typique d'un site industriel. Aucune entreprise n'est désignée et aucun besoin d'une entreprise précise n'est affirmé. Ne dites jamais « j'ai résolu votre problème » à propos d'un problème réaliste.</p>
+ <p class="mono"><a href="https://github.com/omax404/acta-problemata">github.com/omax404/acta-problemata</a></p></div><img class="qr" src="assets/qr.png" alt="QR code vers le dépôt"></section>
+<footer class="mono">Acta Problemata · Maroc · <span class="or">●</span> archive publique</footer></div>
+<script>
+const D=[{"id": 1, "title": "Dimensionnement d'une ligne de pompage", "sector": "Agroalimentaire", "region": "Fès-Meknès", "level": 2, "status": "realistic", "code": "AP-BANK-01-MA-AGR-2"}, {"id": 2, "title": "Surface d'un échangeur de pasteurisation", "sector": "Agroalimentaire", "region": "Casablanca-Settat", "level": 2, "status": "realistic", "code": "AP-BANK-02-MA-AGR-2"}, {"id": 3, "title": "Coût d'une fuite d'air comprimé", "sector": "Textile", "region": "Tanger-Tétouan-Al Hoceïma", "level": 1, "status": "realistic", "code": "AP-BANK-03-MA-TEX-1"}, {"id": 4, "title": "Gain d'un variateur sur un ventilateur de process", "sector": "Matériaux de construction", "region": "Marrakech-Safi", "level": 2, "status": "realistic", "code": "AP-BANK-04-MA-MAT-2"}, {"id": 5, "title": "Puissance moteur d'un convoyeur à bande", "sector": "Mines et carrières", "region": "Oriental", "level": 3, "status": "realistic", "code": "AP-BANK-05-MA-MIN-3"}, {"id": 6, "title": "Rendement d'une chaudière vapeur", "sector": "Agroalimentaire", "region": "Souss-Massa", "level": 2, "status": "realistic", "code": "AP-BANK-06-MA-AGR-2"}, {"id": 7, "title": "Piège d'unités : le cas Mars Climate Orbiter", "sector": "Aérospatial (cas public)", "region": "International", "level": 1, "status": "real", "code": "AP-BANK-07-MA-AER-1"}],$=i=>document.getElementById(i);let L="";
+const d=new Date(),doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);$("today").textContent=$("today2").textContent=doy;
+for(const[i,k]of[["s","sector"],["r","region"]])[...new Set(D.map(x=>x[k]))].sort().forEach(v=>{const o=document.createElement("option");o.value=o.textContent=v;$(i).append(o)});
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),pad=n=>String(n).padStart(2,"0");
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function fp(c,seed){const x=c.getContext("2d"),r=rng(seed*7919+13),W=32,H=7,p=6;x.fillStyle="#151515";
+ for(let i=0;i<W;i++)for(let j=0;j<H;j++)if(r()<.04+.96*Math.pow((i+1)/W,1.5)){x.beginPath();x.arc(i*p+3,j*p+3,2.1,0,7);x.fill()}}
+function draw(){const s=$("s").value,r=$("r").value,q=$("q").value.toLowerCase();
+ const R=D.filter(x=>(!s||x.sector==s)&&(!r||x.region==r)&&(!L||x.level==L)&&(!q||(x.title+x.sector+x.region).toLowerCase().includes(q)));
+ $("g").innerHTML=R.map((x,i)=>`<a class="card" style="animation-delay:${i*50}ms" href="e/${pad(x.id)}.html"><div class="mono or">${esc(x.sector)} // ${esc(x.region)}</div><canvas width="192" height="42" data-s="${x.id}" aria-hidden="true"></canvas><div class="no">${pad(x.id)}</div><div class="t">${esc(x.title)}</div><div class="row"><span class="mono bd ${x.status=="real"?"real":""}">${x.status=="real"?"Cas public réel":"Problème réaliste"}</span><span class="mono">${"★".repeat(x.level)+"☆".repeat(3-x.level)} <span class="go">→</span></span></div></a>`).join("");
+ $("g").querySelectorAll("canvas").forEach(c=>fp(c,+c.dataset.s));$("e").style.display=R.length?"none":"block";$("c").textContent="["+pad(R.length)+"] résultats"}
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")=="true";document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed",String(!on));L=on?"":b.dataset.l;draw()});
+["s","r"].forEach(i=>$(i).onchange=draw);$("q").oninput=draw;
+let k=0;const t=setInterval(()=>{k++;$("n").textContent=pad(Math.min(k,D.length));if(k>=D.length)clearInterval(t)},90);draw();
+</script></body></html>

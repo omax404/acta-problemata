@@ -1,0 +1,33 @@
+name: daily-edition
+on:
+  schedule: [{cron: "0 6 * * *"}]   # 06:00 UTC every day
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  build-and-send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install pillow
+      - name: Pick today's problem
+        run: python pick_edition.py > edition.json
+      - name: Build today's HTML (images served from GitHub Pages)
+        run: |
+          ASSET_BASE="https://omax404.github.io/acta-problemata/assets" python build_html.py edition.json docs/today.html
+          cp assets/fingerprint_*.png docs/assets/ || true
+      - name: Rebuild the archive and publish
+        run: |
+          python build_archive.py
+          git config user.name "acta-bot"; git config user.email "acta-bot@users.noreply.github.com"
+          git add docs && git commit -m "edition $(date +%F)" || echo "nothing to commit"
+          git push
+      - name: Send to subscribers
+        run: python send_email.py docs/today.html "Acta Problemata · $(date +%F)"
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          SUBSCRIBERS_URL: ${{ secrets.SUBSCRIBERS_URL }}
+          UNSUB_BASE: ${{ secrets.UNSUB_BASE }}

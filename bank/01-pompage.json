@@ -1,0 +1,75 @@
+{
+ "slug": "pompage",
+ "lang": "fr",
+ "status": "realistic",
+ "source_url": "",
+ "title": "Dimensionnement d'une ligne de pompage",
+ "sector": "Agroalimentaire",
+ "sector_code": "AGR",
+ "region": "Fès-Meknès",
+ "level": 2,
+ "context": "Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle est surdimensionnée et consomme trop d'énergie. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
+ "data": [
+  [
+   "Débit",
+   "Q",
+   "40 m³/h"
+  ],
+  [
+   "Longueur",
+   "L",
+   "250 m"
+  ],
+  [
+   "Diamètre intérieur",
+   "D",
+   "105 mm"
+  ],
+  [
+   "Dénivelé",
+   "Δz",
+   "18 m"
+  ],
+  [
+   "Rugosité",
+   "ε",
+   "0,045 mm"
+  ],
+  [
+   "Singularités",
+   "ΣK",
+   "6,5"
+  ],
+  [
+   "Viscosité cinématique",
+   "ν",
+   "1,004·10⁻⁶ m²/s"
+  ],
+  [
+   "Rendement",
+   "η",
+   "0,68"
+  ]
+ ],
+ "questions": [
+  "La vitesse v, le nombre de Reynolds Re et le coefficient de frottement f ;",
+  "La hauteur manométrique totale H et la puissance à l'arbre ;",
+  "Une recommandation commentée (point de fonctionnement, marge, variateur de vitesse)."
+ ],
+ "formulas": [
+  "H = Δz + (f·L/D + ΣK)·v²/2g",
+  "f = 0,25 / [log10( ε/(3,7·D) + 5,74/Re^0,9 )]²  (Swamee-Jain)",
+  "P = ρ·g·Q·H / η"
+ ],
+ "answer_key": [
+  "v = 1,28 m/s ; Re = 134 198 ; f = 0,0194",
+  "H = 22,4 m (frottement 3,87 m, singularités 0,55 m)",
+  "P arbre = 3,59 kW"
+ ],
+ "formulas_tex": [
+  "H=\\Delta z+\\Bigl(f\\frac{L}{D}+\\sum K\\Bigr)\\frac{v^{2}}{2g}",
+  "f=\\frac{0{,}25}{\\left[\\log_{10}\\!\\left(\\frac{\\varepsilon}{3{,}7\\,D}+\\frac{5{,}74}{\\mathrm{Re}^{0{,}9}}\\right)\\right]^{2}}",
+  "P=\\frac{\\rho\\, g\\, Q\\, H}{\\eta}"
+ ],
+ "id": 1
+}
