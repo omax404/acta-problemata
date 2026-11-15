@@ -15,9 +15,10 @@ from pathlib import Path
 log = logging.getLogger("acta.deliver")
 
 
-def send_email(pdf: Path, edition: dict) -> bool:
+def send_email(pdf: Path, edition: dict, to: str | None = None,
+               answer: float | None = None, unit: str = "") -> bool:
     host, user, pw = os.environ.get("SMTP_HOST"), os.environ.get("SMTP_USER"), os.environ.get("SMTP_PASS")
-    to = os.environ.get("MAIL_TO", "")
+    to = to or os.environ.get("MAIL_TO", "")
     if not (host and user and pw and to):
         log.info("deliver: SMTP not configured — skipping email")
         return False
@@ -30,6 +31,7 @@ def send_email(pdf: Path, edition: dict) -> bool:
         f"{edition['headline']}\n\n{edition['challenge_question']}\n\n"
         f"Solution gateway: {edition['solution_url']}\n"
         "Verify your answer locally:  acta check <value>\n"
+        + (f"Check value (3 s.f.): {answer:.3g} {unit}\n" if answer is not None else "")
     )
     msg.add_attachment(pdf.read_bytes(), maintype="application", subtype="pdf", filename=pdf.name)
     if port == 465:

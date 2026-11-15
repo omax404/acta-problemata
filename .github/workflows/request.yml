@@ -1,0 +1,43 @@
+name: Request PDF
+# Triggered by the web form (via the Worker in extras/worker) or manually.
+on:
+  repository_dispatch:
+    types: [acta-request]
+  workflow_dispatch:
+    inputs:
+      url: { description: "Public page link", required: true }
+      email: { description: "Where to send the PDF", required: true }
+      domain: { description: "Mechanical|Thermodynamics|Fluids|Materials|Electrical|Civil", required: false }
+
+permissions:
+  contents: read
+
+concurrency:
+  group: acta-request
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip, cache-dependency-path: pyproject.toml }
+      - run: pip install -e .
+      - name: Build and email
+        env:
+          REQ_URL: ${{ github.event.client_payload.url || inputs.url }}
+          REQ_EMAIL: ${{ github.event.client_payload.email || inputs.email }}
+          REQ_DOMAIN: ${{ github.event.client_payload.domain || inputs.domain }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+        run: |
+          echo "::add-mask::$REQ_EMAIL"
+          acta request --url "$REQ_URL" --email "$REQ_EMAIL" ${REQ_DOMAIN:+--domain "$REQ_DOMAIN"}

@@ -58,6 +58,11 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--edition", type=int)
     sub.add_parser("mail-pull", help="save new mail from allowed senders into inbox/")
     sub.add_parser("sources-check", help="probe each registry source (robots, reachability)")
+    q = sub.add_parser("request", help="build a PDF from a link and email it")
+    q.add_argument("--url", required=True)
+    q.add_argument("--email", required=True)
+    q.add_argument("--domain")
+    q.add_argument("--no-send", action="store_true")
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
     a = p.parse_args(argv)
     root = a.root
@@ -68,6 +73,14 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(s, indent=2))
         return 0
 
+    if a.cmd == "request":
+        from .request import RequestError, build_request
+        try:
+            print(json.dumps(build_request(root, a.url, a.email, a.domain, not a.no_send), indent=2))
+        except RequestError as exc:
+            print(f"refused: {exc}", file=sys.stderr)
+            return 3
+        return 0
     if a.cmd == "mail-pull":
         from .mailbox import pull
         print(f"saved {pull(root)} item(s) into inbox/")
