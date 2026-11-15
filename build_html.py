@@ -72,4 +72,6 @@ def main():
     left = [x for x in __import__("re").findall(r"\{\{[A-Z_]+\}\}", h) if x != "{{UNSUB_URL}}"]
     assert not left, left
     pathlib.Path(out).write_text(h, encoding="utf-8"); print("wrote", out, len(h)//1024, "KB")
-main()
+
+if __name__ == "__main__":
+    main()
