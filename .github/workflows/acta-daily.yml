@@ -1,0 +1,53 @@
+name: Acta daily archive
+
+on:
+  workflow_dispatch:
+  # schedule disabled: 'Daily Gazette' is the scheduled job. Enable only one of the two.
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: acta-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build today's sourced-or-realistic problem sheet and archive
+        run: python build_daily.py
+
+      - name: Save generated edition to repository history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/index.html docs/archive/
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish daily problem sheet"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload archive site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy archive site
+        id: deployment
+        uses: actions/deploy-pages@v4
