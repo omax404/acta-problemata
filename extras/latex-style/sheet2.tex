@@ -1,0 +1,28 @@
+\documentclass[10pt]{article}
+\usepackage[fr]{acta2}   % [fr] or [en]
+\begin{document}
+\atitle{\sProblemSheet\ // \sSector: Agroalimentaire // \sCity: Fès-Meknès // \sLevel: $\bigstar\bigstar\star$}{Dimensionnement d'une ligne de pompage}
+\astatus{\sRealistic}{\sRealisticNote}\\[-1pt]
+{\monofont\tiny\MakeUppercase{\sSource}\,:\ ---\ \ (\sReal: lien de l'appel d'offres / du rapport requis)}
+\asec{01}{\sContext}
+Une unité de transformation alimente un réservoir de stockage en hauteur à partir d'une cuve de réception. La pompe actuelle est surdimensionnée et consomme trop d'énergie. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.
+\asec{02}{\sData}
+{\small\begin{tabular}{@{}l@{\ }l@{\ }l@{\hspace{9mm}}l@{\ }l@{\ }l@{}}
+Débit&$Q$&\SI{40}{\meter\cubed\per\hour}&Longueur&$L$&\SI{250}{\meter}\\
+Diamètre int.&$D$&\SI{105}{\milli\meter}&Dénivelé&$\Delta z$&\SI{18}{\meter}\\
+Rugosité&$\varepsilon$&\SI{0.045}{\milli\meter}&Singularités&$\sum K$&$6{,}5$\\
+Viscosité cin.&$\nu$&\SI{1.004e-6}{\meter\squared\per\second}&Rendement&$\eta$&$0{,}68$\\
+\end{tabular}}
+\asec{03}{\sAsk}
+\begin{enumerate}[nosep,leftmargin=*,label={\monofont\color{orange}\arabic*.}]
+\item La vitesse $v$, le nombre de Reynolds $\mathrm{Re}$ et le coefficient de frottement $f$ ;
+\item La hauteur manométrique totale $H$ et la puissance à l'arbre ;
+\item Une recommandation commentée (point de fonctionnement, marge, variateur de vitesse).
+\end{enumerate}
+\asec{04}{\sForm}
+\[
+H=\Delta z+\Bigl(f\frac{L}{D}+\sum K\Bigr)\frac{v^{2}}{2g},\qquad
+f=\frac{0{,}25}{\Bigl[\log_{10}\!\Bigl(\dfrac{\varepsilon}{3{,}7D}+\dfrac{5{,}74}{\mathrm{Re}^{0{,}9}}\Bigr)\Bigr]^{2}},\qquad
+P=\frac{\rho g Q H}{\eta}
+\]
+\end{document}

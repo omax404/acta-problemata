@@ -1,0 +1,32 @@
+{
+  "lang": "fr",
+  "edition_no": 319,
+  "year": 2026,
+  "code": "AP-2026-319-MA-AGR-2",
+  "date": "15/11/2026",
+  "title": "Dimensionnement d'une ligne de pompage",
+  "sector": "Agroalimentaire",
+  "region": "Fès-Meknès",
+  "level": 2,
+  "status": "realistic",
+  "source_url": "",
+  "context": "Une unité de transformation alimente un réservoir de stockage en hauteur à partir d'une cuve de réception. La pompe actuelle est surdimensionnée et consomme trop d'énergie. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
+  "data": [
+    ["Débit", "Q", "40 m³/h"], ["Longueur", "L", "250 m"],
+    ["Diamètre intérieur", "D", "105 mm"], ["Dénivelé", "Δz", "18 m"],
+    ["Rugosité", "ε", "0,045 mm"], ["Singularités", "ΣK", "6,5"],
+    ["Viscosité cinématique", "ν", "1,004·10⁻⁶ m²/s"], ["Rendement", "η", "0,68"]
+  ],
+  "questions": [
+    "La vitesse v, le nombre de Reynolds Re et le coefficient de frottement f ;",
+    "La hauteur manométrique totale H et la puissance à l'arbre ;",
+    "Une recommandation commentée (point de fonctionnement, marge, variateur de vitesse)."
+  ],
+  "formulas": [
+    "H = Δz + (f·L/D + ΣK)·v²/2g",
+    "f = 0,25 / [log10( ε/(3,7·D) + 5,74/Re^0,9 )]²",
+    "P = ρ·g·Q·H / η"
+  ],
+  "archive_url": "https://github.com/omax404/acta-problemata",
+  "unsubscribe_url": "{{UNSUB_URL}}"
+}
