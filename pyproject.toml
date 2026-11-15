@@ -28,6 +28,7 @@ acta = "acta.cli:main"
 where = ["src"]
 
 [tool.ruff]
+extend-exclude = ["extras", "build_daily.py"]
 line-length = 110
 target-version = "py311"
 

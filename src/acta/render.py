@@ -1,4 +1,4 @@
-﻿"""FR-04: Typst compilation with a deterministic single-page fit loop.
+"""FR-04: Typst compilation with a deterministic single-page fit loop.
 Prefers the Typst CLI (FR-04.1); falls back to the `typst` Python binding
 for local dev. Overflow is fixed by truncating the narrative, never the layout.
 """
@@ -88,7 +88,7 @@ def render_edition(edition: dict, diagram_svg: Path, qr_url: str,
     for cut in TRUNCATION_LADDER:
         edition["narrative"] = original if cut is None else \
             " ".join(original.split()[:cut]).rstrip(",;:") + " \u2026"
-        (build / "edition.json").write_text(json.dumps(edition, ensure_ascii=False, indent=1), encoding="utf-8")
+        (build / "edition.json").write_text(\n            json.dumps(edition, ensure_ascii=False, indent=1), encoding="utf-8")
         ms = _compile(build, out_pdf)
         pages = len(PdfReader(str(out_pdf)).pages)
         log.info("render: %s words -> %d page(s), %.0f ms",
