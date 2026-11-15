@@ -9,11 +9,11 @@
 
 A daily automated pipeline delivering real and realistic **industrial engineering problems** for junior engineers (Morocco first). Solve a challenge, document your engineering solution, and present it directly to companies.
 
-🔗 **Live Archive**: [https://omax404.github.io/acta-problemata/](https://omax404.github.io/acta-problemata/)
+**Archive publique en direct** : [https://omax404.github.io/acta-problemata/](https://omax404.github.io/acta-problemata/)
 
 ---
 
-## 🧭 Architecture & Pipeline
+## Architecture & Pipeline
 
 ```mermaid
 flowchart LR
@@ -29,7 +29,7 @@ flowchart LR
 
 ---
 
-## ⚖️ Honesty Rule (The Core of the Project)
+## Honesty Rule (The Core of the Project)
 
 Every sheet strictly carries one of two labels:
 
@@ -43,12 +43,12 @@ Every sheet strictly carries one of two labels:
 
 ---
 
-## ⚡ Features
+## Features
 
 - **Mathematical Integrity**: Every numerical answer in `bank/*.json` is computed programmatically by `gen_bank.py` to prevent any statement/solution drift.
-- **Interactive Archive**: Search with instant filtering (`/` hotkey), level filters (★☆☆ to ★★★), and a `🎲 Au hasard` random picker.
+- **Interactive Archive**: Search with instant filtering (`/` hotkey), level filters (★☆☆ to ★★★), and random picker (`Au hasard`).
 - **Print & Memo Ready**:
-  - `📋 Copier l'énoncé` button to copy the problem statement directly in Markdown for Notion, Word, or LaTeX reports.
+  - `Copier l'énoncé [MD]` button to copy the problem statement directly in Markdown for Notion, Word, or LaTeX reports.
   - One-click print/PDF generator with custom `@page` A4 styling.
   - KaTeX mathematical rendering with inline (`$ ... $`) and display (`$$ ... $$`) modes.
   - Keyboard navigation: `←` previous, `→` next, `Escape` to archive.
@@ -57,7 +57,7 @@ Every sheet strictly carries one of two labels:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 bank/                    One JSON per problem (includes generated answer_key)
@@ -77,7 +77,7 @@ requirements.txt         Python dependencies (Pillow)
 
 ---
 
-## 🚀 Quickstart & Local Setup
+## Quickstart & Local Setup
 
 ```bash
 # 1. Install dependencies
@@ -101,7 +101,7 @@ python build_archive.py
 
 ---
 
-## 🧪 Adding a New Problem
+## Adding a New Problem
 
 1. Add a problem definition in `gen_bank.py` with physical parameters and formulas.
 2. Run `python gen_bank.py` to compile it to `bank/` and check the printed answer key.
