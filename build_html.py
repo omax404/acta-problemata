@@ -35,7 +35,12 @@ def sec(n, title, body):
     return (f'<div style="font-family:\'Courier New\',monospace;font-size:10px;margin:18px 0 6px 0;border-bottom:1px solid #151515;padding-bottom:3px;text-transform:uppercase;letter-spacing:1px;">'
             f'<span style="color:#E8500C;">[{n:02d}]</span>&nbsp; <b style="font-family:Inter,Helvetica,Arial,sans-serif;font-size:11px;">{html.escape(title)}</b></div>{body}')
 def main():
-    ed = json.load(open(sys.argv[1])); out = sys.argv[2]; inline = "--inline" in sys.argv
+    ed_raw = pathlib.Path(sys.argv[1]).read_bytes()
+    try:
+        ed = json.loads(ed_raw.decode("utf-8-sig"))
+    except UnicodeDecodeError:
+        ed = json.loads(ed_raw.decode("utf-16"))
+    out = sys.argv[2]; inline = "--inline" in sys.argv
     t = L[ed["lang"]]; e = html.escape
     realistic = ed["status"] == "realistic"
     rows = "".join(

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acta Problemata · Des problèmes d'usine réels chaque matin dans votre boîte mail</title>
+<meta name="description" content="Un problème d'ingénierie industrielle par jour directement dans votre boîte mail au format PDF imprimable. Résolvez-le, préparez votre solution, démarquez-vous en entretien.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<style>
+:root{
+  --p:#DCD7CF;
+  --p2:#E7E2DA;
+  --k:#151515;
+  --o:#E8500C;
+  --m:'DejaVu Sans Mono','SFMono-Regular',Menlo,Consolas,monospace;
+  --border:1px solid var(--k);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--p);
+  color:var(--k);
+  font-family:Inter,'Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  border-left:5px solid var(--o);
+}
+.mono{font-family:var(--m);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.or{color:var(--o)}
+a{color:inherit;text-decoration:none}:focus-visible{outline:2px solid var(--o);outline-offset:3px}
+
+/* Ticker */
+.tick{background:var(--k);color:var(--p);overflow:hidden;white-space:nowrap;padding:8px 0;font-size:11px}
+.tick div{display:inline-block;padding-left:100%;animation:tk 42s linear infinite}
+.tick b{color:var(--o);font-weight:400;margin:0 14px}
+@keyframes tk{to{transform:translateX(-100%)}}
+
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* Top Nav */
+nav{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:20px 0;
+  border-bottom:var(--border);
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:600;font-size:16px;letter-spacing:.02em}
+.brand img{height:38px;width:auto;display:block}
+.nav-sp{flex:1}
+.btn{
+  font:11px var(--m);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  border:var(--border);
+  background:transparent;
+  color:var(--k);
+  padding:9px 15px;
+  cursor:pointer;
+  transition:all .18s;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.btn:hover{border-color:var(--o);color:var(--o)}
+.btn.pri{background:var(--o);border-color:var(--o);color:#fff}
+.btn.pri:hover{background:var(--k);border-color:var(--k);color:var(--p)}
+
+/* Hero Section */
+.hero{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:40px;
+  align-items:center;
+  padding:60px 0 50px;
+  border-bottom:var(--border);
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--p2);
+  border:var(--border);
+  padding:5px 10px;
+  margin-bottom:20px;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--o);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero h1{
+  font-weight:300;
+  font-size:clamp(32px,5.2vw,56px);
+  line-height:1.06;
+  letter-spacing:-.02em;
+  text-transform:uppercase;
+  margin:0 0 20px;
+}
+.hero p.lead{
+  font-size:17px;
+  line-height:1.6;
+  max-width:54ch;
+  margin:0 0 32px;
+  color:#222;
+}
+
+/* Email Capture Form */
+.signup-box{
+  background:var(--p2);
+  border:var(--border);
+  padding:24px;
+  max-width:540px;
+  position:relative;
+}
+.signup-box:before{
+  content:"";
+  position:absolute;
+  top:-1px;left:-1px;right:-1px;
+  height:3px;
+  background:var(--o);
+}
+.form-row{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+.form-row input{
+  flex:1;
+  font:13px var(--m);
+  padding:12px 14px;
+  border:var(--border);
+  background:var(--p);
+  color:var(--k);
+  outline:none;
+  transition:border-color .15s;
+}
+.form-row input:focus{border-color:var(--o)}
+.form-row button{
+  font:12px var(--m);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  background:var(--o);
+  color:#fff;
+  border:1px solid var(--o);
+  padding:0 20px;
+  cursor:pointer;
+  transition:background-color .15s;
+  white-space:nowrap;
+}
+.form-row button:hover{background:var(--k);border-color:var(--k)}
+.form-note{
+  font-size:11px;
+  color:#555;
+  margin-top:10px;
+  line-height:1.4;
+}
+.signup-success{
+  display:none;
+  background:var(--k);
+  color:var(--p);
+  padding:16px 18px;
+  margin-top:12px;
+  border-left:3px solid var(--o);
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* Hero Visual Card (Problem Sheet Preview) */
+.hero-visual{
+  position:relative;
+}
+.sheet-card{
+  background:#fff;
+  border:var(--border);
+  padding:28px 24px;
+  box-shadow:12px 12px 0 var(--k);
+  position:relative;
+  transition:transform .2s;
+}
+.sheet-card:hover{transform:translateY(-3px)}
+.sheet-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  border-bottom:1px solid #111;
+  padding-bottom:14px;
+  margin-bottom:16px;
+}
+.sheet-num{font-size:42px;font-weight:200;line-height:1;margin:0}
+.sheet-title{font-size:16px;font-weight:600;text-transform:uppercase;margin:8px 0 6px}
+.sheet-meta{display:flex;gap:6px;flex-wrap:wrap;font-size:10px}
+.sheet-meta span{border:1px solid #111;padding:2px 6px}
+.sheet-snippet{font-size:12.5px;line-height:1.55;color:#333;margin:12px 0}
+.sheet-formula{
+  background:var(--p2);
+  border-left:3px solid var(--o);
+  padding:8px 12px;
+  font-family:var(--m);
+  font-size:11px;
+  margin:10px 0;
+}
+
+/* Features Grid */
+.sec-title{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  border-bottom:var(--border);
+  padding:40px 0 14px;
+  margin-bottom:30px;
+}
+.sec-title h2{
+  font-weight:300;
+  font-size:26px;
+  text-transform:uppercase;
+  margin:0;
+}
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-bottom:50px;
+}
+.feat{
+  background:var(--p2);
+  border:var(--border);
+  padding:24px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.feat .mono{color:var(--o)}
+.feat h3{font-size:16px;text-transform:uppercase;font-weight:600;margin:0}
+.feat p{font-size:13.5px;line-height:1.55;margin:0;color:#222}
+
+/* Honesty Banner */
+.honesty{
+  background:var(--k);
+  color:var(--p);
+  border:var(--border);
+  padding:34px 36px;
+  margin:40px 0 60px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:32px;
+  align-items:center;
+}
+.honesty h3{
+  font-size:24px;
+  font-weight:300;
+  text-transform:uppercase;
+  margin:0 0 12px;
+  color:#fff;
+}
+.honesty p{font-size:14px;line-height:1.6;margin:0 0 10px;color:#bbb}
+.honesty-table{
+  border-collapse:collapse;
+  width:100%;
+  font-size:12px;
+}
+.honesty-table td{
+  padding:10px;
+  border:1px solid #333;
+  vertical-align:top;
+}
+.honesty-table b{color:var(--o)}
+
+/* Sectors Section */
+.sectors-wrap{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;
+  margin-bottom:60px;
+}
+.sector-item{
+  background:var(--p2);
+  border:var(--border);
+  padding:18px 16px;
+  transition:all .18s;
+}
+.sector-item:hover{
+  border-color:var(--o);
+  transform:translate(-2px,-2px);
+  box-shadow:4px 4px 0 var(--o);
+}
+.sector-item .mono{font-size:10px;color:var(--o);margin-bottom:4px}
+.sector-item h4{font-size:14px;font-weight:600;text-transform:uppercase;margin:0 0 6px}
+.sector-item p{font-size:12px;line-height:1.45;color:#444;margin:0}
+
+/* Bottom CTA */
+.cta-banner{
+  background:var(--p2);
+  border:var(--border);
+  border-left:5px solid var(--o);
+  padding:44px 36px;
+  margin-bottom:60px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:30px;
+  align-items:center;
+}
+.cta-banner h3{
+  font-size:26px;
+  font-weight:300;
+  text-transform:uppercase;
+  margin:0 0 8px;
+}
+.cta-banner p{font-size:14.5px;color:#333;margin:0;max-width:56ch}
+
+/* Footer */
+footer{
+  border-top:var(--border);
+  padding:26px 0 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+@media(max-width:880px){
+  .hero{grid-template-columns:1fr;padding:36px 0}
+  .grid-3{grid-template-columns:1fr}
+  .honesty{grid-template-columns:1fr;padding:24px}
+  .cta-banner{grid-template-columns:1fr;padding:26px}
+  .form-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="tick mono" aria-hidden="true">
+  <div>
+    ARCHIVE_LOG<b>//</b>NODE: MA<b>//</b>DAILY EDITION 06:00 UTC<b>//</b>100% CALCULÉ SANS DÉRIVE<b>//</b>PDF IMPRIMABLE DIRECTEMENT DANS VOTRE BOÎTE MAIL<b>//</b>RÉEL OU RÉALISTE, JAMAIS AMBIGU
+  </div>
+</div>
+
+<div class="wrap">
+  <nav>
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="AP Monogram">
+      <span>Acta Problemata</span>
+    </a>
+    <span class="nav-sp"></span>
+    <a class="btn" href="archive.html">Consulter l'archive</a>
+    <a class="btn pri" href="#subscribe">S'inscrire (gratuit)</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="badge mono">
+        <span class="badge-dot"></span>
+        <span>Édition quotidienne · 06:00 UTC</span>
+      </div>
+      <h1>Des problèmes d'usine réels.<br>Chaque matin dans votre boîte mail.</h1>
+      <p class="lead">
+        Une fiche d'ingénierie par jour en <b>PDF imprimable A4</b>. Vous résolvez les calculs, vous préparez votre fiche solution, et vous prouvez votre valeur technique devant les recruteurs industriels.
+      </p>
+
+      <!-- Email Subscription Form -->
+      <div class="signup-box" id="subscribe">
+        <div class="mono or">Recevoir la prochaine fiche en PDF</div>
+        <form id="sub-form" onsubmit="handleSubscribe(event)">
+          <div class="form-row">
+            <input type="email" id="sub-email" required placeholder="Votre adresse email (ex: ingenieur@domaine.ma)" aria-label="Adresse email">
+            <button type="submit">S'inscrire (gratuit) →</button>
+          </div>
+          <div class="form-note mono">
+            🔒 0 spam. 1 fiche par jour à 06:00 UTC. Désinscription en 1 clic.
+          </div>
+        </form>
+        <div id="sub-ok" class="signup-success">
+          <b>✓ Inscription confirmée !</b><br>
+          Votre adresse a bien été enregistrée. Vous recevrez l'édition du jour dès demain matin à 06:00 UTC.<br>
+          <a href="e/07.html" style="color:var(--o);text-decoration:underline;display:inline-block;margin-top:6px;font-weight:600">
+            → En attendant, télécharger le PDF exemple (NASA MCO)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Sample Sheet -->
+    <div class="hero-visual">
+      <div class="sheet-card">
+        <div class="sheet-header">
+          <div>
+            <div class="mono or">Édition du jour // Exemple</div>
+            <p class="sheet-num">07</p>
+          </div>
+          <img src="assets/logo.png" alt="Logo" style="height:55px;width:auto">
+        </div>
+        <div class="sheet-title">Piège d'unités : le cas Mars Climate Orbiter</div>
+        <div class="sheet-meta mono">
+          <span>Aérospatial (cas réel)</span>
+          <span>International</span>
+          <span>★☆☆</span>
+        </div>
+        <p class="sheet-snippet">
+          En 1999, la sonde Mars Climate Orbiter a été perdue suite à une confusion entre <code>lbf·s</code> et <code>N·s</code>. Chiffrez l'erreur de trajectoire cumulée sur 100 événements de poussée.
+        </p>
+        <div class="sheet-formula">
+          Δv = J / m &nbsp;|&nbsp; 1 lbf·s = 4,448222 N·s
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+          <a class="btn" href="e/07.html">Ouvrir la fiche complète →</a>
+          <span class="mono" style="font-size:10px;color:#888">PDF A4 Vectoriel</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="sec-title">
+      <h2>Pourquoi Acta Problemata ?</h2>
+      <span class="mono or">// Le pont théorie-usine</span>
+    </div>
+    <div class="grid-3">
+      <div class="feat">
+        <span class="mono">[01] Données Réelles</span>
+        <h3>Pas de théorie abstraite</h3>
+        <p>Les cours vous donnent des exercices idéalisés. Nos fiches vous plongent dans des tuyauteries réelles, des fuites d'air comprimé, des chaudières vapeur et des échangeurs à plaques.</p>
+      </div>
+      <div class="feat">
+        <span class="mono">[02] Démarquage en Entretien</span>
+        <h3>Des solutions à montrer</h3>
+        <p>Résolvez la fiche, rédigez votre note technique, et venez en entretien d'embauche avec un dossier de cas résolus. Vous montrez ce que vous savez faire avant même qu'on vous le demande.</p>
+      </div>
+      <div class="feat">
+        <span class="mono">[03] 100% Calculé</span>
+        <h3>Zéro dérive énoncé / corrigé</h3>
+        <p>Toutes les valeurs et solutions sont dérivées algorithmiquement par notre moteur de calcul. Les grandeurs physiques sont vérifiées et dimensionnées avec les marges de l'art.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTORS -->
+  <section>
+    <div class="sec-title">
+      <h2>Secteurs Industriels Couverts</h2>
+      <a class="mono or" href="archive.html">Voir les 7 fiches de l'archive →</a>
+    </div>
+    <div class="sectors-wrap">
+      <div class="sector-item">
+        <div class="mono">AGR // Fès & Casa</div>
+        <h4>Agroalimentaire</h4>
+        <p>Pompage hydraulique, pasteurisation, froid industriel, échangeurs thermiques.</p>
+      </div>
+      <div class="sector-item">
+        <div class="mono">TEX // Tanger</div>
+        <h4>Textile & Confection</h4>
+        <p>Réseaux d'air comprimé, efficacité énergétique compresseur, pertes de charge.</p>
+      </div>
+      <div class="sector-item">
+        <div class="mono">MAT // Marrakech</div>
+        <h4>Matériaux & Ciment</h4>
+        <p>Variateurs de fréquence, dépoussiérage, ventilation de process, lois de similitude.</p>
+      </div>
+      <div class="sector-item">
+        <div class="mono">MIN // Oriental</div>
+        <h4>Mines & Carrières</h4>
+        <p>Convoyeurs à bande, puissances de levage et de frottement, motoréducteurs.</p>
+      </div>
+      <div class="sector-item">
+        <div class="mono">AER // International</div>
+        <h4>Aérospatial & Systèmes</h4>
+        <p>Gestion des unités, intégrité d'interface, SCADA et protocoles de conversion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONESTY MANIFESTO -->
+  <section class="honesty">
+    <div>
+      <div class="mono or" style="margin-bottom:8px">// Éthique d'ingénierie</div>
+      <h3>La Règle d'Honnêteté</h3>
+      <p>
+        Un jeune diplômé ne doit <b>jamais</b> affirmer à une entreprise « j'ai résolu votre problème » s'il s'agit d'un exercice type.
+      </p>
+      <p>
+        Pour garantir une intégrité totale, chaque problème publié par Acta Problemata est strictement étiqueté et validé automatiquement par notre système d'audit.
+      </p>
+    </div>
+    <div>
+      <table class="honesty-table">
+        <tr>
+          <td><b>Cas public réel</b></td>
+          <td>Issu d'un document public d'audit ou d'accident d'agence (ex: NASA MCO). La source officielle est directement liée sur la fiche.</td>
+        </tr>
+        <tr>
+          <td><b>Problème réaliste</b></td>
+          <td>Problème type représentatif d'une classe d'usines. Aucune entreprise n'est nommée, aucun besoin privé n'est affirmé.</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="cta-banner">
+    <div>
+      <h3>Prêt à affûter vos réflexes d'ingénieur ?</h3>
+      <p>Rejoignez les jeunes ingénieurs qui s'entraînent chaque matin sur des cas industriels réels. Gratuit, sans publicité, désinscription immédiate.</p>
+    </div>
+    <div>
+      <a class="btn pri" style="padding:14px 24px;font-size:12px" href="#subscribe">S'inscrire maintenant →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="mono">
+      Acta Problemata · Maroc · <span class="or">●</span> Open Source & Gratuit
+    </div>
+    <div class="mono" style="display:flex;gap:16px">
+      <a href="archive.html">Archive</a>
+      <a href="https://github.com/omax404/acta-problemata" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+function handleSubscribe(e){
+  e.preventDefault();
+  const email = document.getElementById("sub-email").value.trim();
+  if(!email) return;
+
+  // Store in localStorage for demonstration/continuity
+  try {
+    const list = JSON.parse(localStorage.getItem("acta_subscribers") || "[]");
+    if(!list.includes(email)) list.push(email);
+    localStorage.setItem("acta_subscribers", JSON.stringify(list));
+  } catch(err) {}
+
+  // If a live subscription webhook endpoint is configured, POST to it
+  if(window.ACTA_SUBSCRIBE_URL){
+    fetch(window.ACTA_SUBSCRIBE_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({email: email, timestamp: new Date().toISOString()})
+    }).catch(()=>{});
+  }
+
+  // Show success confirmation
+  document.getElementById("sub-form").style.display = "none";
+  document.getElementById("sub-ok").style.display = "block";
+}
+</script>
+</body>
+</html>
