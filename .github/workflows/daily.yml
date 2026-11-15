@@ -11,7 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install pillow
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run automated test suite
+        run: python test_bank.py
       - name: Pick today's problem
         run: python pick_edition.py > edition.json
       - name: Build today's HTML (images served from GitHub Pages)

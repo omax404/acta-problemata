@@ -2,14 +2,14 @@
 <title>Dimensionnement d&#x27;une ligne de pompage · Acta Problemata</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true}]})"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
 <style>
 :root{--p:#DCD7CF;--p2:#E7E2DA;--k:#151515;--o:#E8500C;--m:'DejaVu Sans Mono',Menlo,Consolas,monospace}
 *{box-sizing:border-box}body{margin:0;background:var(--p);color:var(--k);font-family:Inter,'Helvetica Neue',Arial,sans-serif;border-left:4px solid var(--o);-webkit-font-smoothing:antialiased}
 .mono{font-family:var(--m);font-size:11px;letter-spacing:.08em;text-transform:uppercase}.or{color:var(--o)}a{color:inherit}:focus-visible{outline:2px solid var(--o);outline-offset:3px}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:16px 0;border-bottom:1px solid var(--k)}nav .sp{flex:1}
-.btn{font:11px var(--m);letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--k);background:transparent;color:var(--k);padding:8px 12px;cursor:pointer;text-decoration:none}.btn:hover{border-color:var(--o)}.btn.pri{background:var(--o);border-color:var(--o)}
+.btn{font:11px var(--m);letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--k);background:transparent;color:var(--k);padding:8px 12px;cursor:pointer;text-decoration:none;transition:border-color .15s,background-color .15s}.btn:hover{border-color:var(--o)}.btn.pri{background:var(--o);border-color:var(--o)}
 header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding:34px 0 18px}
 .no{font-weight:200;font-size:clamp(80px,14vw,150px);line-height:.85;letter-spacing:-.05em;margin:0}
 h1{font-weight:300;font-size:clamp(24px,4vw,40px);line-height:1.1;text-transform:uppercase;margin:14px 0 10px}
@@ -26,11 +26,12 @@ aside{position:sticky;top:18px;align-self:start}.card{background:var(--p2);borde
 .card h2{margin-top:0}.katex-display{margin:.7em 0;overflow-x:auto;overflow-y:hidden}.tex{font-family:var(--m);font-size:12px;display:none}
 canvas{max-width:100%;height:auto;display:block}.qr{width:96px;border:2px solid var(--o);display:block}
 .pn{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--k);padding:16px 0 40px}
+.hints{font-size:12.5px;line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(21,21,21,.3)}
 footer.pf{display:none}
 @media(max-width:860px){.cols{grid-template-columns:1fr}aside{position:static}header{grid-template-columns:1fr}.logo{display:none}}
-@media print{@page{size:A4;margin:14mm}body{background:#fff;border:0;color:#000}nav,.pn{display:none}.card,.src{background:#fff}.st{background:#fff;border:1.5px solid #E8500C;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}.st.real{border-color:#000}.cols{grid-template-columns:1.5fr 1fr;gap:18px}aside{position:static}p,ol li{font-size:11.5pt}.no{font-size:64px}h1{font-size:20pt}.logo{height:70px}footer.pf{display:block;border-top:1px solid #000;padding-top:6px;margin-top:10px}.wrap{max-width:none;padding:0}}
+@media print{@page{size:A4;margin:14mm}body{background:#fff;border:0;color:#000}nav,.pn,#btn-copy{display:none}.card,.src{background:#fff}.st{background:#fff;border:1.5px solid #E8500C;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}.st.real{border-color:#000}.cols{grid-template-columns:1.5fr 1fr;gap:18px}aside{position:static}p,ol li{font-size:11.5pt}.no{font-size:64px}h1{font-size:20pt}.logo{height:70px}footer.pf{display:block;border-top:1px solid #000;padding-top:6px;margin-top:10px}.wrap{max-width:none;padding:0}}
 </style></head><body><div class="wrap">
-<nav><a class="btn" href="../index.html">← Archive</a><a class="btn" href="07.html">‹ 07</a><a class="btn" href="02.html">02 ›</a><span class="sp"></span><button class="btn pri" onclick="window.print()">Télécharger / imprimer en PDF</button></nav>
+<nav><a class="btn" href="../index.html" title="Retour à l'archive (Échap)">← Archive</a><a class="btn" href="07.html" title="Problème précédent (←)">‹ 07</a><a class="btn" href="02.html" title="Problème suivant (→)">02 ›</a><span class="sp"></span><button class="btn" id="btn-copy" onclick="copyMd()" title="Copier l'énoncé en Markdown pour vos notes ou rapport">📋 Copier l'énoncé</button><button class="btn pri" onclick="window.print()" title="Imprimer ou enregistrer en PDF (Ctrl+P)">Télécharger / PDF</button></nav>
 <header><div><p class="no">01</p><h1>Dimensionnement d&#x27;une ligne de pompage</h1><div class="meta mono"><span>Agroalimentaire</span><span>Fès-Meknès</span><span>★★☆</span><span class="or">AP-BANK-01-MA-AGR-2</span></div></div><img class="logo" src="../assets/logo.png" alt="Acta Problemata"></header>
 <div class="st "><b>Statut : Problème réaliste</b> &nbsp;Classe de problèmes typique d&#x27;un site industriel. Aucune entreprise n&#x27;est désignée et aucun besoin d&#x27;une entreprise précise n&#x27;est affirmé.</div>
 <div class="cols"><main>
@@ -39,10 +40,42 @@ footer.pf{display:none}
 <h2><i>03</i>À déterminer</h2><ol><li><span>La vitesse v, le nombre de Reynolds Re et le coefficient de frottement f ;</span></li><li><span>La hauteur manométrique totale H et la puissance à l&#x27;arbre ;</span></li><li><span>Une recommandation commentée (point de fonctionnement, marge, variateur de vitesse).</span></li></ol></main>
 <aside><div class="card"><h2><i>04</i>Formules utiles</h2><div>$$ H=\Delta z+\Bigl(f\frac{L}{D}+\sum K\Bigr)\frac{v^{2}}{2g} $$</div><div>$$ f=\frac{0{,}25}{\left[\log_{10}\!\left(\frac{\varepsilon}{3{,}7\,D}+\frac{5{,}74}{\mathrm{Re}^{0{,}9}}\right)\right]^{2}} $$</div><div>$$ P=\frac{\rho\, g\, Q\, H}{\eta} $$</div><noscript><p class='mono'>H = Δz + (f·L/D + ΣK)·v²/2g</p><p class='mono'>f = 0,25 / [log10( ε/(3,7·D) + 5,74/Re^0,9 )]²  (Swamee-Jain)</p><p class='mono'>P = ρ·g·Q·H / η</p></noscript></div>
 <div class="card" style="display:flex;gap:14px;align-items:center;justify-content:space-between"><div><canvas id="fp" width="192" height="42" data-s="1"></canvas><div class="mono" style="margin-top:6px;font-size:9px">Empreinte // AP-BANK-01-MA-AGR-2</div></div><img class="qr" src="../assets/qr.png" alt="QR"></div></aside></div>
-<div class="pn mono"><a href="07.html">‹ 07</a><a href="02.html">02 ›</a></div>
+<div class="pn mono"><a href="07.html">‹ 07</a><span style="font-size:10px;opacity:.6">Astuce : utilisez les touches ← et → pour naviguer</span><a href="02.html">02 ›</a></div>
 <footer class="pf mono">Acta Problemata · github.com/omax404/acta-problemata · AP-BANK-01-MA-AGR-2</footer></div>
 <script>
 function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const c=document.getElementById("fp"),x=c.getContext("2d"),r=rng(+c.dataset.s*7919+13);x.fillStyle="#151515";
 for(let i=0;i<32;i++)for(let j=0;j<7;j++)if(r()<.04+.96*Math.pow((i+1)/32,1.5)){x.beginPath();x.arc(i*6+3,j*6+3,2.1,0,7);x.fill()}
+
+function copyMd(){
+  const title=document.querySelector("h1").innerText;
+  const no=document.querySelector(".no").innerText;
+  const code=document.querySelector(".meta .or").innerText;
+  const ctx=document.querySelector("main p").innerText;
+  let md=`# [${no}] ${title} (${code})\n\n## Contexte\n${ctx}\n\n## Données\n`;
+  document.querySelectorAll("table tr").forEach(r=>{
+    const tds=r.querySelectorAll("td");
+    if(tds.length>=3)md+=`- **${tds[0].innerText.trim()}** (${tds[1].innerText.trim()}) : \`${tds[2].innerText.trim()}\`\n`;
+  });
+  md+="\n## À déterminer\n";
+  document.querySelectorAll("ol li").forEach((li,i)=>{
+    md+=`${i+1}. ${li.innerText.trim()}\n`;
+  });
+  navigator.clipboard.writeText(md).then(()=>{
+    const b=document.getElementById("btn-copy");
+    const old=b.innerText;
+    b.innerText="✓ Copié !";
+    b.style.borderColor="var(--o)";
+    setTimeout(()=>{b.innerText=old;b.style.borderColor="";},2000);
+  }).catch(()=>{
+    alert("Impossible d'accéder au presse-papier");
+  });
+}
+
+document.addEventListener("keydown",(e)=>{
+  if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")return;
+  if(e.key==="ArrowLeft")document.querySelector("a[href='07.html']")?.click();
+  if(e.key==="ArrowRight")document.querySelector("a[href='02.html']")?.click();
+  if(e.key==="Escape")window.location.href="../index.html";
+});
 </script></body></html>

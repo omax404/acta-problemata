@@ -28,8 +28,8 @@ h1{font-weight:300;font-size:clamp(26px,4.4vw,46px);line-height:1.08;text-transf
 @keyframes fl{50%{transform:translate(-50%,-44%)}}
 .tag{position:absolute;font-family:var(--m);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px solid var(--k);padding:16px 0 10px}
-.chip,select,input{font:11px var(--m);letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--k);background:transparent;color:var(--k);padding:8px 11px;border-radius:0;cursor:pointer}
-.chip[aria-pressed=true]{background:var(--k);color:var(--p)}.chip:hover,select:hover{border-color:var(--o)}input{cursor:text;min-width:170px}
+.chip,select,input,.btn-rnd{font:11px var(--m);letter-spacing:.07em;text-transform:uppercase;border:1px solid var(--k);background:transparent;color:var(--k);padding:8px 11px;border-radius:0;cursor:pointer;transition:border-color .15s,background-color .15s}
+.chip[aria-pressed=true]{background:var(--k);color:var(--p)}.chip:hover,select:hover,.btn-rnd:hover{border-color:var(--o)}input{cursor:text;min-width:170px}
 .cnt{margin-left:auto}.sp{flex-basis:100%;height:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:8px 0 40px}
 .card{position:relative;display:flex;flex-direction:column;gap:6px;border:1px solid var(--k);background:var(--p2);padding:16px 16px 14px;text-decoration:none;min-height:250px;animation:in .5s both;transition:transform .18s,box-shadow .18s}
@@ -58,9 +58,11 @@ footer{border-top:1px solid var(--k);padding:16px 0 34px}
   <span class="tag" style="left:0;top:8%">N° <b class="or" id="today2"></b></span><span class="tag" style="right:0;bottom:6%">Acta_Problemata</span></div>
 </section>
 <div class="bar" role="group" aria-label="Filtres">
- <span class="mono">Niveau</span><button class="chip" data-l="1" aria-pressed="false">★☆☆</button><button class="chip" data-l="2" aria-pressed="false">★★☆</button><button class="chip" data-l="3" aria-pressed="false">★★★</button>
+ <span class="mono">Niveau</span><button class="chip" data-l="1" aria-pressed="false" title="Filtrer par niveau 1">★☆☆</button><button class="chip" data-l="2" aria-pressed="false" title="Filtrer par niveau 2">★★☆</button><button class="chip" data-l="3" aria-pressed="false" title="Filtrer par niveau 3">★★★</button>
  <select id="s" aria-label="Secteur"><option value="">Secteur : tous</option></select><select id="r" aria-label="Région"><option value="">Région : toutes</option></select>
- <input id="q" type="search" placeholder="Recherche…" aria-label="Recherche"><span class="mono cnt" id="c"></span></div>
+ <input id="q" type="search" placeholder="Recherche (tapez /)…" aria-label="Recherche">
+ <button class="btn-rnd" id="rnd-btn" title="Ouvrir un problème au hasard">🎲 Au hasard</button>
+ <span class="mono cnt" id="c"></span></div>
 <main class="grid" id="g"></main><div class="empty mono" id="e">Aucun résultat pour ces filtres.</div>
 <section class="rule"><div><h2>Règle d'honnêteté</h2>
  <p><b>Cas public réel :</b> issu d'un document public, source indiquée sur la fiche.</p>
@@ -81,5 +83,13 @@ function draw(){const s=$("s").value,r=$("r").value,q=$("q").value.toLowerCase()
  $("g").querySelectorAll("canvas").forEach(c=>fp(c,+c.dataset.s));$("e").style.display=R.length?"none":"block";$("c").textContent="["+pad(R.length)+"] résultats"}
 document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const on=b.getAttribute("aria-pressed")=="true";document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed",String(!on));L=on?"":b.dataset.l;draw()});
 ["s","r"].forEach(i=>$(i).onchange=draw);$("q").oninput=draw;
+$("rnd-btn").onclick=()=>{
+  const target=D[Math.floor(Math.random()*D.length)];
+  if(target)window.location.href=`e/${pad(target.id)}.html`;
+};
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="/"&&document.activeElement!==$("q")){e.preventDefault();$("q").focus();}
+  if(e.key==="Escape"&&document.activeElement===$("q")){$("q").value="";$("q").blur();draw();}
+});
 let k=0;const t=setInterval(()=>{k++;$("n").textContent=pad(Math.min(k,D.length));if(k>=D.length)clearInterval(t)},90);draw();
 </script></body></html>
