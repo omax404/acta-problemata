@@ -63,6 +63,11 @@ def main(argv: list[str] | None = None) -> int:
     q.add_argument("--email", required=True)
     q.add_argument("--domain")
     q.add_argument("--no-send", action="store_true")
+    s = sub.add_parser("sheet", help="render a bank problem (or your solution) as a one-page PDF")
+    s.add_argument("problem", help="bank slug or id")
+    s.add_argument("--solution", type=Path, help="JSON with name, email, steps, result ... -> solution sheet")
+    s.add_argument("--lang", choices=["fr", "en"])
+    s.add_argument("--out", type=Path)
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
     a = p.parse_args(argv)
     root = a.root
@@ -73,6 +78,18 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(s, indent=2))
         return 0
 
+    if a.cmd == "sheet":
+        from . import sheet
+        prob = sheet.load_problem(root, a.problem)
+        sol = json.loads(a.solution.read_text(encoding="utf-8")) if a.solution else None
+        if a.lang:
+            prob["lang"] = a.lang
+        mode = "solution" if sol else "problem"
+        data = sheet.build_data(prob, mode, sol)
+        out = a.out or root / "build" / f"{data['code']}.pdf"
+        sheet.render_sheet(data, root, out)
+        print(out)
+        return 0
     if a.cmd == "request":
         from .request import RequestError, build_request
         try:

@@ -51,7 +51,7 @@ def make_qr(url: str, path: Path) -> None:
     qr.make_image(image_factory=qrcode.image.svg.SvgPathImage).save(str(path))
 
 
-def _compile(build: Path, out_pdf: Path) -> float:
+def _compile(build: Path, out_pdf: Path, entry: str = "broadside.typ") -> float:
     t0 = time.perf_counter()
     try:
         import typst  # pinned in pyproject: the SAME compiler in dev, CI and production
@@ -59,12 +59,12 @@ def _compile(build: Path, out_pdf: Path) -> float:
         typst = None
     try:
         if typst is not None:
-            typst.compile(str(build / "broadside.typ"), output=str(out_pdf), root=str(build))
+            typst.compile(str(build / entry), output=str(out_pdf), root=str(build))
         else:
             cli = shutil.which("typst")
             if not cli:
                 raise RuntimeError("no Typst compiler: pip install typst (or put the CLI on PATH)")
-            r = subprocess.run([cli, "compile", "--root", str(build), "broadside.typ", str(out_pdf)],
+            r = subprocess.run([cli, "compile", "--root", str(build), entry, str(out_pdf)],
                                cwd=build, capture_output=True, text=True, timeout=30)
             if r.returncode:
                 raise RuntimeError(f"typst compile failed:\n{r.stderr.strip()}")
