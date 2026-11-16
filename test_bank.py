@@ -10,7 +10,7 @@ ROOT = pathlib.Path(__file__).parent
 
 class TestBankIntegrity(unittest.TestCase):
     def setUp(self):
-        self.bank_files = sorted(glob.glob(str(ROOT / "bank" / "*.json")))
+        self.bank_files = sorted(glob.glob(str(ROOT / "data" / "bank" / "*.json")))
         self.assertTrue(len(self.bank_files) > 0, "Bank should contain problems")
 
     def test_bank_validation_passes(self):
@@ -41,7 +41,7 @@ class TestBankIntegrity(unittest.TestCase):
 
     def test_real_case_nasa_mco(self):
         """Specific physics test for the MCO unit mismatch problem."""
-        mco_file = ROOT / "bank" / "07-mco-unites.json"
+        mco_file = ROOT / "data" / "bank" / "07-mco-unites.json"
         self.assertTrue(mco_file.exists(), "07-mco-unites.json should exist")
         with open(mco_file, encoding="utf-8") as fp:
             data = json.load(fp)

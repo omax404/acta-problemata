@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Print today's edition.json on stdout.  usage: pick_edition.py [YYYY-MM-DD]
-Rotates through bank/*.json by day of year. The answer_key is NOT included in the output."""
+Rotates through data/bank/*.json by day of year. The answer_key is NOT included in the output."""
 import json, sys, glob, datetime, pathlib
 def get_edition(day_str=None):
     day = datetime.date.fromisoformat(day_str) if day_str else datetime.date.today()
-    files = sorted(glob.glob(str(pathlib.Path(__file__).parent / "bank" / "*.json")))
+    files = sorted(glob.glob(str(pathlib.Path(__file__).parent / "data" / "bank" / "*.json")))
     doy = day.timetuple().tm_yday
     b = json.load(open(files[(doy - 1) % len(files)], encoding="utf-8"))
     b.pop("answer_key", None)

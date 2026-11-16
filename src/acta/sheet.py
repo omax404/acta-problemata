@@ -78,13 +78,14 @@ def render_sheet(data: dict, repo_root: Path, out_pdf: Path) -> None:
     build.mkdir(parents=True, exist_ok=True)
     shutil.copy(repo_root / "templates" / "sheet.typ", build / "sheet.typ")
     (build / "sheet.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    shutil.copy(repo_root / "assets" / "logo.svg", build / "logo.svg")
     render.make_qr(data["qr_url"], build / "qr.svg")
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
     render._compile(build, out_pdf, "sheet.typ")
 
 
 def load_problem(repo_root: Path, ref: str) -> dict:
-    files = sorted((repo_root / "bank").glob("*.json"))
+    files = sorted((repo_root / "data" / "bank").glob("*.json"))
     if ref == "today":                      # same rotation as pick_edition.py
         return json.loads(files[(datetime.now(UTC).timetuple().tm_yday - 1) % len(files)].read_text(encoding="utf-8"))
     for f in files:

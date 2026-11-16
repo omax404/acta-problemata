@@ -9,7 +9,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": "Mechanical",
-    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into inbox/ (or paste the public notice URL into inbox/urls.txt). Verify with `acta sources-check` before relying on automation. Keywords: Usinage, Fourniture de pièces mécaniques, Chaudronnerie, Tuyauterie."
+    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into data/inbox/ (or paste the public notice URL into data/inbox/urls.txt). Verify with `acta sources-check` before relying on automation. Keywords: Usinage, Fourniture de pièces mécaniques, Chaudronnerie, Tuyauterie."
   },
   {
     "id": "ma-maroc-business",
@@ -21,7 +21,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into inbox/ (or paste the public notice URL into inbox/urls.txt). Verify with `acta sources-check` before relying on automation."
+    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into data/inbox/ (or paste the public notice URL into data/inbox/urls.txt). Verify with `acta sources-check` before relying on automation."
   },
   {
     "id": "ma-appeldoffres",
@@ -33,7 +33,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into inbox/ (or paste the public notice URL into inbox/urls.txt). Verify with `acta sources-check` before relying on automation. Commercial tracker: full documents are often behind login."
+    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into data/inbox/ (or paste the public notice URL into data/inbox/urls.txt). Verify with `acta sources-check` before relying on automation. Commercial tracker: full documents are often behind login."
   },
   {
     "id": "ma-marchespublic360",
@@ -45,7 +45,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into inbox/ (or paste the public notice URL into inbox/urls.txt). Verify with `acta sources-check` before relying on automation."
+    "note": "Tender/CPS source. Search is likely form/session-driven: save the CPS PDF into data/inbox/ (or paste the public notice URL into data/inbox/urls.txt). Verify with `acta sources-check` before relying on automation."
   },
   {
     "id": "dir-kerix",
@@ -141,7 +141,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into inbox/ yourself (paraphrase, remove client identity)."
+    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into data/inbox/ yourself (paraphrase, remove client identity)."
   },
   {
     "id": "gig-cadcrowd",
@@ -153,7 +153,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into inbox/ yourself (paraphrase, remove client identity)."
+    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into data/inbox/ yourself (paraphrase, remove client identity)."
   },
   {
     "id": "gig-kolabtree",
@@ -165,7 +165,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into inbox/ yourself (paraphrase, remove client identity)."
+    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into data/inbox/ yourself (paraphrase, remove client identity)."
   },
   {
     "id": "gig-upwork",
@@ -177,7 +177,7 @@
     "listing_url": "",
     "link_pattern": "",
     "domain_hint": null,
-    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into inbox/ yourself (paraphrase, remove client identity). Upwork actively restricts automated access."
+    "note": "Gig marketplace: briefs are typically login-gated and ToS-restricted. Copy a public brief into data/inbox/ yourself (paraphrase, remove client identity). Upwork actively restricts automated access."
   },
   {
     "id": "ref-grabcad-library",

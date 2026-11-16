@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generates bank/*.json. Every number in answer_key is COMPUTED here from the data, so key and statement cannot drift.
+"""Generates data/bank/*.json. Every number in answer_key is COMPUTED here from the data, so key and statement cannot drift.
 Statuses are all 'realistic' (problem classes) except explicitly sourced public documents."""
 import json, math, pathlib
 fr = lambda x, n=2: f"{x:,.{n}f}".replace(",", " ").replace(".", ",")
-OUT = pathlib.Path(__file__).parent / "bank"; OUT.mkdir(exist_ok=True)
+OUT = pathlib.Path(__file__).parent / "data" / "bank"; OUT.mkdir(parents=True, exist_ok=True)
 bank = []
 def add(slug, **k): bank.append({"slug": slug, "lang": "fr", "status": "realistic", "source_url": "", **k})
 

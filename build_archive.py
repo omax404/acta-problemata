@@ -20,7 +20,7 @@ shutil.copytree(R / "assets", D / "assets", dirs_exist_ok=True)
 e = html.escape
 pad = lambda n: f"{n:02d}"
 
-bank = [json.load(open(f, encoding="utf-8")) for f in sorted(glob.glob(str(R / "bank" / "*.json")))]
+bank = [json.load(open(f, encoding="utf-8")) for f in sorted(glob.glob(str(R / "data" / "bank" / "*.json")))]
 tpl = (R / "problem_template.html").read_text(encoding="utf-8")
 items = []
 

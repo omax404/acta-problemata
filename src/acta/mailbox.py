@@ -77,8 +77,8 @@ def pull(root: Path) -> int:
     if not allowed:
         log.warning("mailbox: INBOX_ALLOWED_SENDERS is empty - accepting nothing")
         return 0
-    inbox = root / "inbox"
-    inbox.mkdir(exist_ok=True)
+    inbox = root / "data" / "inbox"
+    inbox.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(UTC).strftime("%Y%m%d")
     total = 0
     try:

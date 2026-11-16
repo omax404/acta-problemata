@@ -96,7 +96,7 @@ def _domain_prefix(name: str) -> str | None:
 
 def _inbox(led: dict, today: date, repo_root: Path | None) -> list[SourceDoc]:
     """FIFO queue of human-curated real problems: files first, then URLs. One item per call."""
-    root = (repo_root or Path(__file__).resolve().parents[2]) / "inbox"
+    root = (repo_root or Path(__file__).resolve().parents[2]) / "data" / "inbox"
     if not root.is_dir():
         return []
     for f in sorted(root.iterdir(), key=lambda q: q.name):

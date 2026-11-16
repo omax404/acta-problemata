@@ -19,7 +19,7 @@ def check(b, name):
     if st == "realistic" and b.get("source_url"): e.append("a 'realistic' problem must not carry a source_url (use status 'real' and fill every source field)")
     return [f"{name}: {m}" for m in e]
 def main(root=None):
-    root = pathlib.Path(root or pathlib.Path(__file__).parent) / "bank"; errs = []
+    root = pathlib.Path(root or pathlib.Path(__file__).parent) / "data" / "bank"; errs = []
     files = sorted(glob.glob(str(root / "*.json")))
     for f in files: errs += check(json.load(open(f, encoding="utf-8")), pathlib.Path(f).name)
     if errs: print("VALIDATION FAILED:\n  " + "\n  ".join(errs)); sys.exit(1)

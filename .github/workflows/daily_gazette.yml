@@ -63,7 +63,7 @@ jobs:
         run: |
           git config user.name "acta-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ledger.json README.md docs badges inbox
+          git add data/ledger.json README.md docs badges
           git commit -m "edition No.${{ steps.acta.outputs.edition }} — $(date -u +%F)" || exit 0
           for i in 1 2 3; do
             git pull --rebase origin "$GITHUB_REF_NAME" && git push && break

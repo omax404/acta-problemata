@@ -19,7 +19,8 @@ def repo(tmp_path):
         shutil.copytree(ROOT / name, tmp_path / name)
     shutil.copy(ROOT / "config.json", tmp_path / "config.json")
     (tmp_path / "data" / "ledger.json").unlink(missing_ok=True)
-    (tmp_path / "inbox").mkdir()
+    shutil.rmtree(tmp_path / "data" / "inbox", ignore_errors=True)
+    (tmp_path / "data" / "inbox").mkdir(parents=True)
     return tmp_path
 
 
@@ -78,9 +79,9 @@ def test_unreachable_or_forbidden_robots_is_treated_as_blocked(monkeypatch):
 
 
 def test_inbox_files_fifo_with_domain_prefix_and_seen_skip(repo):
-    (repo / "inbox" / "Fluids__water-header.txt").write_text(LONG)
-    (repo / "inbox" / "b-second.txt").write_text(LONG + " second")
-    (repo / "inbox" / "README.md").write_text("ignore me")
+    (repo / "data" / "inbox" / "Fluids__water-header.txt").write_text(LONG)
+    (repo / "data" / "inbox" / "b-second.txt").write_text(LONG + " second")
+    (repo / "data" / "inbox" / "README.md").write_text("ignore me")
     led = {"seen": {}}
     first = ingest.fetch_source("Mechanical", led, TODAY, repo, ["inbox"])
     assert first.case_id == "inbox:Fluids__water-header" and first.domain == "Fluids" and first.origin == "inbox"
@@ -90,7 +91,7 @@ def test_inbox_files_fifo_with_domain_prefix_and_seen_skip(repo):
 
 
 def test_inbox_urls_are_fetched_politely_and_failures_skipped(repo, monkeypatch):
-    (repo / "inbox" / "urls.txt").write_text(
+    (repo / "data" / "inbox" / "urls.txt").write_text(
         "# comment\nhttps://bad.example/a\nhttps://ok.example/tender | Thermal\n")
 
     def fake_polite(url, **kw):
@@ -142,7 +143,7 @@ def test_anonymize_rule_in_prompt(monkeypatch):
 
 
 def test_end_to_end_inbox_to_edition(repo, monkeypatch):
-    (repo / "inbox" / "Fluids__header.txt").write_text(LONG)
+    (repo / "data" / "inbox" / "Fluids__header.txt").write_text(LONG)
     vault = json.loads((repo / "data" / "case_vault.json").read_text(encoding="utf-8"))
     fluid = next(e for e in vault if e["id"] == "vault-fluid-001")
     monkeypatch.setattr(synthesize, "synthesize", lambda *a, **k: LLMCase.model_validate(fluid["case"]))

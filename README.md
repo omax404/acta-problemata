@@ -17,7 +17,7 @@ A daily automated pipeline delivering real and realistic **industrial engineerin
 
 ```mermaid
 flowchart LR
-    A["gen_bank.py"] -->|"Generates & Computes"| B["bank/*.json"]
+    A["gen_bank.py"] -->|"Generates & Computes"| B["data/bank/*.json"]
     B --> C["test_bank.py<br/>(Unit Tests)"]
     B --> D["validate_bank.py<br/>(Honesty Rules)"]
     D --> E["build_archive.py"]
@@ -45,7 +45,7 @@ Every sheet strictly carries one of two labels:
 
 ## Features
 
-- **Mathematical Integrity**: Every numerical answer in `bank/*.json` is computed programmatically by `gen_bank.py` to prevent any statement/solution drift.
+- **Mathematical Integrity**: Every numerical answer in `data/bank/*.json` is computed programmatically by `gen_bank.py` to prevent any statement/solution drift.
 - **Interactive Archive**: Search with instant filtering (`/` hotkey), level filters (★☆☆ to ★★★), and random picker (`Au hasard`).
 - **Print & Memo Ready**:
   - `Copier l'énoncé [MD]` button to copy the problem statement directly in Markdown for Notion, Word, or LaTeX reports.
@@ -60,8 +60,8 @@ Every sheet strictly carries one of two labels:
 ## Project Structure
 
 ```
-bank/                    One JSON per problem (includes generated answer_key)
-gen_bank.py              Generates bank/*.json with computed answer keys
+data/bank/                    One JSON per problem (includes generated answer_key)
+gen_bank.py              Generates data/bank/*.json with computed answer keys
 validate_bank.py         Enforces honesty rules and schema compliance
 test_bank.py             Unit test suite (physics, bounds, formatting)
 pick_edition.py          Selects today's problem (day-of-year rotation)
@@ -104,7 +104,7 @@ python build_archive.py
 ## Adding a New Problem
 
 1. Add a problem definition in `gen_bank.py` with physical parameters and formulas.
-2. Run `python gen_bank.py` to compile it to `bank/` and check the printed answer key.
+2. Run `python gen_bank.py` to compile it to `data/bank/` and check the printed answer key.
 3. Run `python test_bank.py` to ensure all checks pass.
 4. Run `python build_archive.py` to generate the updated static pages.
 5. Commit and push.

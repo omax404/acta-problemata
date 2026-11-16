@@ -4,7 +4,7 @@
 
 | Mode | Sources | How it feeds the daily problem |
 |---|---|---|
-| `manual` | 4 Moroccan tender sites, 4 gig marketplaces | You save a CPS/notice PDF into `inbox/` or paste its public URL into `inbox/urls.txt` |
+| `manual` | 4 Moroccan tender sites, 4 gig marketplaces | You save a CPS/notice PDF into `data/inbox/` or paste its public URL into `data/inbox/urls.txt` |
 | `listing` | GrabCAD Challenges, Wazoku, NineSigma, CADCrowd contests, Eng-Tips | Automatic once you enable it (see below) |
 | `leads` | Kerix, Telecontact, Kompass | **Not problems** — company directories for juniors' outreach. Company-level only |
 | `reference` | GrabCAD Library, TraceParts, McMaster-Carr | For *solving* (datasheets/CAD), not ingested |
@@ -12,7 +12,7 @@
 Built-in automatic sources: `inbox` → `listing` → `market` (8 curated briefs) → NASA NTRS → arXiv → vault.
 
 ## The inbox (recommended, works today)
-Drop files in `inbox/` (see `inbox/README.md`). One item is consumed per day, oldest first; 30 items = 30 real-problem days.
+Drop files in `data/inbox/` (see `data/inbox/README.md`). One item is consumed per day, oldest first; 30 items = 30 real-problem days.
 The AI is told to describe **sector and region only** (`name_companies: false`) and to paraphrase, never quote.
 The solution page links the original public source so juniors can find the real lead.
 

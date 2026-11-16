@@ -9,7 +9,7 @@ from pypdf import PdfReader
 from acta import sheet
 
 ROOT = Path(__file__).resolve().parents[1]
-SLUGS = [json.loads(f.read_text(encoding="utf-8"))["slug"] for f in sorted((ROOT / "bank").glob("*.json"))]
+SLUGS = [json.loads(f.read_text(encoding="utf-8"))["slug"] for f in sorted((ROOT / "data" / "bank").glob("*.json"))]
 SOL = {"name": "Prénom Nom", "email": "a@b.ma", "phone": "+212 6 00 00 00 00", "link": "linkedin.com/in/x",
        "assumptions": ["Écoulement permanent", "Eau à 20 °C"],
        "steps": ["v = 4Q/(pi D^2) = 1,28 m/s", "Re = vD/nu = 1,34e5", "H = 22,4 m"],
@@ -19,7 +19,7 @@ SOL = {"name": "Prénom Nom", "email": "a@b.ma", "phone": "+212 6 00 00 00 00", 
 @pytest.fixture(scope="module")
 def repo(tmp_path_factory):
     r = tmp_path_factory.mktemp("sheet")
-    for n in ("bank", "templates"):
+    for n in ("data/bank", "templates", "assets"):
         shutil.copytree(ROOT / n, r / n)
     return r
 
@@ -69,7 +69,7 @@ def test_nothing_is_clipped(repo, slug):
 
 def test_today_matches_the_daily_rotation(repo):
     import datetime
-    files = sorted((repo / "bank").glob("*.json"))
+    files = sorted((repo / "data" / "bank").glob("*.json"))
     want = json.loads(files[(datetime.datetime.now(datetime.UTC).timetuple().tm_yday - 1) % len(files)]
                       .read_text(encoding="utf-8"))["slug"]
     assert sheet.load_problem(repo, "today")["slug"] == want

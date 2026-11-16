@@ -63,7 +63,8 @@
   for i in range(5) { for j in range(3) { place(top + left, dx: i * 3.4mm, dy: j * 3.4mm, circle(radius: 0.7mm, fill: orange, stroke: none)) } }
   place(top + left, dx: 0mm, dy: 11mm, text(font: sans, weight: "thin", size: 40pt, tracking: -1.5pt)[#d.number])
   place(top + left, dy: 23mm, text(font: mono, size: 6.4pt)[#upper(T.no) #d.number \/\/ #d.code])
-  place(top + right, dy: 1mm, align(right, [
+  place(top + right, dx: 0mm, dy: 0mm, image("logo.svg", height: 25mm))
+  place(top + right, dx: -22mm, dy: 1mm, align(right, [
     #text(font: rom, weight: "bold", size: 24pt, tracking: 5pt)[ACTA \ PROBLEMATA]
     #v(-1mm)
     #text(font: mono, size: 5.8pt, tracking: 1pt, fill: grey)[#upper(d.mode_label) \/\/ #d.date]
