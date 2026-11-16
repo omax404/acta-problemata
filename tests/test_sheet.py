@@ -66,3 +66,10 @@ def test_nothing_is_clipped(repo, slug):
     for s in (p["questions"][-1], p["formulas"][-1]):
         probe = s.replace(" ", "")[:10]
         assert probe in text, f"{slug}: {probe!r} missing -> content clipped"
+
+def test_today_matches_the_daily_rotation(repo):
+    import datetime
+    files = sorted((repo / "bank").glob("*.json"))
+    want = json.loads(files[(datetime.datetime.now(datetime.UTC).timetuple().tm_yday - 1) % len(files)]
+                      .read_text(encoding="utf-8"))["slug"]
+    assert sheet.load_problem(repo, "today")["slug"] == want

@@ -21,6 +21,12 @@ jobs:
         run: |
           ASSET_BASE="https://omax404.github.io/acta-problemata/assets" python build_html.py edition.json docs/today.html
           cp assets/fingerprint_*.png docs/assets/ || true
+      - name: Render today's PDF sheet (Typst)
+        run: |
+          pip install -e .
+          mkdir -p docs/pdf
+          acta sheet today --lang fr --out docs/pdf/today-fr.pdf
+          acta sheet today --lang en --out docs/pdf/today-en.pdf
       - name: Rebuild the archive and publish
         run: |
           python build_archive.py

@@ -85,6 +85,8 @@ def render_sheet(data: dict, repo_root: Path, out_pdf: Path) -> None:
 
 def load_problem(repo_root: Path, ref: str) -> dict:
     files = sorted((repo_root / "bank").glob("*.json"))
+    if ref == "today":                      # same rotation as pick_edition.py
+        return json.loads(files[(datetime.now(UTC).timetuple().tm_yday - 1) % len(files)].read_text(encoding="utf-8"))
     for f in files:
         p = json.loads(f.read_text(encoding="utf-8"))
         if ref in (p["slug"], str(p.get("id"))):
