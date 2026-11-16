@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only">
+<title>Acta Problemata · {{CODE}}</title>
+<style>
+ body{margin:0;padding:0;background:#DCD7CF;-webkit-text-size-adjust:100%}
+ @media (max-width:640px){.wrap{width:100%!important}.pad{padding-left:18px!important;padding-right:18px!important}.big{font-size:56px!important}.ttl{font-size:20px!important}.hide-m{display:none!important}}
+</style></head>
+<body style="margin:0;padding:0;background:#DCD7CF;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#DCD7CF;"><tr><td align="center" style="padding:24px 8px;">
+<table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#DCD7CF;border-left:3px solid #E8500C;font-family:Inter,'Helvetica Neue',Helvetica,Arial,sans-serif;color:#151515;">
+ <tr><td class="pad" style="padding:22px 28px 0 28px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+   <td valign="top" style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;color:#E8500C;">● ● ● ● ●<br>● ● ● ● ●<br>● ● ● ● ●
+     <div class="big" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:200;font-size:72px;line-height:78px;color:#151515;letter-spacing:-2px;margin-top:6px;">{{EDITION_NO}}</div>
+     <div style="font-family:'Courier New',monospace;font-size:10px;color:#151515;">{{NO_LABEL}} {{EDITION_NO}} // {{CODE}}</div></td>
+   <td valign="top" align="right" width="150"><img src="{{LOGO_SRC}}" width="120" alt="Acta Problemata" style="display:block;border:0;"></td>
+  </tr></table>
+ </td></tr>
+ <tr><td class="pad" style="padding:16px 28px 0 28px;">
+  <div style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;color:#E8500C;text-transform:uppercase;">{{KIND}} // {{SECTOR_L}}: {{SECTOR}} // {{REGION_L}}: {{REGION}} // {{LEVEL_L}}: {{STARS}}</div>
+  <div class="ttl" style="font-weight:300;font-size:26px;line-height:30px;text-transform:uppercase;margin:6px 0 12px 0;">{{TITLE}}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background:#E8500C;padding:10px 12px;font-size:12px;line-height:17px;color:#151515;">
+   <span style="font-family:'Courier New',monospace;font-weight:bold;text-transform:uppercase;">{{STATUS_L}} : {{STATUS}}</span>&nbsp; {{STATUS_NOTE}}</td></tr></table>
+  <div style="font-family:'Courier New',monospace;font-size:10px;margin-top:6px;">{{SOURCE_L}} : {{SOURCE}}</div>
+ </td></tr>
+ <tr><td class="pad" style="padding:6px 28px 0 28px;">
+  {{SECTIONS}}
+ </td></tr>
+ <tr><td class="pad" style="padding:22px 28px 26px 28px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+   <td valign="bottom"><img src="{{FINGER_SRC}}" width="260" alt="" style="display:block;border:0;max-width:100%;height:auto;">
+     <div style="font-family:'Courier New',monospace;font-size:9px;margin-top:4px;text-transform:uppercase;">{{FINGER_L}} // {{CODE}}</div>
+     <div style="font-family:'Courier New',monospace;font-size:9px;margin-top:10px;"><a href="{{ARCHIVE_URL}}" style="color:#151515;">{{ARCHIVE_LABEL}}</a> &nbsp;·&nbsp; <a href="{{UNSUB_URL}}" style="color:#151515;">{{UNSUB_LABEL}}</a></div></td>
+   <td valign="bottom" align="right" width="110"><img src="{{QR_SRC}}" width="96" alt="QR" style="display:block;border:2px solid #E8500C;"><div style="font-family:'Courier New',monospace;font-size:8px;text-transform:uppercase;margin-top:4px;text-align:right;">{{SCAN_L}}</div></td>
+  </tr></table>
+  <div style="font-family:'Courier New',monospace;font-size:9px;margin-top:14px;color:#151515;">{{FOOTNOTE}}</div>
+ </td></tr>
+</table></td></tr></table></body></html>

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "vault-mech-001",
+    "case": {
+      "title": "Jib Crane Tip Deflection Breaches Serviceability Limit",
+      "domain": "Mechanical",
+      "narrative": "A maintenance bay at a pump overhaul shop relies on a wall-mounted jib crane to lift impeller assemblies onto balancing stands. During a quarterly inspection the technician notices that the loaded jib visibly sags, and a dial gauge at the tip records a permanent set of zero after unloading, confirming the behaviour is elastic rather than plastic. The jib is a hot-rolled steel I-section behaving as a prismatic cantilever of length 1.5 metres, rigidly bolted to a reinforced concrete pilaster. The rated test load of 1.2 kilonewtons hangs from a trolley parked at the extreme tip, the worst position for bending. The section's second moment of area about the strong axis is 8.33 times ten to the minus six metres to the fourth, and the steel's Young's modulus is 200 gigapascals. The shop's serviceability criterion limits elastic tip deflection to the span divided by five hundred.",
+      "boundary_conditions": [
+        {"name": "Tip load P", "value": "1200 N"},
+        {"name": "Jib span L", "value": "1.5 m"},
+        {"name": "Young's modulus E", "value": "200 GPa"},
+        {"name": "Second moment of area I", "value": "8.33e-6 m^4"},
+        {"name": "Deflection limit", "value": "L/500 = 3.0 mm"}
+      ],
+      "formula": {
+        "symbolic": "P*L**3/(3*E*I)",
+        "variables": [{"symbol": "P", "value": 1200.0}, {"symbol": "L", "value": 1.5}, {"symbol": "E", "value": 200e9}, {"symbol": "I", "value": 8.33e-6}],
+        "unit": "m"
+      },
+      "challenge_question": "Using Euler-Bernoulli beam theory, compute the elastic tip deflection delta in metres (3 s.f.). Does the jib satisfy the L/500 serviceability limit?",
+      "diagram": {"kind": "cantilever_point_load", "params": [{"symbol": "P", "value": 1200.0}, {"symbol": "L", "value": 1.5}], "caption": "Fig. 1 - Prismatic jib as a tip-loaded cantilever."}
+    }
+  },
+  {
+    "id": "vault-therm-001",
+    "case": {
+      "title": "Furnace Wall Loses Insulation Layer, Heat Flux Triples",
+      "domain": "Thermal",
+      "narrative": "A heat-treatment furnace in a gear manufacturing line trips its casing-temperature alarm after six years of service. Infrared thermography shows the outer steel shell glowing well above its design temperature along one panel, and boroscope inspection through a port reveals that part of the calcium-silicate backup insulation has slumped, leaving the refractory hot face backed only by a thin ceramic-fibre blanket. The panel is modelled as one-dimensional steady conduction through three layers in series: a dense fireclay hot-face brick, the surviving fibre blanket, and the steel shell with its outside air film lumped into a surface resistance. The hot face runs at 523 kelvin while the shop ambient sits at 293 kelvin. The area-specific thermal resistances of the three layers are 0.04, 0.11 and 0.02 square-metre kelvin per watt respectively. Neglect contact resistances and assume the furnace atmosphere holds the hot face at its setpoint.",
+      "boundary_conditions": [
+        {"name": "Hot face temperature T_h", "value": "523 K"},
+        {"name": "Ambient temperature T_c", "value": "293 K"},
+        {"name": "Fireclay resistance R1", "value": "0.04 m^2 K/W"},
+        {"name": "Fibre blanket resistance R2", "value": "0.11 m^2 K/W"},
+        {"name": "Shell + air film R3", "value": "0.02 m^2 K/W"}
+      ],
+      "formula": {
+        "symbolic": "(T_h - T_c)/(R1 + R2 + R3)",
+        "variables": [{"symbol": "T_h", "value": 523.0}, {"symbol": "T_c", "value": 293.0}, {"symbol": "R1", "value": 0.04}, {"symbol": "R2", "value": 0.11}, {"symbol": "R3", "value": 0.02}],
+        "unit": "W/m^2"
+      },
+      "challenge_question": "Compute the steady heat flux q through the degraded panel in watts per square metre (3 s.f.), treating the layers as a series resistance network.",
+      "diagram": {"kind": "thermal_wall", "params": [{"symbol": "T_h", "value": 523.0}, {"symbol": "T_c", "value": 293.0}], "caption": "Fig. 1 - Series resistance network of the degraded furnace panel."}
+    }
+  },
+  {
+    "id": "vault-fluid-001",
+    "case": {
+      "title": "Cooling Water Header Loses Head to Pipe Friction",
+      "domain": "Fluids",
+      "narrative": "A plastics extrusion plant reports that the far end of its cooling-water header starves whenever a second extruder comes online. The utilities engineer traces the supply through 340 metres of DN150 schedule-40 steel pipe carrying treated water at a mean velocity of 2.1 metres per second. Turbulence is fully developed, the water temperature is held near twenty degrees Celsius by the chiller loop, and the pipe's internal diameter is 0.15 metres. A recent ultrasonic survey found moderate tuberculation, and the Moody chart gives a Darcy friction factor of 0.022 at the operating Reynolds number and relative roughness. Minor losses from valves and bends are accounted for separately in the network model, so this reach is treated as straight pipe only. Gravitational acceleration is taken as 9.81 metres per second squared. The pump curve must overcome this friction head before any margin remains for the extruder jackets.",
+      "boundary_conditions": [
+        {"name": "Darcy friction factor f", "value": "0.022"},
+        {"name": "Pipe length L", "value": "340 m"},
+        {"name": "Internal diameter D", "value": "0.15 m"},
+        {"name": "Mean velocity v", "value": "2.1 m/s"},
+        {"name": "Gravity g", "value": "9.81 m/s^2"}
+      ],
+      "formula": {
+        "symbolic": "f*(L/D)*v**2/(2*g)",
+        "variables": [{"symbol": "f", "value": 0.022}, {"symbol": "L", "value": 340.0}, {"symbol": "D", "value": 0.15}, {"symbol": "v", "value": 2.1}, {"symbol": "g", "value": 9.81}],
+        "unit": "m"
+      },
+      "challenge_question": "Apply the Darcy-Weisbach equation to find the friction head loss h_f in metres of water column (3 s.f.) across the 340 m reach.",
+      "diagram": {"kind": "pipe_flow", "params": [{"symbol": "L", "value": 340.0}, {"symbol": "D", "value": 0.15}], "caption": "Fig. 1 - Straight header reach with mean velocity profile."}
+    }
+  },
+  {
+    "id": "vault-mat-001",
+    "case": {
+      "title": "Edge Crack in Press Frame Raises Fracture Concern",
+      "domain": "Materials",
+      "narrative": "During a statutory thorough examination of a forty-year-old hydraulic press, magnetic-particle inspection reveals a sharp edge crack in the tension flank of the cast-steel crown. The crack is 4 millimetres deep and runs perpendicular to the principal tensile stress, which strain-gauge readings during a working stroke put at 180 megapascals. The crown is thick relative to the crack, so plane-strain conditions and linear elastic fracture mechanics are appropriate. The geometry correction factor for this single-edge configuration is 1.12. The material's plane-strain fracture toughness, taken from the original mill certificate and confirmed by a recent companion specimen, is 50 megapascal root-metre. The examiner must decide whether the press can continue in service until a weld repair is qualified, or whether it must be barred immediately. Assume residual stresses from the original casting were relieved by post-weld heat treatment and may be neglected.",
+      "boundary_conditions": [
+        {"name": "Geometry factor Y", "value": "1.12"},
+        {"name": "Applied stress sigma", "value": "180 MPa"},
+        {"name": "Crack depth a", "value": "0.004 m"},
+        {"name": "Fracture toughness K_IC", "value": "50 MPa sqrt(m)"}
+      ],
+      "formula": {
+        "symbolic": "Y*sigma*sqrt(pi*a)",
+        "variables": [{"symbol": "Y", "value": 1.12}, {"symbol": "sigma", "value": 180e6}, {"symbol": "a", "value": 0.004}],
+        "unit": "Pa sqrt(m)"
+      },
+      "challenge_question": "Compute the mode-I stress intensity K_I in pascal root-metre (3 s.f.) and state whether it exceeds the 50 MPa sqrt(m) toughness.",
+      "diagram": {"kind": "crack_plate", "params": [{"symbol": "a", "value": 0.004}, {"symbol": "sigma", "value": 180e6}], "caption": "Fig. 1 - Single-edge crack under remote tension."}
+    }
+  },
+  {
+    "id": "vault-elec-001",
+    "case": {
+      "title": "Sensor Divider Drifts Below ADC Threshold Voltage",
+      "domain": "Electrical",
+      "narrative": "A retrofit condition-monitoring box on a conveyor gearbox reads its supply rail through a resistive divider so that a microcontroller's analogue input can detect brown-outs. The nominal rail is 12 volts, and the divider uses a 10 kilohm upper resistor with a 4.7 kilohm lower resistor, feeding an ADC whose brown-out threshold is set at 3.8 volts. After a humid season, several units begin logging spurious brown-out events even though the rail measures a healthy 12 volts at the terminal block. The firmware team suspects the divider ratio sits too close to the comparator threshold once resistor tolerances and ADC input leakage are considered. Assume ideal resistors at their nominal values, negligible loading by the ADC, and a stiff rail with no ripple for this first-pass analysis. The divider draws a continuous bleed current, so self-heating is present but its effect on resistance is neglected here.",
+      "boundary_conditions": [
+        {"name": "Rail voltage V_in", "value": "12 V"},
+        {"name": "Upper resistor R1", "value": "10 kOhm"},
+        {"name": "Lower resistor R2", "value": "4.7 kOhm"},
+        {"name": "ADC threshold", "value": "3.8 V"}
+      ],
+      "formula": {
+        "symbolic": "V_in*R2/(R1 + R2)",
+        "variables": [{"symbol": "V_in", "value": 12.0}, {"symbol": "R1", "value": 10000.0}, {"symbol": "R2", "value": 4700.0}],
+        "unit": "V"
+      },
+      "challenge_question": "Compute the divider output V_out in volts (3 s.f.) and explain why resistor tolerance alone can cause spurious brown-out logs.",
+      "diagram": {"kind": "voltage_divider", "params": [{"symbol": "V_in", "value": 12.0}, {"symbol": "R1", "value": 10000.0}, {"symbol": "R2", "value": 4700.0}], "caption": "Fig. 1 - Rail-sense divider feeding the ADC input."}
+    }
+  },
+  {
+    "id": "vault-civ-001",
+    "case": {
+      "title": "Slender Steel Strut Buckles Under Scaffold Load",
+      "domain": "Civil",
+      "narrative": "A temporary works coordinator reviews a falsework tower supporting a bridge soffit pour. One diagonal restraint has been removed to allow access, leaving a slender steel strut carrying axial compression alone between pinned cleats at each end. The strut is 3 metres long with an effective length factor of 1.0 for the pinned-pinned condition. Its cross-section provides a minimum second moment of area of 1.2 times ten to the minus six metres to the fourth, and the steel's Young's modulus is 200 gigapascals. The strut is straight, the load passes through the centroid, and the material remains elastic, so Euler's classical buckling formula applies rather than a Perry-Robertson reduction. The coordinator must compare the elastic critical load with the factored axial demand of 90 kilonewtons from the pour sequence before signing the temporary works certificate. Self-weight of the strut is negligible beside the applied demand.",
+      "boundary_conditions": [
+        {"name": "Young's modulus E", "value": "200 GPa"},
+        {"name": "Second moment of area I", "value": "1.2e-6 m^4"},
+        {"name": "Effective length factor K", "value": "1.0"},
+        {"name": "Strut length L", "value": "3.0 m"},
+        {"name": "Factored axial demand", "value": "90 kN"}
+      ],
+      "formula": {
+        "symbolic": "pi**2*E*I/(K*L)**2",
+        "variables": [{"symbol": "E", "value": 200e9}, {"symbol": "I", "value": 1.2e-6}, {"symbol": "K", "value": 1.0}, {"symbol": "L", "value": 3.0}],
+        "unit": "N"
+      },
+      "challenge_question": "Compute the Euler critical load P_cr in newtons (3 s.f.) and judge the margin against the 90 kN factored demand.",
+      "diagram": {"kind": "column_buckling", "params": [{"symbol": "L", "value": 3.0}], "caption": "Fig. 1 - Pinned-pinned strut at first buckling mode."}
+    }
+  }
+]

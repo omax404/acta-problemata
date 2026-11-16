@@ -1,0 +1,23 @@
+name: daily-edition
+on:
+  schedule: [{cron: "0 6 * * *"}]   # 06:00 UTC every day
+  workflow_dispatch: {}
+jobs:
+  build-and-send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install pillow
+      # 1) pick today's problem (bank/*.json, or generate with an AI key if you add ANTHROPIC_API_KEY as a secret)
+      - run: python pick_edition.py > edition.json     # you write this step (see README)
+      # 2) build the HTML; images are served from GitHub Pages
+      - run: ASSET_BASE="https://omax404.github.io/acta-problemata/assets" python build_html.py edition.json edition.html
+      # 3) send
+      - run: python send_email.py edition.html "Acta Problemata · $(date +%F)"
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          SUBSCRIBERS_URL: ${{ secrets.SUBSCRIBERS_URL }}
+          UNSUB_BASE: ${{ secrets.UNSUB_BASE }}

@@ -108,3 +108,18 @@ python build_archive.py
 3. Run `python test_bank.py` to ensure all checks pass.
 4. Run `python build_archive.py` to generate the updated static pages.
 5. Commit and push.
+
+
+---
+
+## PDF engine & on-demand sheets (Typst pipeline)
+
+A second engine lives in `src/acta/` (CLI: `acta`). It renders one-page A4 PDFs with Typst, verifies every numeric answer with SymPy, and can build a sheet from **any public page**:
+
+```bash
+pip install -e .
+acta preview                                   # offline vault edition -> PDF
+acta request --url <page> --email you@x.com    # link + email in, PDF out
+```
+
+Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.

@@ -3,3 +3,12 @@ _tmp_*.json
 *.aux
 *.log
 edition.json
+*.pyc
+build/
+*.egg-info/
+.pytest_cache/
+.env
+.env.*
+*.local
+*.secret
+secrets*.json

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acta-problemata"
+version = "1.4.0"
+description = "Automated daily broadside of engineering failures & applied physics. $0 infrastructure."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "pydantic>=2.7",
+  "sympy>=1.12",
+  "requests>=2.31",
+  "qrcode>=7.4",
+  "pypdf>=4.0",
+  "matplotlib>=3.8",
+  "typst==0.15.2",       # pinned: identical compiler in dev, CI and the daily job
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+acta = "acta.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+extend-exclude = ["extras", "build_html.py", "build_archive.py", "gen_bank.py", "pick_edition.py", "scrape_sources.py", "send_email.py", "test_bank.py", "validate_bank.py"]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "BLE"]
+ignore = ["E702", "E701"]        # compact `a; b` lines in the SMTP block are deliberate
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,121 @@
+\NeedsTeXFormat{LaTeX2e}\ProvidesPackage{acta2}
+\newif\ifacta@fr \acta@frtrue
+\DeclareOption{fr}{\acta@frtrue}\DeclareOption{en}{\acta@frfalse}
+\ProcessOptions\relax
+\RequirePackage{fontspec}
+\setmainfont{Inter}\setsansfont{Inter}
+\setmonofont{DejaVu Sans Mono}[Scale=0.8]
+\newfontfamily\thinfont{Inter Display Thin}
+\newfontfamily\lightfont{Inter Display Light}
+\newfontfamily\monofont{DejaVu Sans Mono}[Scale=0.78]
+\RequirePackage{amsmath,amssymb,mathtools,siunitx,xcolor,enumitem,booktabs,tikz,pgfplots,qrcode,eso-pic}
+\pgfplotsset{compat=1.17}
+\sisetup{locale=FR,mode=text,detect-all=false}
+\usetikzlibrary{calc}
+\definecolor{paper}{HTML}{DCD7CF}\definecolor{ink}{HTML}{151515}\definecolor{orange}{HTML}{E8500C}
+\RequirePackage[a4paper,top=68mm,bottom=52mm,left=28mm,right=16mm,nohead,nofoot]{geometry}
+\setlength{\parindent}{0pt}\setlength{\parskip}{3pt}\pagestyle{empty}\pagecolor{paper}
+\AtBeginDocument{\color{ink}\fontsize{9.3}{13.2}\selectfont}
+% ---------- logo ----------
+\newcommand{\actalogoc}[2]{\begin{tikzpicture}[x=#1,y=#1,baseline=0pt,color=#2]\input{logo_paths.tex}\end{tikzpicture}}
+\newcommand{\actalogo}[1]{\actalogoc{#1}{ink}}
+% ---------- strings ----------
+\ifacta@fr
+ \newcommand{\sProblemSheet}{Fiche problème}\newcommand{\sSolution}{Ma solution}\newcommand{\sSector}{Secteur}
+ \newcommand{\sCity}{Région}\newcommand{\sLevel}{Niveau}\newcommand{\sStatus}{Statut}\newcommand{\sSource}{Source}
+ \newcommand{\sReal}{Cas public réel}\newcommand{\sRealistic}{Problème réaliste}
+ \newcommand{\sRealisticNote}{Classe de problèmes typique d'un site industriel. Aucune entreprise n'est désignée, aucun besoin d'une entreprise précise n'est affirmé.}
+ \newcommand{\sContext}{Contexte}\newcommand{\sData}{Données}\newcommand{\sAsk}{À déterminer}\newcommand{\sForm}{Formules utiles}
+ \newcommand{\sProblem}{Problème}\newcommand{\sAssump}{Hypothèses}\newcommand{\sCalc}{Calcul}\newcommand{\sResult}{Résultat}
+ \newcommand{\sFigure}{Figure}\newcommand{\sContact}{Contact}\newcommand{\sWho}{Réalisé par}\newcommand{\sDaily}{Édition du}
+ \newcommand{\sScan}{Scanner : archive et dépôt de solution}\newcommand{\sFinger}{Empreinte de l'édition}\newcommand{\sNo}{N°}
+ \newcommand{\sHonest}{Cette solution répond à un problème de type réaliste ; elle n'a pas été commandée par une entreprise.}
+\else
+ \newcommand{\sProblemSheet}{Problem sheet}\newcommand{\sSolution}{My solution}\newcommand{\sSector}{Sector}
+ \newcommand{\sCity}{Region}\newcommand{\sLevel}{Level}\newcommand{\sStatus}{Status}\newcommand{\sSource}{Source}
+ \newcommand{\sReal}{Real public case}\newcommand{\sRealistic}{Realistic problem}
+ \newcommand{\sRealisticNote}{A problem class typical of an industrial site. No company is named and no need of a specific company is claimed.}
+ \newcommand{\sContext}{Context}\newcommand{\sData}{Given data}\newcommand{\sAsk}{To determine}\newcommand{\sForm}{Useful formulas}
+ \newcommand{\sProblem}{Problem}\newcommand{\sAssump}{Assumptions}\newcommand{\sCalc}{Calculation}\newcommand{\sResult}{Result}
+ \newcommand{\sFigure}{Figure}\newcommand{\sContact}{Contact}\newcommand{\sWho}{Prepared by}\newcommand{\sDaily}{Edition of}
+ \newcommand{\sScan}{Scan: archive and solution upload}\newcommand{\sFinger}{Edition fingerprint}\newcommand{\sNo}{No.}
+ \newcommand{\sHonest}{This solution answers a realistic problem class; it was not commissioned by any company.}
+\fi
+\newcommand{\actadate}{\ifnum\day<10 0\fi\the\day/\ifnum\month<10 0\fi\the\month/\the\year}
+% ---------- edition identity (override per edition) ----------
+\newcommand{\actaedno}{319}
+\newcommand{\actacode}{AP-2026-319-MA-AGR-2}
+\newcommand{\actaqrurl}{https://github.com/omax404/acta-problemata}
+\newcommand{\actaseed}{319}
+% ---------- drawing parts ----------
+\newcommand{\mono}[1]{{\monofont\color{ink}#1}}
+\newcommand{\actadotgrid}[2]{\foreach \i in {0,...,4}{\foreach \j in {0,...,4}{\fill[orange] (#1+4*\i,#2+4*\j) circle (0.7);}}}
+\newcommand{\actabars}[3]{\foreach \o in {0,1.2,2.4,3.6}{\draw[ink,line width=.35pt] (#1,#2-\o)--++(#3,0);}\draw[ink,line width=.35pt](#1-1.8,#2)--++(0,-3.6);}
+\newcommand{\actamark}[2]{\draw[ink,line width=.3pt](#1-2,#2)--++(4,0)(#1,#2-2)--++(0,4);}
+\newcommand{\actaspeck}[5]{\fill[orange](#1,#2)rectangle++(#3,#4);\pgfmathsetseed{#5}%
+ \foreach \k in {1,...,170}{\pgfmathsetmacro{\px}{#1+rnd*#3}\pgfmathsetmacro{\py}{#2+rnd*#4}\fill[paper!70!orange](\px,\py)circle(.2);}}
+\newcommand{\actafinger}[3]{\pgfmathsetseed{#3}%
+ \foreach \i in {0,...,31}{\foreach \j in {0,...,6}{%
+  \pgfmathtruncatemacro{\on}{(rnd<(0.04+0.96*pow((\i+1)/32,1.5)))?1:0}%
+  \ifnum\on=1\fill[ink](#1+1.3*\i,#2+1.3*\j)circle(0.42);\fi}}}
+\newcommand{\actagrain}{\pgfmathsetseed{11}\foreach \k in {1,...,330}{\pgfmathsetmacro{\px}{210*rnd}\pgfmathsetmacro{\py}{297*rnd}\fill[paper!90!ink](\px,\py)circle(.22);}}
+\newcommand{\actaqr}[3]{\node[fill=paper!35!white,inner sep=1.6mm,draw=orange,line width=.5pt] at (#1,#2){\qrcode[height=#3,level=M]{\actaqrurl}};}
+% ---------- page frames ----------
+\newcommand{\actasheetframe}{\begin{tikzpicture}[overlay,x=1mm,y=1mm]
+ \fill[paper](0,0)rectangle(210,297);\actagrain
+ \draw[orange,line width=.6pt](14,12)--(14,284);
+ \fill[orange](14,280)circle(3);\fill[orange](14,16)circle(3);
+ \foreach \y in {30,34,...,270}{\fill[ink](14,\y)circle(.35);}
+ \actamark{196}{285}\actamark{196}{12}\actamark{24}{285}
+ \actadotgrid{24}{262}
+ \node[anchor=west,inner sep=0]at(23,249){{\thinfont\fontsize{46}{46}\selectfont\color{ink}\actaedno}};
+ \node[anchor=west,inner sep=0]at(24,238.5){\mono{\scriptsize\MakeUppercase{\sNo}\ \actaedno\ //\ \actacode}};
+ \actabars{112}{283}{82}
+ \actaspeck{112}{262}{40}{12}{\actaseed}
+ \actamark{160}{268}
+ \draw[orange,dotted,line width=.5pt](172,244)circle(21);
+ \fill[orange](172,262)circle(8.5);
+ \node at(172,244){\actalogo{30mm}};
+ \begin{scope}\clip(172,262)circle(8.5);\node at(172,244){\actalogoc{30mm}{orange!35!ink}};\end{scope}
+ \fill[ink](192,252)circle(1.3);
+ \draw[orange,line width=.7pt](21,229.5)circle(1.6);
+ \actafinger{28}{22}{\actaseed}
+ \node[anchor=north west,inner sep=0]at(28,19.5){\mono{\tiny\MakeUppercase{\sFinger}\ //\ \actacode}};
+ \actabars{112}{27}{30}
+ \node[anchor=west,inner sep=0]at(112,17){\mono{\tiny ACTA\_PROBLEMATA\ //\ \actadate}};
+ \actaqr{181}{29}{20mm}
+ \node[anchor=east,inner sep=0]at(164,37){\mono{\tiny\MakeUppercase{\sScan}}};
+ \node[anchor=east,inner sep=0]at(164,33.5){\mono{\tiny github.com/omax404/acta-problemata}};
+ \end{tikzpicture}}
+\newcommand{\actacoverframe}{\begin{tikzpicture}[overlay,x=1mm,y=1mm]
+ \fill[paper](0,0)rectangle(210,297);\actagrain
+ \draw[orange,line width=.7pt](105,14)--(105,272);
+ \fill[orange](105,266)circle(4.2);\fill[orange](105,25)circle(3.6);
+ \foreach \y in {96,100,...,200}{\fill[ink](105,\y)circle(.4);}
+ \draw[orange,dotted,line width=.55pt](105,148)circle(70);
+ \draw[orange,dotted,line width=.55pt](105,148)circle(86);
+ \fill[orange](105,203)circle(16);
+ \node at(105,148){\actalogo{104mm}};
+ \begin{scope}\clip(105,203)circle(16);\node at(105,148){\actalogoc{104mm}{orange!35!ink}};\end{scope}
+ \foreach \o in {0,3.4,6.8}{\draw[orange,line width=1.3pt](38,143-\o)--++(44,0);}
+ \draw[orange,line width=.9pt](66,100)circle(2.2);
+ \fill[ink](153,186)circle(2.2);
+ \actadotgrid{50}{244}
+ \node[anchor=west,inner sep=0]at(49.5,232){{\thinfont\fontsize{44}{44}\selectfont\color{ink}\actaedno}};
+ \actabars{122}{258}{60}
+ \actaspeck{122}{232}{60}{18}{\actaseed}
+ \actamark{176}{226}\actamark{128}{226}
+ \actabars{122}{34}{60}
+ \node[anchor=west,inner sep=0]at(122,27){\mono{\tiny ACTA\_PROBLEMATA}};
+ \node[anchor=west,inner sep=0]at(50,30){{\monofont\color{ink}\tiny\MakeUppercase{\actacode}}};
+ \actafinger{50}{36}{\actaseed}
+ \foreach \p in {{(26,272)},{(184,272)},{(26,22)},{(184,22)}}{\draw[ink,line width=.3pt]\p ++(-2,0)--++(4,0) \p ++(0,-2)--++(0,4);}
+ \node[align=center,inner sep=0]at(105,9){{\lightfont\fontsize{15}{15}\selectfont\color{ink}\MakeUppercase{A\,C\,T\,A\quad P\,R\,O\,B\,L\,E\,M\,A\,T\,A}}};
+ \actaqr{181}{44}{17mm}
+ \end{tikzpicture}}
+\AtBeginDocument{\AddToShipoutPictureBG*{\AtPageLowerLeft{\actaframe}}}
+\newcommand{\actaframe}{\actasheetframe}
+% ---------- text parts ----------
+\newcommand{\asec}[2]{\par\vspace{6pt}{\monofont\color{orange}[#1]}\hspace{6pt}{\bfseries\fontsize{8}{9}\selectfont\MakeUppercase{#2}}\hspace{5pt}{\color{ink}\leaders\hrule height .3pt\hfill}\kern0pt\par\vspace{1pt}}
+\newcommand{\atitle}[2]{{\monofont\color{orange}\scriptsize\MakeUppercase{#1}}\par\vspace{2pt}{\lightfont\fontsize{21}{24}\selectfont\MakeUppercase{#2}}\par\vspace{3pt}}
+\newcommand{\astatus}[2]{\colorbox{orange}{\parbox{\dimexpr\textwidth-2\fboxsep}{\monofont\scriptsize\textbf{\MakeUppercase{\sStatus}\,:\ #1}\quad{\color{ink}\normalfont\fontsize{8}{10.5}\selectfont #2}}}}
