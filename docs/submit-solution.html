@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acta Problemata — Déposer ma solution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-primary:#DCD7CF;--bg-surface:#E6E1D8;--ink-primary:#121212;--ink-secondary:#403E3A;
+  --ink-muted:#6E6B65;--accent:#E8500C;--border:1px solid #121212;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg-primary);color:var(--ink-primary);
+  font:15px/1.5 'Plus Jakarta Sans',system-ui,sans-serif;
+  display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:40px 16px;
+}
+main{
+  width:100%;max-width:640px;background:var(--bg-surface);
+  border:2px solid #121212;border-left:6px solid var(--accent);
+  padding:32px;box-shadow:4px 4px 0px #121212;
+}
+.tag{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+h1{margin:8px 0 16px;font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+p{color:var(--ink-secondary);font-size:14px;margin-bottom:24px}
+label{display:block;font-weight:600;font-size:13px;margin-top:14px;margin-bottom:4px;color:var(--ink-primary)}
+input,select,textarea{
+  width:100%;padding:10px 12px;font-family:inherit;font-size:14px;
+  background:#fff;border:var(--border);outline:none;margin-bottom:4px;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+textarea{resize:vertical;min-height:70px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:540px){.row{grid-template-columns:1fr}}
+button{
+  width:100%;margin-top:24px;padding:14px;background:var(--accent);color:#fff;
+  border:2px solid #121212;font-weight:700;font-size:15px;cursor:pointer;
+  transition:all .15s ease;box-shadow:2px 2px 0px #121212;
+}
+button:hover{background:#CC4408;transform:translate(-1px,-1px);box-shadow:3px 3px 0px #121212}
+button:active{transform:translate(1px,1px);box-shadow:1px 1px 0px #121212}
+#msg{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600}
+small{display:block;margin-top:20px;font-size:12px;color:var(--ink-muted);border-top:1px dashed #121212;padding-top:12px}
+</style>
+</head>
+<body>
+<main>
+<span class="tag">Acta Problemata // Démarche Ingénieur</span>
+<h1>Déposer ma solution</h1>
+<p>Renseignez votre démarche de calcul et vos hypothèses. La fiche de solution officielle (format A4 1-page avec votre nom, contact et QR code d'intégrité) est compilée avec <code>acta sheet</code> et vous est envoyée par e-mail.</p>
+
+<form id="sol-form">
+<label for="problem">Problème à résoudre</label>
+<select id="problem" name="problem" required>
+  <option value="today">Problème du jour (Automatique)</option>
+  <option value="pompage">01 · Ligne de pompage (Agroalimentaire)</option>
+  <option value="echangeur">02 · Échangeur de pasteurisation (Laiterie)</option>
+  <option value="fuite-air">03 · Fuite d'air comprimé (Textile)</option>
+  <option value="variateur-ventilateur">04 · Variateur ventilateur (Matériaux)</option>
+  <option value="convoyeur">05 · Convoyeur à bande (Carrières)</option>
+  <option value="chaudiere">06 · Chaudière vapeur (Agroalimentaire)</option>
+  <option value="mco-unites">07 · Mars Climate Orbiter (Aérospatial / Unités)</option>
+  <option value="kanban-cablage">08 · Dimensionnement Kanban (Câblage automobile)</option>
+  <option value="trs-ensachage">09 · TRS ensachage (Emballage)</option>
+  <option value="goulot-engrais">10 · Goulot d'étranglement (Chimie / Engrais)</option>
+  <option value="equilibrage-textile">11 · Équilibrage de chaîne (Textile)</option>
+</select>
+
+<div class="row">
+  <div>
+    <label for="name">Votre nom / Prénom</label>
+    <input id="name" name="name" type="text" placeholder="ex: Youssef El Mansouri" required>
+  </div>
+  <div>
+    <label for="email">Votre e-mail de réception</label>
+    <input id="email" name="email" type="email" placeholder="nom@domaine.ma" required>
+  </div>
+</div>
+
+<div class="row">
+  <div>
+    <label for="phone">Téléphone / WhatsApp (optionnel)</label>
+    <input id="phone" name="phone" type="tel" placeholder="+212 6 ...">
+  </div>
+  <div>
+    <label for="link">Profil LinkedIn / Portfolio (optionnel)</label>
+    <input id="link" name="link" type="url" placeholder="https://linkedin.com/in/...">
+  </div>
+</div>
+
+<label for="assumptions">Hypothèses adoptées (une par ligne)</label>
+<textarea id="assumptions" name="assumptions" placeholder="ex: Régime d'écoulement turbulent établi&#10;Pertes thermiques négligées vers l'ambiance"></textarea>
+
+<label for="steps">Démarche de calcul & étapes (une par ligne)</label>
+<textarea id="steps" name="steps" placeholder="ex: 1. Calcul du nombre de Reynolds et de la vitesse v = 1,28 m/s&#10;2. Évaluation des pertes de charge régulières et singulières&#10;3. Détermination de la HMT = 22,4 m"></textarea>
+
+<label for="result">Résultat chiffré final</label>
+<input id="result" name="result" type="text" placeholder="ex: HMT = 22,4 m ; P_arbre = 3,59 kW" required>
+
+<label for="recommendation">Recommandation technique / Avis ingénieur</label>
+<textarea id="recommendation" name="recommendation" placeholder="ex: Installer un variateur de vitesse pour adapter le débit et réaliser jusqu'à 24 % d'économies annuelles."></textarea>
+
+<button type="submit" id="sub-btn">Générer & m'envoyer ma fiche solution PDF</button>
+</form>
+
+<p id="msg"></p>
+<small>
+  <strong>Garantie :</strong> Vos données restent strictement confidentielles et servent exclusivement à générer votre fiche solution PDF individuelle. Les limites anti-abus habituelles (3 requêtes/email/jour) s'appliquent.
+</small>
+</main>
+
+<script>
+const WORKER = "https://REPLACE-ME.workers.dev"; // Remplacez par l'URL du Worker Cloudflare
+
+const f = document.getElementById("sol-form");
+const m = document.getElementById("msg");
+
+f.onsubmit = async (e) => {
+  e.preventDefault();
+  m.style.color = "var(--ink-primary)";
+  m.textContent = "Traitement et envoi en cours…";
+
+  const fd = new FormData(f);
+  const payload = {
+    type: "solution",
+    problem: fd.get("problem"),
+    email: fd.get("email"),
+    name: fd.get("name"),
+    solution: {
+      name: fd.get("name"),
+      email: fd.get("email"),
+      phone: fd.get("phone") || "",
+      link: fd.get("link") || "",
+      assumptions: (fd.get("assumptions") || "").split("\n").map(s => s.trim()).filter(Boolean),
+      steps: (fd.get("steps") || "").split("\n").map(s => s.trim()).filter(Boolean),
+      result: fd.get("result"),
+      recommendation: fd.get("recommendation") || ""
+    }
+  };
+
+  try {
+    const res = await fetch(WORKER, {
+      method: "POST",
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) {
+      m.style.color = "#0B6E4F";
+      m.textContent = "✓ Votre solution a été transmise ! Votre PDF 1-page arrivera par e-mail d'ici quelques minutes.";
+      f.reset();
+    } else {
+      m.style.color = "#B60205";
+      m.textContent = "Refusé : " + (data.error || res.status);
+    }
+  } catch (err) {
+    m.style.color = "#B60205";
+    m.textContent = "Erreur de connexion. Vérifiez votre réseau ou réessayez.";
+  }
+};
+</script>
+</body>
+</html>

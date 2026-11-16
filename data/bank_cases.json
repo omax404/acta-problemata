@@ -1,0 +1,124 @@
+[
+  {
+    "id": "bank-pompage",
+    "case": {
+      "title": "Pumping Line Head Loss Exceeds Operating Margin",
+      "domain": "Fluids",
+      "narrative": "An agro-industrial transformation facility located in the Fes-Meknes agricultural region supplies an elevated process storage reservoir directly from a central raw product receiving pit. During a periodic technical audit across plant utilities, plant technicians observed that the current centrifugal pump is substantially oversized, resulting in excessive energy consumption, electrical demand spikes, and constant throttling losses. To properly size an energy-efficient replacement pump unit, the engineering department must determine the exact total manometric head required by the distribution system. The discharge pipe has an internal diameter of one hundred and five millimetres and develops an overall length of two hundred and fifty metres with an elevation gain of eighteen metres. Accounting for pipe roughness, minor singular head losses from fittings and valves, fluid velocity, and acceleration due to gravity, the precise operating head is computed reliably.",
+      "boundary_conditions": [
+        {"name": "Denivele dz", "value": "18 m"},
+        {"name": "Friction factor f", "value": "0.0194"},
+        {"name": "Pipe length L", "value": "250 m"},
+        {"name": "Inner diameter D", "value": "0.105 m"},
+        {"name": "Fitting losses K", "value": "6.5"},
+        {"name": "Flow velocity v", "value": "1.28 m/s"},
+        {"name": "Gravity g", "value": "9.81 m/s^2"}
+      ],
+      "formula": {
+        "symbolic": "dz + (f * L / D + K) * v**2 / (2 * g)",
+        "variables": [
+          {"symbol": "dz", "value": 18.0},
+          {"symbol": "f", "value": 0.0194},
+          {"symbol": "L", "value": 250.0},
+          {"symbol": "D", "value": 0.105},
+          {"symbol": "K", "value": 6.5},
+          {"symbol": "v", "value": 1.28},
+          {"symbol": "g", "value": 9.81}
+        ],
+        "unit": "m"
+      },
+      "challenge_question": "Compute the total dynamic head H in metres (3 s.f.) required for the replacement pump line.",
+      "diagram": {
+        "kind": "pipe_flow",
+        "params": [{"symbol": "v", "value": 1.28}, {"symbol": "L", "value": 250.0}],
+        "caption": "Fig. 1 - Pumping circuit with static lift and head loss components."
+      }
+    }
+  },
+  {
+    "id": "bank-echangeur",
+    "case": {
+      "title": "Pasteurisation Heat Exchanger Thermal Duty Verification",
+      "domain": "Thermal",
+      "narrative": "A dairy processing plant located in the Casablanca-Settat industrial corridor preheats incoming raw milk prior to pasteurisation by recovering waste heat from a hot process water loop within a stainless-steel counter-flow plate heat exchanger. Following an efficiency review and inspection, the utility engineering division must confirm the net thermal power duty transferred between the primary and secondary streams to verify that cleaning and plate regasketing will restore the nominal operating parameters. The raw milk stream enters the plate exchanger at five degrees Celsius and exits at seventy-two degrees Celsius with a constant mass flow rate of two kilograms per second. Assuming constant specific heat capacity across the operational temperature range and negligible external environmental thermal losses, the duty transferred to the dairy product stream is evaluated with standard heat transfer equations.",
+      "boundary_conditions": [
+        {"name": "Milk mass flow m", "value": "2.0 kg/s"},
+        {"name": "Milk specific heat cp", "value": "3.93 kJ/(kg*K)"},
+        {"name": "Exit temperature T2", "value": "72 C"},
+        {"name": "Inlet temperature T1", "value": "5 C"}
+      ],
+      "formula": {
+        "symbolic": "m * cp * (T2 - T1)",
+        "variables": [
+          {"symbol": "m", "value": 2.0},
+          {"symbol": "cp", "value": 3.93},
+          {"symbol": "T2", "value": 72.0},
+          {"symbol": "T1", "value": 5.0}
+        ],
+        "unit": "kW"
+      },
+      "challenge_question": "Calculate the net thermal heat transfer rate Phi in kilowatts (3 s.f.) transferred to the milk stream.",
+      "diagram": {
+        "kind": "thermal_wall",
+        "params": [{"symbol": "m", "value": 2.0}],
+        "caption": "Fig. 1 - Counter-flow plate heat exchanger thermal duty balance."
+      }
+    }
+  },
+  {
+    "id": "bank-fuite-air",
+    "case": {
+      "title": "Compressed Air Network Orifice Leak Cost Estimation",
+      "domain": "Mechanical",
+      "narrative": "During a comprehensive plant-wide utility and operational energy audit at a large textile garment manufacturing plant near Tangier, ultrasonic acoustic leak detectors identified a sharp continuous hiss stemming from a three-millimetre orifice on an overhead compressed air distribution manifold. The compressor station operates uninterrupted throughout the full working year to supply pressurized air to sewing pneumatic actuators, tensioners, and automated fabric cutting tables. Plant maintenance leadership requires an immediate quantitative assessment of the direct annual financial cost incurred by this single leak to justify a comprehensive overhaul campaign across the air distribution piping. With an evaluated equivalent lost power drawn by the compressor motor and local industrial electricity tariff schedules, the annual monetary expense is calculated directly for the facility budget and operating review.",
+      "boundary_conditions": [
+        {"name": "Compressor power P", "value": "5.2 kW"},
+        {"name": "Operating hours h", "value": "8000 h/yr"},
+        {"name": "Electricity cost c", "value": "1.2 MAD/kWh"}
+      ],
+      "formula": {
+        "symbolic": "P * h * c",
+        "variables": [
+          {"symbol": "P", "value": 5.2},
+          {"symbol": "h", "value": 8000.0},
+          {"symbol": "c", "value": 1.2}
+        ],
+        "unit": "MAD"
+      },
+      "challenge_question": "Compute the annual financial loss resulting from the air leak in Moroccan dirhams (MAD, 3 s.f.).",
+      "diagram": {
+        "kind": "pipe_flow",
+        "params": [{"symbol": "P", "value": 5.2}],
+        "caption": "Fig. 1 - Compressed air manifold leak schematic."
+      }
+    }
+  },
+  {
+    "id": "bank-mco-unites",
+    "case": {
+      "title": "Mars Climate Orbiter Unit Mismatch Trajectory Impulse",
+      "domain": "Aerospace",
+      "narrative": "An engineering investigation panel at a flight dynamics and propulsion testing centre evaluates the classic systems failure scenario of the Mars Climate Orbiter spacecraft mission. During interplanetary trajectory correction manoeuvres, angular momentum desaturation thruster firing records produced by ground operations software erroneously reported thruster impulse values in imperial units rather than standard metric units specified by interface control documentation. As a direct result of this persistent numerical discrepancy, the navigation computers systematically underestimated cumulative trajectory velocity increments, steering the robotic spacecraft onto an unintended and catastrophic atmospheric trajectory. To illustrate this critical quality management and software verification case for aerospace instrumentation technicians, the actual velocity increment generated by a nominal thrust impulse event is computed using the true unit conversion factor and spacecraft inertia properties under consideration.",
+      "boundary_conditions": [
+        {"name": "Nominal impulse J", "value": "25.0 N*s"},
+        {"name": "Conversion factor k", "value": "4.448222"},
+        {"name": "Spacecraft mass m", "value": "638 kg"}
+      ],
+      "formula": {
+        "symbolic": "J * k / m",
+        "variables": [
+          {"symbol": "J", "value": 25.0},
+          {"symbol": "k", "value": 4.448222},
+          {"symbol": "m", "value": 638.0}
+        ],
+        "unit": "m/s"
+      },
+      "challenge_question": "Determine the true velocity increment delta-v in metres per second (3 s.f.) imparted per thruster event.",
+      "diagram": {
+        "kind": "cantilever_point_load",
+        "params": [{"symbol": "J", "value": 25.0}],
+        "caption": "Fig. 1 - Thruster force impulse acting upon spacecraft body."
+      }
+    }
+  }
+]

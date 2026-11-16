@@ -43,6 +43,23 @@ def _verify(case: LLMCase) -> VerifiedFormula:
     return verify_formula(case.formula.symbolic, _vars(case), case.formula.unit)
 
 
+def _bank_content(repo_root: Path, led: dict, today: date) -> Content:
+    bank_path = repo_root / "data" / "bank_cases.json"
+    if not bank_path.exists():
+        return _vault_content(repo_root, led, today)
+    entries = json.loads(bank_path.read_text(encoding="utf-8"))
+    fresh = [e for e in entries if not L.is_seen(led, e["id"], today)]
+    pool = fresh or sorted(entries, key=lambda e: led["seen"].get(e["id"], "0000"))
+    for e in pool:
+        try:
+            case = LLMCase.model_validate(e["case"])
+            _verify(case)
+            return Content(case, e["id"], "bank")
+        except ValueError as exc:
+            log.warning("bank entry %s invalid (%s)", e.get("id"), exc)
+    return _vault_content(repo_root, led, today)
+
+
 def _vault_content(repo_root: Path, led: dict, today: date) -> Content:
     entries = json.loads((repo_root / "data" / "case_vault.json").read_text(encoding="utf-8"))
     fresh = [e for e in entries if not L.is_seen(led, e["id"], today)]
@@ -60,7 +77,7 @@ def _vault_content(repo_root: Path, led: dict, today: date) -> Content:
 
 def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
                     force_vault: bool) -> Content:
-    """Live source + LLM when possible; otherwise (or on any failure) the vault."""
+    """Live source + LLM when possible; otherwise falls back to the bank (then vault)."""
     if not force_vault:
         src = ingest.fetch_source(cfg["target_domain"], led, today, repo_root, cfg.get("source_order"))
         if src:
@@ -71,7 +88,8 @@ def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
                                              anonymize=not cfg.get("name_companies", False))
                 return Content(case, src.case_id, src.origin, src.url, src.domain)
             except synthesize.SynthesisError as exc:
-                log.warning("synthesis failed -> vault: %s", exc)
+                log.warning("synthesis failed -> fallback to bank: %s", exc)
+        return _bank_content(repo_root, led, today)
     return _vault_content(repo_root, led, today)
 
 
@@ -96,6 +114,7 @@ def source_line(origin: str, case_id: str, url: str = "") -> str:
         "ntsb": f"Source: NTSB hazmat investigation {tail} (public domain).",
         "inbox": f"Adapted from a public document ({host}); company details omitted.",
         "web": f"Adapted from a public page ({host}); company details omitted.",
+        "bank": f"Source: Acta Problemata problem bank ({case_id}).",
         "vault": f"Source: Acta Problemata vault, case {case_id}.",
     }[origin]
 

@@ -133,3 +133,11 @@ def test_tall_figure_cannot_starve_body_text(repo):
     render_edition(_edition(), svg, "https://example.org/s/7", repo, pdf)
     text = PdfReader(str(pdf)).pages[0].extract_text()
     assert "WORKINGS" in text.replace(" ", "")                       # the worksheet survived
+
+
+def test_bank_fallback_when_no_live_source(repo, monkeypatch):
+    monkeypatch.setattr(ingest, "fetch_source", lambda *a, **k: None)
+    s = pipeline.run(repo, dry_run=True)
+    assert s["origin"] == "bank"
+    assert s["case_id"].startswith("bank-")
+
