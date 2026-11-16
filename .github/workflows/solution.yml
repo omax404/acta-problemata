@@ -1,0 +1,79 @@
+name: Submit Solution PDF
+# Triggered by the solution form (via the Worker in extras/worker) or manually.
+on:
+  repository_dispatch:
+    types: [acta-solution]
+  workflow_dispatch:
+    inputs:
+      problem: { description: "Problem slug or id", required: true, default: "today" }
+      email: { description: "Candidate email to send the PDF", required: true }
+      name: { description: "Candidate name", required: false }
+      solution_json: { description: "Full solution JSON", required: false }
+
+permissions:
+  contents: read
+
+concurrency:
+  group: acta-solution
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip, cache-dependency-path: pyproject.toml }
+      - run: pip install -e .
+      - name: Build solution sheet and email
+        env:
+          PROB: ${{ github.event.client_payload.problem || inputs.problem }}
+          CAND_EMAIL: ${{ github.event.client_payload.email || inputs.email }}
+          CAND_NAME: ${{ github.event.client_payload.name || inputs.name }}
+          RAW_SOL: ${{ toJson(github.event.client_payload.solution) || inputs.solution_json }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+        run: |
+          echo "::add-mask::$CAND_EMAIL"
+          cat << 'EOF' > sol.json
+          ${RAW_SOL}
+          EOF
+          mkdir -p build
+          acta sheet "$PROB" --solution sol.json --out build/solution.pdf
+          python - << 'EOF'
+          import os, smtplib
+          from email.message import EmailMessage
+          from pathlib import Path
+
+          host = os.environ.get("SMTP_HOST")
+          if not host:
+              print("No SMTP_HOST set, skipping email send")
+              exit(0)
+
+          msg = EmailMessage()
+          msg["Subject"] = "Votre fiche solution Acta Problemata"
+          msg["From"] = os.environ.get("MAIL_FROM", "gazette@acta-problemata.org")
+          msg["To"] = os.environ["CAND_EMAIL"]
+          msg.set_content(
+              "Bonjour,\n\n"
+              "Veuillez trouver ci-joint votre fiche de solution d'ingénierie officielle "
+              "au format PDF 1-page avec votre démarche chiffrée.\n\n"
+              "— L'équipe Acta Problemata"
+          )
+          pdf = Path("build/solution.pdf").read_bytes()
+          msg.add_attachment(pdf, maintype="application", subtype="pdf", filename="solution.pdf")
+
+          port = int(os.environ.get("SMTP_PORT", 587))
+          user = os.environ.get("SMTP_USER")
+          pwd = os.environ.get("SMTP_PASS")
+          with smtplib.SMTP(host, port) as s:
+              s.starttls()
+              if user and pwd:
+                  s.login(user, pwd)
+              s.send_message(msg)
+          print(f"Emailed solution PDF to {os.environ['CAND_EMAIL']}")
+          EOF

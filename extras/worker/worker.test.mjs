@@ -42,3 +42,12 @@ test("turnstile failure blocks", async () => {
   assert.equal((await mk(ok, { TURNSTILE_SECRET: "s" })).status, 403);
   globalThis.fetch = f;
 });
+
+test("solution submission is dispatched with acta-solution event", async () => {
+  const before = calls;
+  const solReq = { type: "solution", problem: "pompage", email: "user@test.ma", name: "User", solution: { result: "22.4 m" } };
+  const r = await mk(solReq);
+  assert.equal(r.status, 202);
+  assert.equal(calls, before + 1);
+});
+

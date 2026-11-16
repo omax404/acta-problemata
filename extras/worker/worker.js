@@ -56,12 +56,17 @@ export default {
     try { b = await req.json(); } catch { return json({ error: "bad json" }, 400, cors); }
     const email = String(b.email || "").trim();
     const domain = String(b.domain || "");
-    let url;
-    try { url = new URL(String(b.url || "").trim()); } catch { return json({ error: "invalid link" }, 400, cors); }
+    const reqType = b.type === "solution" ? "acta-solution" : "acta-request";
+    let url = null;
+    if (b.type !== "solution") {
+      try { url = new URL(String(b.url || "").trim()); } catch { return json({ error: "invalid link" }, 400, cors); }
+      if (!/^https?:$/.test(url.protocol) || url.username || url.password || PRIVATE.test(url.hostname))
+        return json({ error: "the link must be a public http(s) page" }, 400, cors);
+      if (url.href.length > 500 || !DOMAINS.includes(domain)) return json({ error: "invalid request" }, 400, cors);
+    } else {
+      if (!b.problem || typeof b.problem !== "string") return json({ error: "missing problem slug" }, 400, cors);
+    }
     if (!EMAIL.test(email)) return json({ error: "invalid email" }, 400, cors);
-    if (!/^https?:$/.test(url.protocol) || url.username || url.password || PRIVATE.test(url.hostname))
-      return json({ error: "the link must be a public http(s) page" }, 400, cors);
-    if (url.href.length > 500 || !DOMAINS.includes(domain)) return json({ error: "invalid request" }, 400, cors);
 
     const ip = req.headers.get("CF-Connecting-IP") || "0.0.0.0";
     if (!(await turnstile(env, b.turnstile, ip))) return json({ error: "captcha failed" }, 403, cors);
@@ -72,10 +77,14 @@ export default {
     ];
     if (!(okE && okI && okG)) return json({ error: "daily limit reached, try again tomorrow" }, 429, cors);
 
+    const payload = b.type === "solution"
+      ? { problem: b.problem, email, name: b.name || "", solution: b.solution || {} }
+      : { url: url.href, email, domain };
+
     const r = await fetch(`https://api.github.com/repos/${env.REPO}/dispatches`, {
       method: "POST",
       headers: { Authorization: `Bearer ${env.GH_TOKEN}`, "User-Agent": "acta-relay", Accept: "application/vnd.github+json" },
-      body: JSON.stringify({ event_type: "acta-request", client_payload: { url: url.href, email, domain } }),
+      body: JSON.stringify({ event_type: reqType, client_payload: payload }),
     });
     return r.status === 204 ? json({ ok: true }, 202, cors) : json({ error: "upstream error" }, 502, cors);
   },
