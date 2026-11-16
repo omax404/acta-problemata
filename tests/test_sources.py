@@ -117,6 +117,9 @@ def test_listing_adapter_follows_pattern_links(repo, monkeypatch):
 
 
 def test_disabled_registry_entries_are_never_fetched(repo, monkeypatch):
+    reg = [{"id": "t", "name": "T", "url": "https://t.example", "mode": "listing", "enabled": False,
+            "listing_url": "https://t.example/list", "link_pattern": r"/thread/\d+"}]
+    (repo / "data" / "sources.json").write_text(json.dumps(reg))
     monkeypatch.setattr(sources, "polite_get", lambda *a, **k: pytest.fail("must not fetch"))
     assert ingest.fetch_source("Fluids", {"seen": {}}, TODAY, repo, ["listing"]) is None
 
@@ -130,7 +133,29 @@ def test_registry_covers_every_listed_source():
               "grabcad.com/library", "traceparts.com", "mcmaster.com", "eng-tips.com"):
         assert h in hosts, h
     assert all(s["mode"] in {"listing", "manual", "leads", "reference"} and "note" in s for s in reg)
-    assert not any(s["enabled"] for s in reg)          # nothing is on until verified with sources-check
+
+
+def test_cadcrowd_fixture_extraction(repo, monkeypatch):
+    cad_listing = (
+        '<html><body><a href="/contest/1234-bearing-housing-assembly">Contest 1234</a>'
+        '<a href="/other">Not contest</a></body></html>'
+    )
+    cad_detail = (
+        '<html><body><article><h1>Bearing Housing Assembly</h1>'
+        f'<p>{LONG}</p></article></body></html>'
+    )
+    pages = {
+        "https://cadcrowd.com/contests": cad_listing,
+        "https://cadcrowd.com/contest/1234-bearing-housing-assembly": cad_detail,
+    }
+    monkeypatch.setattr(sources, "polite_get",
+                        lambda url, **kw: sources.Fetched(pages[url].encode(), "text/html", url))
+    src = ingest.fetch_source("Mechanical", {"seen": {}}, TODAY, repo, ["listing"])
+    assert src is not None
+    assert src.url == "https://cadcrowd.com/contest/1234-bearing-housing-assembly"
+    assert src.origin == "web"
+    assert "Bearing Housing Assembly" in src.title
+    assert "water header" in src.text
 
 
 def test_anonymize_rule_in_prompt(monkeypatch):

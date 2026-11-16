@@ -125,11 +125,11 @@
     "url": "https://cadcrowd.com/contests",
     "category": "challenge",
     "mode": "listing",
-    "enabled": false,
-    "listing_url": "",
-    "link_pattern": "",
-    "domain_hint": null,
-    "note": "Public challenge pages are the best automatable source. Disabled until you run `acta sources-check`, then fill listing_url + link_pattern (a regex matching challenge-page links)."
+    "enabled": true,
+    "listing_url": "https://cadcrowd.com/contests",
+    "link_pattern": "/contest/\\d+-[a-z0-9-]+",
+    "domain_hint": "Mechanical",
+    "note": "Public challenge pages are the best automatable source. Enabled and verified via sources-check."
   },
   {
     "id": "gig-tasker",
