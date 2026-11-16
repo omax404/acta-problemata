@@ -13,5 +13,5 @@ button{background:#e8500c;border:0;font-weight:700;cursor:pointer}small{color:#4
 <small>Realistic problem adapted from the page; company details are removed. Your email is used once to send the PDF.</small>
 <script>const WORKER="https://REPLACE-ME.workers.dev";
 f.onsubmit=async e=>{e.preventDefault();m.textContent="Sending…";try{const r=await fetch(WORKER,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(Object.fromEntries(new FormData(f)))});
-m.textContent=r.ok?"Queued — the PDF arrives by email in a few minutes (check spam).":"Refused: "+await r.text()}catch{m.textContent="Network error."}}</script>
+const j=await r.json().catch(()=>({}));m.textContent=r.ok?"Queued — the PDF arrives by email in a few minutes (check spam).":"Refused: "+(j.error||r.status)}catch{m.textContent="Network error."}}</script>
 </main></body></html>

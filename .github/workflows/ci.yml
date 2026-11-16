@@ -12,6 +12,8 @@ jobs:
       - run: ruff check src tests
       - run: pytest -q
       - run: acta verify-vault
+      - run: node --test extras/worker/worker.test.mjs
+      - run: acta sheet today --out build/today.pdf
       - run: acta preview          # compiles a real PDF via the python typst binding
       - uses: actions/upload-artifact@v4
         with: { name: preview-pdf, path: docs/gazette/archive/*.pdf }

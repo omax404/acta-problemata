@@ -1,0 +1,13 @@
+name = "acta-relay"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+REPO = "omax404/acta-problemata"
+ALLOW_ORIGIN = "https://omax404.github.io"      # your site origin (no path, no trailing slash)
+
+# Optional but recommended: rate limiting store.
+#   npx wrangler kv namespace create RL     -> paste the id below
+# [[kv_namespaces]]
+# binding = "RL"
+# id = "PASTE_ID"
