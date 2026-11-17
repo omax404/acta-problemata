@@ -15,7 +15,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, ingest, pages, readme_widget, render, synthesize
+from . import deliver, ingest, pages, readme_widget, render, synthesize, video
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, VerifiedFormula, verify_formula
@@ -146,7 +146,7 @@ def build_edition(content: Content, vf: VerifiedFormula, cfg: dict, *, edition_n
 
 
 def publish(repo_root: Path, led: dict, today: date, content: Content, edition: dict,
-            vf: VerifiedFormula, pdf: Path, repo_slug: str) -> list[str]:
+            vf: VerifiedFormula, pdf: Path, repo_slug: str, media: dict | None = None) -> list[str]:
     """Record + pages + README, then best-effort delivery. Returns delivery errors."""
     n = edition["edition_number"]
     entry = {"edition": n, "date": today.isoformat(), "id": content.case_id,
@@ -157,7 +157,7 @@ def publish(repo_root: Path, led: dict, today: date, content: Content, edition: 
     L.save(repo_root / "data" / "ledger.json", led)          # persisted BEFORE delivery
     readme_widget.update_readme(repo_root, led, today, repo_slug)
     errors = []
-    for name, send in (("email", lambda: deliver.send_email(pdf, edition)),
+    for name, send in (("email", lambda: deliver.send_email(pdf, edition, media=media)),
                        ("printer", lambda: deliver.send_printer(pdf))):
         try:
             send()
@@ -205,19 +205,26 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
         return render.render_edition(edition, svg, solution_url, repo_root, pdf_path), pdf_path
 
     fit, pdf = timed("render", draw_and_compile)
+    # Motion companion (MP4 + GIF) for the email: best-effort, never blocks publication, never committed
+    # (kept under build/ so the repo does not grow by ~1.5 MB a day).
+    media = timed("video", video.maybe_render, edition, repo_root,
+                  repo_root / "build" / "media" / f"acta-{edition_no:04d}", cfg)
     delivery_errors = [] if dry_run else timed(
-        "publish", publish, repo_root, led, today, content, edition, vf, pdf, repo_slug)
+        "publish", publish, repo_root, led, today, content, edition, vf, pdf, repo_slug, media)
 
     total = round(time.perf_counter() - t0, 2)
     summary = {"edition": edition_no, "date": today.isoformat(), "origin": content.origin,
                "case_id": content.case_id, "result": vf.computed_result, "unit": vf.unit,
                "full_precision": vf.full_precision, "significant_figures": 3,
-               "pages": fit["pages"], "pdf": str(pdf), "solution_url": solution_url,
+               "pages": fit["pages"], "pdf": str(pdf),
+               "video": {k: str(v) for k, v in media.items() if v} if media else None,
+               "solution_url": solution_url,
                "dry_run": dry_run, "fit": fit, "delivery_errors": delivery_errors,
                "timings_s": timings, "total_s": total}
     (repo_root / "build").mkdir(exist_ok=True)
     (repo_root / "build" / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    if total > NFR_BUDGET_S:
-        log.warning("NFR-02 budget exceeded: %.1fs > %ds", total, NFR_BUDGET_S)
+    core = total - timings.get("video", 0.0)          # the optional clip is outside the NFR-02 budget
+    if core > NFR_BUDGET_S:
+        log.warning("NFR-02 budget exceeded: %.1fs > %ds", core, NFR_BUDGET_S)
     log.info("edition №%d ready in %.1fs (%s)", edition_no, total, content.origin)
     return summary

@@ -1,4 +1,4 @@
-"""acta run | preview | check | verify-vault"""
+"""acta run | preview | video | check | verify-vault"""
 from __future__ import annotations
 
 import argparse
@@ -69,6 +69,9 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--lang", choices=["fr", "en"])
     s.add_argument("--out", type=Path)
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
+    v = sub.add_parser("video", help="render the motion clip (MP4+GIF) for the last built edition")
+    v.add_argument("--out", type=Path, help="output stem (default build/media/acta-NNNN)")
+    v.add_argument("--no-gif", action="store_true")
     a = p.parse_args(argv)
     root = a.root
 
@@ -76,6 +79,22 @@ def main(argv: list[str] | None = None) -> int:
         s = pipeline.run(root, dry_run=(a.cmd == "preview" or a.dry_run),
                          force_vault=(a.cmd == "preview" or a.force_vault))
         print(json.dumps(s, indent=2))
+        return 0
+
+    if a.cmd == "video":
+        from . import video
+        ed_path = root / "build" / "edition.json"
+        if not ed_path.exists():
+            print("No build/edition.json. Run `acta preview` first.", file=sys.stderr)
+            return 2
+        ed = json.loads(ed_path.read_text(encoding="utf-8"))
+        stem = a.out or root / "build" / "media" / f"acta-{ed['edition_number']:04d}"
+        try:
+            out = video.render_video(ed, root, stem, gif=not a.no_gif)
+        except video.VideoError as exc:
+            print(f"video failed: {exc}", file=sys.stderr)
+            return 3
+        print(json.dumps({k: str(v) for k, v in out.items() if v}, indent=2))
         return 0
 
     if a.cmd == "sheet":

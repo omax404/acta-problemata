@@ -29,6 +29,21 @@ flowchart LR
 
 ---
 
+## Motion companion (optional)
+
+Each daily email can carry a ~10 s animated version of the broadside (ink stamping in, ornaments drawing,
+telemetry values resolving, a "VERIFIED" stamp): an inline **GIF** that plays in any mail client plus an
+**MP4** attachment. The printable Typst **PDF is unchanged and always attached**; the clip is garnish.
+
+- Source: `templates/video/index.html` ([HyperFrames](https://github.com/heygen-com/hyperframes): HTML + GSAP → MP4),
+  fed by the same `edition.json` as the PDF, with bundled OFL fonts and a vendored GSAP (no network at render time).
+- Needs `npm i -g hyperframes` and `ffmpeg`. If either is missing, or a render fails, the pipeline logs it and
+  sends the PDF alone. A clip can never block publication.
+- Local: `acta preview && acta video` → `build/media/acta-NNNN.{mp4,gif}`. Disable with `ACTA_VIDEO=off`
+  or `"video": {"enabled": false}` in `config.json`. Clips live under `build/` and are not committed.
+
+---
+
 ## Honesty Rule (The Core of the Project)
 
 Every sheet strictly carries one of two labels:

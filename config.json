@@ -6,6 +6,7 @@
   "source_order": ["inbox", "listing", "market", "ntrs", "arxiv"],
   "name_companies": false,
   "pages_base_url": "",
+  "video": {"enabled": true, "gif": true},
   "llm": {
     "provider_order": ["gemini", "groq", "openai"],
     "gemini_model": "gemini-flash-latest",

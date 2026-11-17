@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Acta Problemata — broadside motion</title>
+<style>
+/* Bundled OFL fonts: the render never depends on what the CI runner has installed. */
+@font-face { font-family:'Libertinus Serif'; font-weight:400; font-style:normal; src:url('fonts/libertinus-serif-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'Libertinus Serif'; font-weight:400; font-style:italic; src:url('fonts/libertinus-serif-latin-400-italic.woff2') format('woff2'); }
+@font-face { font-family:'Libertinus Serif'; font-weight:700; font-style:normal; src:url('fonts/libertinus-serif-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family:'Libertinus Serif'; font-weight:700; font-style:italic; src:url('fonts/libertinus-serif-latin-700-italic.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-weight:400; font-style:normal; src:url('fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family:'JetBrains Mono'; font-weight:700; font-style:normal; src:url('fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2'); }
+/* Mirrors templates/broadside.typ: paper, ink, rust, double frame, 4 flourishes, rosettes. */
+:root { --ink:#1b1814; --rust:#8a3b1f; --paper:#fbf7ee; --soft:#8a7f6a; --card:#f3ecdc; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--paper); }
+#root { position: relative; width: 840px; height: 1188px; overflow: hidden; background: var(--paper); color: var(--ink);
+  font-family: 'Libertinus Serif', serif; }
+.abs { position: absolute; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.rule-h { position: absolute; height: 0; transform-origin: 0 50%; }
+.rule-v { position: absolute; width: 0; transform-origin: 50% 0; }
+#frame1 { left: 26px; top: 26px; width: 788px; height: 1136px; border: 3px solid var(--ink); opacity: 0; }
+#frame2 { left: 34px; top: 34px; width: 772px; height: 1120px; border: 1.2px solid var(--rust); opacity: 0; }
+.flo { position: absolute; width: 76px; height: 76px; }
+.flo path, .flo circle { fill: none; stroke: var(--rust); stroke-linecap: round; }
+#tl { left: 40px; top: 40px; } #tr { right: 40px; top: 40px; transform: scaleX(-1); }
+#br { right: 40px; bottom: 40px; transform: scale(-1,-1); } #bl { left: 40px; bottom: 40px; transform: scaleY(-1); }
+.rosette { position: absolute; width: 56px; height: 56px; }
+.rosette ellipse { fill: none; stroke: var(--rust); stroke-width: 1.4; }
+#wm { left: 220px; top: 420px; width: 400px; height: 400px; opacity: 0; }
+#wm ellipse { fill: none; stroke: rgba(138,59,31,.10); }
+#title { left: 0; width: 840px; top: 84px; text-align: center; font-size: 46px; font-weight: 700; letter-spacing: 4px; white-space: nowrap; }
+#title span { display: inline-block; opacity: 0; }
+#tag { left: 0; width: 840px; top: 152px; text-align: center; font-size: 13px; letter-spacing: 3px; color: var(--soft); opacity: 0; }
+#meta { left: 70px; width: 700px; top: 192px; display: flex; justify-content: space-between; align-items: baseline; font-size: 17px; opacity: 0; }
+#meta b { font-weight: 700; } #meta i { color: var(--rust); font-size: 16px; }
+#r1 { left: 70px; top: 224px; width: 700px; border-top: 2.4px solid var(--ink); }
+#r2 { left: 70px; top: 230px; width: 700px; border-top: 1px solid var(--rust); }
+#headline { left: 70px; width: 700px; top: 248px; text-align: center; font-size: 36px; font-weight: 700; line-height: 1.12; min-height: 82px; }
+#headline span { opacity: 0; }
+#domain { left: 70px; width: 700px; top: 336px; text-align: center; font-size: 15px; letter-spacing: 2.4px; color: var(--rust); font-variant: small-caps; opacity: 0; }
+.div { position: absolute; left: 70px; width: 700px; display: flex; align-items: center; gap: 10px; color: var(--rust); font-size: 12px; letter-spacing: 3px; font-weight: 700; opacity: 0; }
+.div::before, .div::after { content: ''; flex: 1; border-top: 1px solid var(--rust); }
+#d1 { top: 376px; }
+#left { position: absolute; left: 70px; width: 440px; top: 410px; }
+#narr { font-size: 21px; line-height: 1.36; text-align: justify; hyphens: auto; }
+#narr .cap { opacity: 0; float: left; font-size: 64px; line-height: .8; font-weight: 700; color: var(--rust); padding: 4px 8px 0 0; }
+#narr .w { opacity: 0; }
+#q { margin-top: 26px; padding: 14px 16px; background: var(--card); border: 1px solid var(--ink); border-left: 5px solid var(--rust); opacity: 0; }
+#q small { display: block; font-size: 12px; letter-spacing: 3px; font-weight: 700; color: var(--rust); margin-bottom: 6px; }
+#q em { font-size: 18px; line-height: 1.32; }
+#fml { margin-top: 24px; text-align: center; padding: 10px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); opacity: 0; }
+#fml .sym { font-size: 17px; } #fml .res { margin-top: 6px; font-size: 19px; color: var(--rust); }
+#fml .blank { display: inline-block; width: 120px; border-bottom: 1.5px solid var(--rust); height: 18px; vertical-align: bottom; position: relative; }
+#cursor { position: absolute; left: 4px; bottom: 1px; width: 2px; height: 16px; background: var(--rust); }
+#fml .ver { margin-top: 6px; font-size: 13px; font-style: italic; color: var(--soft); }
+#bc { position: absolute; left: 546px; width: 224px; top: 410px; }
+#bchead { opacity: 0; }
+#bc h4 { font-size: 11.5px; letter-spacing: 2px; color: var(--rust); font-weight: 700; padding-bottom: 5px; border-bottom: 1.5px solid var(--ink); }
+.bcrow { padding: 6px 0 0; opacity: 0; } .bcrow .n { font-size: 14px; line-height: 1.15; display: block; }
+.bcrow .v { font-size: 13px; color: var(--rust); display: block; margin-top: 1px; }
+#bcend { margin-top: 10px; border-top: 1.5px solid var(--ink); opacity: 0; }
+#dia { margin-top: 18px; border: 1px solid var(--ink); background: #fff; padding: 6px; opacity: 0; }
+#dia img { width: 100%; max-height: 190px; object-fit: contain; display: block; }
+#cap { margin-top: 8px; font-size: 13px; font-style: italic; text-align: center; opacity: 0; }
+#foot { left: 70px; width: 700px; top: 1006px; }
+#d2 { top: 1004px; }
+#src { left: 70px; width: 520px; top: 1038px; font-size: 13px; line-height: 1.4; color: var(--soft); opacity: 0; }
+#src i { color: var(--ink); }
+#scan { left: 624px; width: 126px; top: 1034px; opacity: 0; }
+#scan .lbl { position: absolute; left: -64px; top: 20px; width: 60px; text-align: right; font-size: 10px; letter-spacing: 1px; line-height: 1.25; }
+#scan .qr { width: 84px; height: 84px; background: #fff; border: 1.2px solid var(--ink); padding: 5px; margin-left: 30px; }
+#scan img { width: 100%; height: 100%; display: block; }
+#stamp { left: 520px; top: 944px; width: 250px; padding: 8px 10px; border: 4px double var(--rust); color: var(--rust); text-align: center;
+  font-weight: 700; letter-spacing: 3px; font-size: 22px; line-height: 1.15; opacity: 0; transform: rotate(-9deg); background: rgba(251,247,238,.6); }
+#stamp small { display: block; font-size: 11px; letter-spacing: 2px; margin-top: 3px; font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+#no { right: 70px; top: 920px; width: 150px; height: 150px; border: 5px solid var(--ink); border-radius: 50%; display: none; }
+#ink { left: 0; top: 0; width: 840px; height: 1188px; background: var(--ink); opacity: 0; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="root" data-width="840" data-height="1188" data-start="0" data-duration="10" data-fps="30">
+
+  <svg id="wm" class="abs" viewBox="-50 -50 100 100"></svg>
+
+  <div id="frame1" class="abs"></div>
+  <div id="frame2" class="abs"></div>
+  <svg id="tl" class="flo" viewBox="0 0 19 19"></svg>
+  <svg id="tr" class="flo" viewBox="0 0 19 19"></svg>
+  <svg id="br" class="flo" viewBox="0 0 19 19"></svg>
+  <svg id="bl" class="flo" viewBox="0 0 19 19"></svg>
+
+  <svg id="ros1" class="rosette" style="left:66px;top:80px" viewBox="-28 -28 56 56"></svg>
+  <svg id="ros2" class="rosette" style="left:718px;top:80px" viewBox="-28 -28 56 56"></svg>
+  <div id="title" class="abs"></div>
+  <div id="tag" class="abs">A DAILY BROADSIDE OF ENGINEERING FAILURES &amp; APPLIED PHYSICS</div>
+  <div id="meta" class="abs"><b id="m-no"></b><i>Ratiocinatio · Mensura · Veritas</i><b id="m-date"></b></div>
+  <div id="r1" class="rule-h"></div>
+  <div id="r2" class="rule-h"></div>
+
+  <div id="headline" class="abs"></div>
+  <div id="domain" class="abs"></div>
+  <div id="d1" class="div abs">THE CASE</div>
+
+  <div id="left">
+    <div id="narr"></div>
+    <div id="q"><small>PROBLEMA DIEI</small><em id="q-text"></em></div>
+    <div id="fml"><div class="sym mono" id="f-sym"></div>
+      <div class="res mono">= <span class="blank"><span id="cursor"></span></span> <span id="f-unit"></span></div>
+      <div class="ver" id="f-ver"></div></div>
+  </div>
+
+  <div id="bc">
+    <div id="bchead"><h4>BOUNDARY CONDITIONS</h4></div><div id="bc-rows"></div><div id="bcend"></div>
+    <div id="dia"><img id="dia-img" src="diagram.svg" alt="diagram"></div>
+    <div id="cap"></div>
+  </div>
+
+  <div id="d2" class="div abs">VERITAS</div>
+  <div id="src" class="abs"></div>
+  <div id="scan" class="abs"><div class="lbl">SCAN FOR<br>SOLUTION</div><div class="qr"><img src="qr.svg" alt="qr"></div></div>
+  <div id="stamp" class="abs">VERIFIED<small id="stamp-sub">SYMPY · 3 S.F.</small></div>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>window.EDITION = /*EDITION_JSON*/ null;</script>
+<script>
+(function () {
+  var D = window.EDITION || {};
+  var NS = "http://www.w3.org/2000/svg";
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); };
+
+  /* ---- static content from edition.json ---- */
+  $("m-no").textContent = "№ " + D.edition_number;
+  $("m-date").textContent = D.date_display || "";
+  $("domain").textContent = (D.domain || "").toLowerCase() + " ✦ " + (D.difficulty || "").toLowerCase();
+  $("q-text").textContent = D.challenge_question || "";
+  $("f-sym").textContent = (D.formula && D.formula.symbolic) || "";
+  $("f-unit").textContent = (D.formula && D.formula.unit) || "";
+  $("f-ver").textContent = D.reveal_answer ? "computed & verified deterministically by SymPy — 3 s.f." : "answer verified by SymPy — scan the code to check yours";
+  $("cap").textContent = D.diagram_caption || "";
+  $("src").innerHTML = "<i>" + esc(D.source_line || "") + "</i><br>Acta Problemata press · github.com/" + esc(D.repo_slug || "");
+  $("stamp-sub").textContent = "SYMPY · 3 S.F. · № " + D.edition_number;
+
+  var titleEl = $("title"); "ACTA PROBLEMATA".split("").forEach(function (ch) {
+    var s = document.createElement("span"); s.textContent = ch === " " ? " " : ch; titleEl.appendChild(s); });
+
+  var hl = $("headline"); var hlSpans = [];
+  Array.from(D.headline || "").forEach(function (ch) { var s = document.createElement("span"); s.textContent = ch; hl.appendChild(s); hlSpans.push(s); });
+  if ((D.headline || "").length > 42) hl.style.fontSize = "30px";
+
+  /* narrative: first ~44 words, drop cap on the first letter (the PDF keeps the full text) */
+  var words = String(D.narrative || "").split(/\s+/).filter(Boolean), MAXC = 430, acc = 0, MAXW = 0;
+  while (MAXW < words.length && acc + words[MAXW].length + 1 <= MAXC) { acc += words[MAXW].length + 1; MAXW++; }
+  var cut = words.length > MAXW;
+  var shown = words.slice(0, Math.max(1, MAXW)); if (cut) shown[shown.length - 1] = shown[shown.length - 1].replace(/[,;:.]+$/, "") + " …";
+  var narr = $("narr"), nspans = [];
+  if (shown.length) {
+    var cap = document.createElement("span"); cap.className = "cap"; cap.textContent = shown[0].charAt(0); narr.appendChild(cap);
+    shown[0] = shown[0].slice(1);
+    shown.forEach(function (w, i) { var s = document.createElement("span"); s.className = "w"; s.textContent = w + (i < shown.length - 1 ? " " : ""); narr.appendChild(s); nspans.push(s); });
+  }
+
+  /* boundary conditions (telemetry): every value is real data, scrambled then resolved */
+  var bcEntries = Object.keys(D.boundary_conditions || {}).slice(0, 6).map(function (k) { return [k, String(D.boundary_conditions[k])]; });
+  var bcRows = $("bc-rows"), bcVals = [];
+  bcEntries.forEach(function (e) {
+    var r = document.createElement("div"); r.className = "bcrow";
+    r.innerHTML = '<span class="n">' + esc(e[0]) + '</span><span class="v mono"></span>';
+    bcRows.appendChild(r); bcVals.push({ row: r, el: r.querySelector(".v"), final: e[1] });
+  });
+
+  /* ---- SVG ornaments (same geometry as the Typst flourish, in a 19-unit box) ---- */
+  function p(parent, d, w) { var e = document.createElementNS(NS, "path"); e.setAttribute("d", d); e.setAttribute("stroke-width", w); parent.appendChild(e); return e; }
+  var floPaths = [];
+  ["tl", "tr", "br", "bl"].forEach(function (id) {
+    var s = $(id);
+    floPaths.push(p(s, "M0 17 L0 3 C0 1 1 0 3 0 L17 0", 0.55));
+    floPaths.push(p(s, "M3.2 12 L3.2 5.5 C3.2 4.2 4.2 3.2 5.5 3.2 L12 3.2", 0.32));
+    floPaths.push(p(s, "M6.4 6.4 C11 6.4 11 11.5 8 11.5 C6 11.5 6 9 7.6 9", 0.36));
+  });
+  floPaths.forEach(function (e) { var L = e.getTotalLength(); e.style.strokeDasharray = L; e.style.strokeDashoffset = L; e._len = L; });
+  function rosette(svg, r, w) {
+    var els = [];
+    for (var k = 0; k < 8; k++) { var el = document.createElementNS(NS, "ellipse"); el.setAttribute("rx", r); el.setAttribute("ry", r * 0.23);
+      el.setAttribute("transform", "rotate(" + (k * 22.5) + ")"); if (w) el.setAttribute("stroke-width", w); svg.appendChild(el); els.push(el); }
+    return els;
+  }
+  var ros1 = $("ros1"), ros2 = $("ros2");
+  rosette(ros1, 26); rosette(ros2, 26);
+  var wm = $("wm"); rosette(wm, 48, 0.9);
+
+  /* ---- deterministic scramble helper (pure function of progress: seek-safe) ---- */
+  var GLY = "0123456789#%&$/<>+=*:.ABCDEFGHJKLMNPRSTUVXYZ";
+  function scramble(el, finalText, prog, salt) {
+    var n = finalText.length, k = Math.floor(prog * n), out = "";
+    var tick = Math.floor(prog * 24);
+    for (var i = 0; i < n; i++) {
+      var ch = finalText.charAt(i);
+      if (i < k || ch === " " || prog >= 1) out += ch;
+      else out += GLY.charAt(((i * 7 + salt * 13 + tick * 5 + i * tick) >>> 0) % GLY.length);
+    }
+    el.textContent = out;
+  }
+  bcVals.forEach(function (b, i) { b.o = { p: 0 }; scramble(b.el, b.final, 0, i); });
+
+  /* ---- timeline (10 s @ 30 fps) ---- */
+  var tl = gsap.timeline({ paused: true });
+  var E = "power3.out";
+
+  // 0.0 — sheet: frames draw in
+  tl.set("#frame1,#frame2", { opacity: 1 }, 0);
+  tl.fromTo("#frame1", { clipPath: "inset(0 100% 100% 0)" }, { clipPath: "inset(0 0% 0% 0)", duration: 0.9, ease: "power2.inOut" }, 0.05);
+  tl.fromTo("#frame2", { clipPath: "inset(100% 0 0 100%)" }, { clipPath: "inset(0% 0 0 0%)", duration: 0.9, ease: "power2.inOut" }, 0.2);
+  tl.to("#wm", { opacity: 1, duration: 1.4, ease: "power1.out" }, 0.4);
+  tl.fromTo("#wm", { rotation: -40 }, { rotation: 0, duration: 4, ease: "none" }, 0.4);
+  // 0.5 — ornaments draw themselves
+  floPaths.forEach(function (e, i) { tl.to(e, { strokeDashoffset: 0, duration: 0.8, ease: "power1.inOut" }, 0.55 + (i % 3) * 0.12); });
+  // 1.0 — masthead
+  tl.fromTo([ros1, ros2], { opacity: 0, rotation: -120, scale: 0.4 }, { opacity: 1, rotation: 0, scale: 1, duration: 0.9, ease: "back.out(1.4)" }, 1.0);
+  tl.to("#title span", { opacity: 1, duration: 0.01, stagger: 0.04 }, 1.1);
+  tl.fromTo("#title", { scale: 1.14 }, { scale: 1, duration: 1.1, ease: E }, 1.1);
+  tl.to("#tag", { opacity: 1, duration: 0.5 }, 1.7);
+  tl.to("#meta", { opacity: 1, duration: 0.4 }, 1.9);
+  tl.fromTo("#r1,#r2", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut", stagger: 0.08 }, 1.9);
+  // 2.2 — headline typed
+  tl.to(hlSpans, { opacity: 1, duration: 0.01, stagger: Math.min(0.045, 1.0 / Math.max(1, hlSpans.length)) }, 2.3);
+  tl.to("#domain", { opacity: 1, duration: 0.4 }, 3.3);
+  tl.to("#d1", { opacity: 1, duration: 0.4 }, 3.5);
+  // 3.7 — narrative inks in word by word
+  tl.to(".cap", { opacity: 1, duration: 0.3 }, 3.6);
+  tl.to(nspans, { opacity: 1, duration: 0.01, stagger: 1.9 / Math.max(1, nspans.length) }, 3.7);
+  // 4.6 — telemetry: boundary conditions resolve
+  tl.fromTo("#bchead", { y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, 4.5);
+  tl.to("#bcend", { opacity: 1, duration: 0.4 }, 5.2);
+  bcVals.forEach(function (b, i) {
+    var t = 4.8 + i * 0.28;
+    tl.to(b.row, { opacity: 1, duration: 0.15 }, t);
+    tl.to(b.o, { p: 1, duration: 0.9, ease: "none", onUpdate: function () { scramble(b.el, b.final, b.o.p, i); } }, t);
+  });
+  // 5.6 — problem box + formula
+  tl.fromTo("#q", { x: -24, clipPath: "inset(0 100% 0 0)" }, { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: E }, 5.6);
+  tl.fromTo("#fml", { y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 6.3);
+  tl.fromTo("#cursor", { opacity: 1 }, { opacity: 0, duration: 0.01, repeat: 11, repeatDelay: 0.24, yoyo: true }, 6.6);
+  // 6.4 — figure
+  tl.fromTo("#dia", { clipPath: "inset(0 0 100% 0)" }, { opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 0.8, ease: "power2.inOut" }, 6.2);
+  tl.to("#cap", { opacity: 1, duration: 0.4 }, 6.9);
+  // 7.3 — footer + stamp
+  tl.to("#d2", { opacity: 1, duration: 0.4 }, 7.2);
+  tl.to("#src", { opacity: 1, duration: 0.5 }, 7.4);
+  tl.fromTo("#scan", { scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)" }, 7.6);
+  tl.fromTo("#stamp", { scale: 2.6, opacity: 0, rotation: -2 }, { scale: 1, opacity: 1, rotation: -9, duration: 0.22, ease: "power4.in" }, 8.2);
+  tl.fromTo("#stamp", { x: 0, y: 0 }, { x: 3, y: 2, duration: 0.05, repeat: 3, yoyo: true, ease: "none" }, 8.42);   // impact shake
+  tl.to({}, { duration: 0.01 }, 10);                                                                                  // pin total length
+  window.__timelines = window.__timelines || {};
+  window.__timelines["root"] = tl;
+})();
+</script>
+</body>
+</html>
