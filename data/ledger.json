@@ -1,0 +1,19 @@
+{
+  "edition_number": 1,
+  "streak": 1,
+  "last_run_date": "2026-11-17",
+  "history": [
+    {
+      "edition": 1,
+      "date": "2026-11-17",
+      "id": "bank-pompage",
+      "domain": "Fluids",
+      "headline": "Pumping Line Head Loss Exceeds Operating Margin",
+      "pdf": "docs/gazette/archive/acta-0001.pdf",
+      "solution": "solutions/edition-0001.html"
+    }
+  ],
+  "seen": {
+    "bank-pompage": "2026-11-17"
+  }
+}

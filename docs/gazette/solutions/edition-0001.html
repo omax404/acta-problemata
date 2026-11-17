@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acta Problemata №1 — Solution</title><style>body{font-family:Georgia,'Times New Roman',serif;background:#f7f3ea;color:#1c1a17;
+max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.55}
+h1{font-size:1.5rem;border-bottom:3px double #1c1a17;padding-bottom:.4rem}
+code,pre{font-family:'Courier New',monospace;background:#efe9db}
+pre{padding:.8rem;overflow-x:auto;border:1px solid #c9c0ab}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #c9c0ab;padding:.3rem .6rem;text-align:left}
+.meta{font-style:italic;color:#5a5346}.ans{font-size:1.2rem;font-weight:bold}</style></head><body>
+<h1>№1 — Pumping Line Head Loss Exceeds Operating Margin</h1>
+<p class="meta">17 November 2026 · Fluids · verified by SymPy</p>
+
+<h2>1 · Governing equation</h2><pre>dz + (f * L / D + K) * v**2 / (2 * g)</pre>
+<h2>2 · Boundary conditions</h2><table><tr><th>Quantity</th><th>Value</th></tr><tr><td>Denivele dz</td><td><code>18 m</code></td></tr><tr><td>Friction factor f</td><td><code>0.0194</code></td></tr><tr><td>Pipe length L</td><td><code>250 m</code></td></tr><tr><td>Inner diameter D</td><td><code>0.105 m</code></td></tr><tr><td>Fitting losses K</td><td><code>6.5</code></td></tr><tr><td>Flow velocity v</td><td><code>1.28 m/s</code></td></tr><tr><td>Gravity g</td><td><code>9.81 m/s^2</code></td></tr></table>
+<h2>3 · Substitution</h2><table><tr><th>Symbol</th><th>SI value</th></tr><tr><td><code>dz</code></td><td><code>18</code></td></tr><tr><td><code>f</code></td><td><code>0.0194</code></td></tr><tr><td><code>L</code></td><td><code>250</code></td></tr><tr><td><code>D</code></td><td><code>0.105</code></td></tr><tr><td><code>K</code></td><td><code>6.5</code></td></tr><tr><td><code>v</code></td><td><code>1.28</code></td></tr><tr><td><code>g</code></td><td><code>9.81</code></td></tr></table>
+<pre>(18) + ((0.0194) * (250) / (0.105) + (6.5)) * (1.28)**2 / (2 * (9.81))</pre>
+<h2>4 · Evaluation</h2>
+<p>Full precision: <code>22.40000388 m</code></p>
+<p class="ans">Answer (3 s.f.): 22.4 m</p>
+<h2>5 · Reproduce it yourself</h2><pre id="snip">import sympy as sp
+dz = 18.0
+f = 0.0194
+L = 250.0
+D = 0.105
+K = 6.5
+v = 1.28
+g = 9.81
+expr = sp.sympify(&#x27;dz + (f * L / D + K) * v**2 / (2 * g)&#x27;)
+result = expr.evalf(30)   # -&gt; 22.40000388 m
+answer = float(f&#x27;{result:.3g}&#x27;)  # 22.4 m (3 s.f.)</pre>
+<button onclick="navigator.clipboard.writeText(
+document.getElementById('snip').textContent)">Copy SymPy snippet</button>
+<p><a href="../archive/acta-0001.pdf">⬇ Today's broadside (PDF)</a> ·
+<a href="../index.html">Archive</a></p>
+<p class="meta">Check your own answer in a terminal: <code>acta check &lt;value&gt; --edition 1</code></p>
+</body></html>
