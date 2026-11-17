@@ -18,6 +18,7 @@ def repo(tmp_path):
     for name in ("data", "templates"):
         shutil.copytree(ROOT / name, tmp_path / name)
     shutil.copy(ROOT / "config.json", tmp_path / "config.json")
+    (tmp_path / "data" / "ledger.json").unlink(missing_ok=True)   # the daily bot commits a real one
     (tmp_path / "docs").mkdir()
     return tmp_path
 
