@@ -79,6 +79,8 @@ def render_sheet(data: dict, repo_root: Path, out_pdf: Path) -> None:
     shutil.copy(repo_root / "templates" / "sheet.typ", build / "sheet.typ")
     (build / "sheet.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     shutil.copy(repo_root / "assets" / "logo.svg", build / "logo.svg")
+    (build / "logo_tint.svg").write_text(
+        (repo_root / "assets" / "logo.svg").read_text(encoding="utf-8").replace("<path ", '<path fill="#5F2A12" '), encoding="utf-8")
     render.make_qr(data["qr_url"], build / "qr.svg")
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
     render._compile(build, out_pdf, "sheet.typ")
