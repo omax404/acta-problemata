@@ -140,18 +140,20 @@ acta request --url <page> --email you@x.com    # link + email in, PDF out
 Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
 
 <!-- ACTA:BEGIN -->
-![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-1-8a6d3b)
+![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-2-8a6d3b)
 
-**Current streak: 1 day(s) · 1 editions issued.**
+**Current streak: 2 day(s) · 2 editions issued.**
 
 ### Recent broadsides
 | Date | № | Domain | Headline | Read | Verify |
 |---|---|---|---|---|---|
+| 2026-11-18 | 2 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0002.pdf) | [Solution](docs/gazette/solutions/edition-0002.html) |
 | 2026-11-17 | 1 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0001.pdf) | [Solution](docs/gazette/solutions/edition-0001.html) |
 
 ### November 2026 — domain focus
 ```mermaid
 pie showData title Editions by domain
   "Fluids" : 1
+  "Thermal" : 1
 ```
 <!-- ACTA:END -->

@@ -1,7 +1,7 @@
 {
-  "edition_number": 1,
-  "streak": 1,
-  "last_run_date": "2026-11-17",
+  "edition_number": 2,
+  "streak": 2,
+  "last_run_date": "2026-11-18",
   "history": [
     {
       "edition": 1,
@@ -11,9 +11,19 @@
       "headline": "Pumping Line Head Loss Exceeds Operating Margin",
       "pdf": "docs/gazette/archive/acta-0001.pdf",
       "solution": "solutions/edition-0001.html"
+    },
+    {
+      "edition": 2,
+      "date": "2026-11-18",
+      "id": "bank-echangeur",
+      "domain": "Thermal",
+      "headline": "Pasteurisation Heat Exchanger Thermal Duty Verification",
+      "pdf": "docs/gazette/archive/acta-0002.pdf",
+      "solution": "solutions/edition-0002.html"
     }
   ],
   "seen": {
-    "bank-pompage": "2026-11-17"
+    "bank-pompage": "2026-11-17",
+    "bank-echangeur": "2026-11-18"
   }
 }
