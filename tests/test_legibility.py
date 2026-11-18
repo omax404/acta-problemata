@@ -1,8 +1,12 @@
+import shutil
+
 import pytest
 
 from acta import legibility
 from acta.cli import main as cli_main
 from acta.diagrams import KINDS, render_diagram
+
+pytestmark = pytest.mark.skipif(not shutil.which("rsvg-convert"), reason="rsvg-convert not installed")
 
 
 def _svg(tmp_path, name, body):

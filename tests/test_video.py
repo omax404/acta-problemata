@@ -87,8 +87,8 @@ def test_maybe_render_never_raises(repo, monkeypatch):
 
 def test_render_failure_is_a_video_error(repo, monkeypatch):
     ed = _built(repo)
-    monkeypatch.setenv("ACTA_HYPERFRAMES", "false")             # exits 1 immediately
-    with pytest.raises(video.VideoError, match="render failed"):
+    monkeypatch.setenv("ACTA_HYPERFRAMES", "false")             # exits 1 immediately (or fails to start on Windows)
+    with pytest.raises(video.VideoError, match=r"(render failed|could not start)"):
         video.render_video(ed, repo, repo / "build" / "o" / "x")
 
 
