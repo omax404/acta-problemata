@@ -15,7 +15,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, ingest, originality, pages, readme_widget, render, synthesize, video
+from . import deliver, ingest, legibility, originality, pages, readme_widget, render, synthesize, video
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, VerifiedFormula, verify_formula
@@ -202,6 +202,11 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
         svg = render_diagram(content.case.diagram.kind,
                              {p.symbol: p.value for p in content.case.diagram.params},
                              repo_root / "build" / "diagram_src.svg")
+        try:                                   # report-only: never restyles, never blocks the edition
+            for f in legibility.analyze(svg):
+                log.warning("legibility [%s] %s: %s", f.level, f.code, f.message)
+        except Exception as exc:  # noqa: BLE001
+            log.info("legibility check skipped: %s", exc)
         archive = repo_root / "docs" / "gazette" / "archive"
         archive.mkdir(parents=True, exist_ok=True)
         pdf_path = archive / f"acta-{edition_no:04d}.pdf"

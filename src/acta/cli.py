@@ -69,6 +69,8 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--lang", choices=["fr", "en"])
     s.add_argument("--out", type=Path)
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
+    g = sub.add_parser("legibility", help="report-only audit of SVG figures (default: all kinds)")
+    g.add_argument("files", nargs="*", type=Path)
     v = sub.add_parser("video", help="render the motion clip (MP4+GIF) for the last built edition")
     v.add_argument("--out", type=Path, help="output stem (default build/media/acta-NNNN)")
     v.add_argument("--no-gif", action="store_true")
@@ -80,6 +82,23 @@ def main(argv: list[str] | None = None) -> int:
                          force_vault=(a.cmd == "preview" or a.force_vault))
         print(json.dumps(s, indent=2))
         return 0
+
+    if a.cmd == "legibility":
+        import tempfile
+
+        from . import legibility
+        from .diagrams import KINDS, render_diagram
+        files = list(a.files)
+        if not files:
+            tmp = Path(tempfile.mkdtemp())
+            files = [render_diagram(k, {}, tmp / f"{k}.svg") for k in KINDS]
+        bad = 0
+        for f in files:
+            found = legibility.analyze(f)
+            bad += sum(x.level == "error" for x in found)
+            detail = "; ".join(f"[{x.level}] {x.code}: {x.message}" for x in found)
+            print(f"{f.stem}: {detail or 'clean'}")
+        return 1 if bad else 0
 
     if a.cmd == "video":
         from . import video
