@@ -640,6 +640,16 @@ body {
 .section-hero { overflow: hidden; }
 .section-hero > .wrap { position: relative; z-index: 1; width: 100%; }
 @media (max-width: 992px) { .ascii-layer { opacity: .55; } }
+
+/* motion pack */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.rv.on{opacity:1;transform:none}
+#ap-prog{position:fixed;left:0;top:0;height:3px;width:100%;background:#E65B18;transform-origin:0 50%;transform:scaleX(0);z-index:9999;pointer-events:none}
+a,button{transition:transform .18s,box-shadow .18s,border-color .18s,background-color .18s}
+button:hover,a[class*=btn]:hover,a[class*=cta]:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 #E65B18}
+button:active{transform:translateY(2px);box-shadow:none}
+@keyframes ap-pulse{50%{opacity:.35}}
+.ap-live{animation:ap-pulse 1.6s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}#ap-prog{display:none}}
 </style>
 </head>
 <body>
@@ -1058,6 +1068,18 @@ function handleSubscription(e) {
     }).observe(hero);
   }
   raf = requestAnimationFrame(loop);
+})();
+</script>
+
+<div id="ap-prog"></div>
+<script>
+(function(){
+ var bar=document.getElementById("ap-prog");
+ function sc(){var h=document.documentElement,m=h.scrollHeight-innerHeight;bar.style.transform="scaleX("+(m>0?scrollY/m:0)+")"}
+ addEventListener("scroll",sc,{passive:true});sc();
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{threshold:.12});
+ document.querySelectorAll("main > *, section:not(#hero), article, figure, pre, table, h2, h3, .card, .panel, footer").forEach(function(x,i){
+  if(x.closest("#hero"))return;x.classList.add("rv");x.style.transitionDelay=Math.min(i%6,5)*60+"ms";io.observe(x)});
 })();
 </script>
 </body>
