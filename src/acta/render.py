@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import logging
 import math
+import re
 import shutil
 import subprocess
 import time
@@ -36,7 +37,6 @@ def display_result(x: float) -> str:
 
 def svg_aspect(path: Path) -> float:
     """height/width of an SVG from its viewBox (0.5 if unknown) - lets the template cap tall figures."""
-    import re
     head = path.read_text(encoding="utf-8", errors="ignore")[:2000]
     m = re.search(r'viewBox="\s*[-\d.]+[ ,]+[-\d.]+[ ,]+([\d.]+)[ ,]+([\d.]+)"', head)
     return round(float(m.group(2)) / float(m.group(1)), 3) if m and float(m.group(1)) else 0.5

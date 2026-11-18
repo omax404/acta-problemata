@@ -1,6 +1,6 @@
 """Orchestration: fetch -> synthesize -> guard -> diagram -> render -> deliver.
 
-The vault guarantees a publishable edition even with zero network / zero keys.
+Fallback order: live source + LLM -> bank (committed problems) -> vault (last resort).
 Each stage is a small function; `run` only sequences them and owns the timings.
 Publication never depends on delivery: a broken SMTP/printer is reported, not fatal.
 """
@@ -30,9 +30,8 @@ SYNTH_DEADLINE_S = 35
 class Content:
     case: LLMCase
     case_id: str
-    origin: str          # vault | market | inbox | web | ntrs | arxiv
+    origin: str          # vault | bank | market | inbox | web | ntrs | arxiv
     source_url: str = ""
-    domain: str | None = None
 
 
 def _vars(case: LLMCase) -> dict[str, float]:
@@ -87,7 +86,7 @@ def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
                                              deadline=time.monotonic() + SYNTH_DEADLINE_S,
                                              anonymize=not cfg.get("name_companies", False))
                 originality.check_original(src.text, case)     # rewritten, never copied
-                return Content(case, src.case_id, src.origin, src.url, src.domain)
+                return Content(case, src.case_id, src.origin, src.url)
             except synthesize.SynthesisError as exc:
                 log.warning("synthesis failed -> fallback to bank: %s", exc)
             except originality.NotOriginalError as exc:
@@ -98,28 +97,32 @@ def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
 
 def verified_content(content: Content, repo_root: Path, led: dict,
                      today: date) -> tuple[Content, VerifiedFormula]:
-    """FR-03: recompute deterministically; a rejected live case falls back to the vault."""
+    """FR-03: recompute deterministically; a rejected live case falls back through bank -> vault."""
     try:
         return content, _verify(content.case)
     except MathGuardError as exc:
-        log.warning("math guard rejected %s case (%s) -> vault", content.origin, exc)
-        fallback = _vault_content(repo_root, led, today)
+        log.warning("math guard rejected %s case (%s) -> bank/vault fallback", content.origin, exc)
+        fallback = _bank_content(repo_root, led, today)
         return fallback, _verify(fallback.case)
+
+
+_SOURCE_LINES: dict[str, str] = {
+    "ntrs":   "Source: NASA NTRS {tail} (public domain).",
+    "arxiv":  "Source: arXiv {tail} (abstract adapted).",
+    "market": "Scenario class: industrial maintenance brief ({tail}); figures illustrative.",
+    "ntsb":   "Source: NTSB hazmat investigation {tail} (public domain).",
+    "inbox":  "Adapted from a public document ({host}); company details omitted.",
+    "web":    "Adapted from a public page ({host}); company details omitted.",
+    "bank":   "Source: Acta Problemata problem bank ({case_id}).",
+    "vault":  "Source: Acta Problemata vault, case {case_id}.",
+}
 
 
 def source_line(origin: str, case_id: str, url: str = "") -> str:
     tail = case_id.split(":", 1)[-1]
     host = urlparse(url).netloc or "the inbox"
-    return {
-        "ntrs": f"Source: NASA NTRS {tail} (public domain).",
-        "arxiv": f"Source: arXiv {tail} (abstract adapted).",
-        "market": f"Scenario class: industrial maintenance brief ({tail}); figures illustrative.",
-        "ntsb": f"Source: NTSB hazmat investigation {tail} (public domain).",
-        "inbox": f"Adapted from a public document ({host}); company details omitted.",
-        "web": f"Adapted from a public page ({host}); company details omitted.",
-        "bank": f"Source: Acta Problemata problem bank ({case_id}).",
-        "vault": f"Source: Acta Problemata vault, case {case_id}.",
-    }[origin]
+    tmpl = _SOURCE_LINES.get(origin, "Source: {case_id}.")
+    return tmpl.format(tail=tail, host=host, case_id=case_id)
 
 
 def build_edition(content: Content, vf: VerifiedFormula, cfg: dict, *, edition_no: int,

@@ -60,13 +60,15 @@ def _vault_llmcase(repo):
     return LLMCase.model_validate(e["case"])
 
 
-def test_math_guard_rejection_falls_back_to_vault(repo, monkeypatch):
+def test_math_guard_rejection_falls_back_to_safe_case(repo, monkeypatch):
+    """A live case that fails the math guard must still produce a one-page PDF from a safe fallback."""
     bad = _vault_llmcase(repo)
     bad.formula.symbolic = "undeclared_thing * 2"           # passes pydantic, fails the guard
     monkeypatch.setattr(ingest, "fetch_source", lambda *a, **k: ingest.SourceDoc("ntrs:1", "t", "x" * 400, "ntrs"))
     monkeypatch.setattr(synthesize, "synthesize", lambda *a, **k: bad)
     s = pipeline.run(repo, dry_run=True)
-    assert s["origin"] == "vault" and s["pages"] == 1
+    assert s["pages"] == 1                                  # published successfully
+    assert s["origin"] in {"bank", "vault"}                 # from a safe offline source
 
 
 def test_synthesis_deadline_is_enforced(monkeypatch):

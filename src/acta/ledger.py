@@ -4,6 +4,7 @@ the day's history entry instead of double-counting the streak.
 """
 from __future__ import annotations
 
+import copy
 import json
 from datetime import date, timedelta
 from pathlib import Path
@@ -15,7 +16,7 @@ DEFAULT = {"edition_number": 0, "streak": 0, "last_run_date": None, "history": [
 def load(path: Path) -> dict:
     if path.exists():
         return {**DEFAULT, **json.loads(path.read_text(encoding="utf-8"))}
-    return json.loads(json.dumps(DEFAULT))
+    return copy.deepcopy(DEFAULT)
 
 
 def save(path: Path, ledger: dict) -> None:

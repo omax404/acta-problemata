@@ -13,6 +13,7 @@ import requests
 
 from . import ledger as L
 from . import sources as S
+from .schemas import DOMAINS as _DOMAINS
 
 log = logging.getLogger("acta.ingest")
 TIMEOUT = 10  # FR-01.2
@@ -84,9 +85,6 @@ def _market(domain: str, led: dict, today: date, repo_root: Path | None) -> list
     return [SourceDoc(f"market:{b['id']}", b["category"], f"{b['category']}\n\n{b['text']}", "market")
             for b in ranked if not L.is_seen(led, f"market:{b['id']}", today)
             and (b.get("domain") == domain or not any(x.get("domain") == domain for x in items))]
-
-
-_DOMAINS = ("Mechanical", "Aerospace", "Electrical", "Chemical", "Civil", "Thermal", "Materials", "Fluids")
 
 
 def _domain_prefix(name: str) -> str | None:
