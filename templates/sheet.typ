@@ -56,7 +56,7 @@
     place(top + left, dx: 17mm, dy: 53mm, text(font: mono, size: 5.2pt, fill: ink)[#upper(T.no) #num \/\/ #d.code])
     // graphite spec card
     place(top + left, dx: 96mm, dy: 16mm, rect(width: 74mm, height: 42mm, fill: gsrc, stroke: none))
-    place(top + left, dx: 99mm, dy: 18mm, text(font: mono, size: 4.8pt, fill: rgb("#8a8a8a"))[DAILY_BROADSIDE])
+    place(top + left, dx: 99mm, dy: 18mm, text(font: mono, size: 4.8pt, fill: rgb("#8a8a8a"))[#upper(d.mode_label)])
     place(top + left, dx: 99mm, dy: 20.6mm, text(font: sans, weight: "bold", size: 13pt, fill: rgb("#d4d4d1"))[ACTA PROBLEMATA])
     place(top + left, dx: 162.5mm, dy: 18.5mm, rect(width: 2.6mm, height: 2.6mm, fill: orange, stroke: none))
     place(top + left, dx: 98mm, dy: 29mm, grid(columns: (17mm, 53mm), rows: 3.5mm, stroke: 0.3pt + rgb("#5a5a5a"),
@@ -65,10 +65,10 @@
         text(font: mono, size: 4.4pt, fill: rgb("#7d7d7d"))[#r.at(0)],
         text(font: mono, size: 4.4pt, fill: rgb("#c9c9c6"))[#r.at(1)])).flatten())))
     place(top + left, dx: 98mm, dy: 46mm, barcode(ed * 13 + 5, 30mm, 7mm, fg: rgb("#c9c9c6")))
-    place(top + left, dx: 131mm, dy: 46.5mm, text(font: mono, size: 4.2pt, fill: rgb("#7d7d7d"))[\[EDITION_VALIDATION\] \ #d.code \/\/ NOMINAL])
+    place(top + left, dx: 131mm, dy: 46.5mm, text(font: mono, size: 4.2pt, fill: rgb("#7d7d7d"))[\[SHEET_ID\] \ #d.code \/\/ #upper(d.lang)])
     // logo
     place(top + left, dx: 174mm, dy: 16mm, image("logo.svg", height: 26mm))
-    place(top + left, dx: 176mm, dy: 45mm, text(font: mono, size: 4.4pt)[SIGNAL \/\/ #d.date])
+    
   },
   footer: {
     set text(font: mono, size: 5.6pt, fill: ink)
