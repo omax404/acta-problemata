@@ -1,0 +1,26 @@
+name: Takedown / correction request
+description: Ask to remove or correct content in an Acta Problemata edition
+title: "[takedown] "
+labels: ["takedown"]
+body:
+  - type: input
+    id: edition
+    attributes:
+      label: Edition (number or page link)
+      placeholder: "№ 12 or https://…/gazette/solutions/edition-0012.html"
+    validations: { required: true }
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What do you want?
+      options: ["Remove the content", "Correct a factual error", "Remove a name / logo / personal data", "Other"]
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What is the issue, and (if you hold the rights) which original content is concerned?
+    validations: { required: true }
+  - type: markdown
+    attributes:
+      value: "Do not paste personal data here: this issue is public. Say so and we will arrange another channel."

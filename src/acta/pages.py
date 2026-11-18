@@ -51,6 +51,8 @@ def write_solution_pages(repo_root: Path, edition: dict, vf: VerifiedFormula, le
 document.getElementById('snip').textContent)">Copy SymPy snippet</button>
 <p><a href="../archive/acta-{n:04d}.pdf">⬇ Today's broadside (PDF)</a> ·
 <a href="../index.html">Archive</a></p>
+<p class="meta">Independent educational scenario, rewritten from public information; not affiliated with any
+company named or implied. <a href="../../legal.html">Sources, takedown &amp; non-affiliation</a></p>
 <p class="meta">Check your own answer in a terminal: <code>acta check &lt;value&gt; --edition {n}</code></p>
 </body></html>"""
     (sol / f"{slug}.html").write_text(page, encoding="utf-8")

@@ -27,6 +27,16 @@ robots.txt honoured (unreadable/forbidden = blocked) · 1 request per host per 1
 honest User-Agent · on-disk cache · a failing URL is skipped, never fatal · gig/marketplace and directory sites
 are deliberately not crawled.
 
+## Legal guardrails (not legal advice: have a Moroccan lawyer / the CNDP confirm before launch)
+- **Rewritten, not copied.** `src/acta/originality.py` rejects any live-sourced case that shares 8+ consecutive words with its
+  source page; the pipeline then falls back to the bank. Facts and numbers may be reused, sentences may not.
+- **Link, don't mirror.** The original public URL is shown on the solution page and in the email; the source document is never republished.
+- **No personal data / no company names** in published text (`name_companies: false`); form data is used only to email the requester's PDF.
+- **Takedown path.** `docs/legal.html` (FR+EN) + the `takedown` issue template. Treat requests as priority and remove first, discuss after.
+- **Non-affiliation notice** on every solution page; no logos.
+- **Before listing "who solved it" publicly** (company-facing page): collect explicit, revocable opt-in from each solver first (law 09-08).
+- Site terms still apply: where a platform's terms forbid reuse, use `manual` mode (you save the public notice) or ask permission.
+
 ## Not verified yet
 The sandbox used to build this cannot reach any of these sites, so **no live site has been tested**. The adapters are
 covered by offline fixture tests only. Run **Sources check** before trusting any `listing` source.

@@ -17,7 +17,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, render, sources, synthesize
+from . import deliver, originality, render, sources, synthesize
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, verify_formula
@@ -66,9 +66,10 @@ def build_request(root: Path, url: str, email: str, domain: str | None = None,
     try:
         case = synthesize.synthesize(text, domain, cfg["difficulty_level"], cfg.get("llm", {}),
                                      deadline=time.monotonic() + 35, anonymize=True)
+        originality.check_original(text, case)
         vf = verify_formula(case.formula.symbolic,
                             {v.symbol: v.value for v in case.formula.variables}, case.formula.unit)
-    except (synthesize.SynthesisError, MathGuardError, ValueError) as exc:
+    except (synthesize.SynthesisError, originality.NotOriginalError, MathGuardError, ValueError) as exc:
         raise RequestError(f"could not build a verified problem from this page ({exc})") from exc
 
     today = datetime.now(UTC).date()

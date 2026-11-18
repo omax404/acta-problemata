@@ -15,7 +15,7 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, ingest, pages, readme_widget, render, synthesize, video
+from . import deliver, ingest, originality, pages, readme_widget, render, synthesize, video
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, VerifiedFormula, verify_formula
@@ -86,9 +86,12 @@ def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
                                              cfg["difficulty_level"], cfg.get("llm", {}),
                                              deadline=time.monotonic() + SYNTH_DEADLINE_S,
                                              anonymize=not cfg.get("name_companies", False))
+                originality.check_original(src.text, case)     # rewritten, never copied
                 return Content(case, src.case_id, src.origin, src.url, src.domain)
             except synthesize.SynthesisError as exc:
                 log.warning("synthesis failed -> fallback to bank: %s", exc)
+            except originality.NotOriginalError as exc:
+                log.warning("originality guard rejected %s (%s) -> fallback to bank", src.case_id, exc)
         return _bank_content(repo_root, led, today)
     return _vault_content(repo_root, led, today)
 

@@ -28,7 +28,9 @@ def build_message(pdf: Path, edition: dict, to: str, sender: str, answer: float 
     msg["To"] = to
     text = (f"{edition['headline']}\n\n{edition['challenge_question']}\n\n"
             f"Solution gateway: {edition['solution_url']}\n"
-            "Verify your answer locally:  acta check <value>\n"
+            + (f"Original public source: {edition['source_url']}\n"
+               if str(edition.get("source_url", "")).startswith(("http://", "https://")) else "")
+            + "Verify your answer locally:  acta check <value>\n"
             + (f"Check value (3 s.f.): {answer:.3g} {unit}\n" if answer is not None else ""))
     msg.set_content(text)
     gif, mp4 = media.get("gif"), media.get("mp4")
