@@ -7,23 +7,23 @@ code,pre{font-family:'Courier New',monospace;background:#efe9db}
 pre{padding:.8rem;overflow-x:auto;border:1px solid #c9c0ab}
 table{border-collapse:collapse;width:100%}td,th{border:1px solid #c9c0ab;padding:.3rem .6rem;text-align:left}
 .meta{font-style:italic;color:#5a5346}.ans{font-size:1.2rem;font-weight:bold}</style></head><body>
-<h1>№3 — Compressed Air Network Orifice Leak Cost Estimation</h1>
-<p class="meta">19 November 2026 · Mechanical · verified by SymPy</p>
+<h1>№3 — Mars Climate Orbiter Unit Mismatch Trajectory Impulse</h1>
+<p class="meta">19 November 2026 · Aerospace · verified by SymPy</p>
 
-<h2>1 · Governing equation</h2><pre>P * h * c</pre>
-<h2>2 · Boundary conditions</h2><table><tr><th>Quantity</th><th>Value</th></tr><tr><td>Compressor power P</td><td><code>5.2 kW</code></td></tr><tr><td>Operating hours h</td><td><code>8000 h/yr</code></td></tr><tr><td>Electricity cost c</td><td><code>1.2 MAD/kWh</code></td></tr></table>
-<h2>3 · Substitution</h2><table><tr><th>Symbol</th><th>SI value</th></tr><tr><td><code>P</code></td><td><code>5.2</code></td></tr><tr><td><code>h</code></td><td><code>8000</code></td></tr><tr><td><code>c</code></td><td><code>1.2</code></td></tr></table>
-<pre>(5.2) * (8000) * (1.2)</pre>
+<h2>1 · Governing equation</h2><pre>J * k / m</pre>
+<h2>2 · Boundary conditions</h2><table><tr><th>Quantity</th><th>Value</th></tr><tr><td>Nominal impulse J</td><td><code>25.0 N*s</code></td></tr><tr><td>Conversion factor k</td><td><code>4.448222</code></td></tr><tr><td>Spacecraft mass m</td><td><code>638 kg</code></td></tr></table>
+<h2>3 · Substitution</h2><table><tr><th>Symbol</th><th>SI value</th></tr><tr><td><code>J</code></td><td><code>25</code></td></tr><tr><td><code>k</code></td><td><code>4.44822</code></td></tr><tr><td><code>m</code></td><td><code>638</code></td></tr></table>
+<pre>(25) * (4.44822) / (638)</pre>
 <h2>4 · Evaluation</h2>
-<p>Full precision: <code>49920 MAD</code></p>
-<p class="ans">Answer (3 s.f.): 49,900 MAD</p>
+<p>Full precision: <code>0.1743033699 m/s</code></p>
+<p class="ans">Answer (3 s.f.): 0.174 m/s</p>
 <h2>5 · Reproduce it yourself</h2><pre id="snip">import sympy as sp
-P = 5.2
-h = 8000.0
-c = 1.2
-expr = sp.sympify(&#x27;P * h * c&#x27;)
-result = expr.evalf(30)   # -&gt; 49920 MAD
-answer = float(f&#x27;{result:.3g}&#x27;)  # 49900 MAD (3 s.f.)</pre>
+J = 25.0
+k = 4.448222
+m = 638.0
+expr = sp.sympify(&#x27;J * k / m&#x27;)
+result = expr.evalf(30)   # -&gt; 0.1743033699 m/s
+answer = float(f&#x27;{result:.3g}&#x27;)  # 0.174 m/s (3 s.f.)</pre>
 <button onclick="navigator.clipboard.writeText(
 document.getElementById('snip').textContent)">Copy SymPy snippet</button>
 <p><a href="../archive/acta-0003.pdf">⬇ Today's broadside (PDF)</a> ·
