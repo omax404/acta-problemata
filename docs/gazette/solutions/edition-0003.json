@@ -1,14 +1,14 @@
 {
   "edition": 3,
   "date": "2026-11-19",
-  "unit": "MAD",
-  "result": 49900.0,
-  "full_precision": 49920.0,
-  "symbolic": "P * h * c",
+  "unit": "m/s",
+  "result": 0.174,
+  "full_precision": 0.17430336990595613,
+  "symbolic": "J * k / m",
   "variables": {
-    "P": 5.2,
-    "h": 8000.0,
-    "c": 1.2
+    "J": 25.0,
+    "k": 4.448222,
+    "m": 638.0
   },
   "significant_figures": 3
 }

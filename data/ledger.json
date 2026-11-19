@@ -24,9 +24,9 @@
     {
       "edition": 3,
       "date": "2026-11-19",
-      "id": "bank-fuite-air",
-      "domain": "Mechanical",
-      "headline": "Compressed Air Network Orifice Leak Cost Estimation",
+      "id": "bank-mco-unites",
+      "domain": "Aerospace",
+      "headline": "Mars Climate Orbiter Unit Mismatch Trajectory Impulse",
       "pdf": "docs/gazette/archive/acta-0003.pdf",
       "solution": "solutions/edition-0003.html"
     }
@@ -34,6 +34,7 @@
   "seen": {
     "bank-pompage": "2026-11-17",
     "bank-echangeur": "2026-11-18",
-    "bank-fuite-air": "2026-11-19"
+    "bank-fuite-air": "2026-11-19",
+    "bank-mco-unites": "2026-11-19"
   }
 }

@@ -147,7 +147,7 @@ Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflo
 ### Recent broadsides
 | Date | № | Domain | Headline | Read | Verify |
 |---|---|---|---|---|---|
-| 2026-11-19 | 3 | Mechanical | Compressed Air Network Orifice Leak Cost Estimation | [PDF](docs/gazette/archive/acta-0003.pdf) | [Solution](docs/gazette/solutions/edition-0003.html) |
+| 2026-11-19 | 3 | Aerospace | Mars Climate Orbiter Unit Mismatch Trajectory Impulse | [PDF](docs/gazette/archive/acta-0003.pdf) | [Solution](docs/gazette/solutions/edition-0003.html) |
 | 2026-11-18 | 2 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0002.pdf) | [Solution](docs/gazette/solutions/edition-0002.html) |
 | 2026-11-17 | 1 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0001.pdf) | [Solution](docs/gazette/solutions/edition-0001.html) |
 
@@ -156,6 +156,6 @@ Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflo
 pie showData title Editions by domain
   "Fluids" : 1
   "Thermal" : 1
-  "Mechanical" : 1
+  "Aerospace" : 1
 ```
 <!-- ACTA:END -->
