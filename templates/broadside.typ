@@ -190,6 +190,13 @@
           if d.at("diagram_aspect", default: 0.5) > 0.62 { image("diagram.svg", width: 100%, height: 50mm, fit: "contain") }
           else { image("diagram.svg", width: 100%) })
         #align(center, text(size: 0.78em, style: "italic", hyphenate: false)[#d.diagram_caption])
+        #if d.at("micrograph", default: none) != none and d.at("diagram_aspect", default: 0.5) <= 0.62 [
+          #let m = d.micrograph
+          #v(0.9em)
+          #block(stroke: 0.5pt + ink, inset: 0.4em, fill: white, image("micrograph.png", width: 100%, height: 34mm, fit: "cover"))
+          #align(center, text(size: 0.66em, style: "italic", hyphenate: false, fill: soft)[
+            Plate #m.seed. #m.material, etched #m.etchant, #(m.mag)×. #m.grains grains, mean Ø #(m.mean_d_um) µm, ASTM G #(m.astm_g). White bar = #(m.bar_um) µm. Synthetic microstructure.])
+        ]
       ])
   }
   let gap = 5mm

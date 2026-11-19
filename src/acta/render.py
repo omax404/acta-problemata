@@ -82,6 +82,14 @@ def render_edition(edition: dict, diagram_svg: Path, qr_url: str,
     shutil.copy(repo_root / "templates" / "broadside.typ", build / "broadside.typ")
     shutil.copy(diagram_svg, build / "diagram.svg")
     make_qr(qr_url, build / "qr.svg")
+    try:                                         # decorative plate: never allowed to break a render
+        from .micrograph import make_micrograph
+        edition["micrograph"] = make_micrograph(
+            str(edition.get("headline", "")) + str(edition.get("date", "")),
+            str(edition.get("domain", "Mechanical")), build / "micrograph.png")
+    except Exception as exc:                     # noqa: BLE001
+        log.warning("micrograph skipped: %s", exc)
+        edition.pop("micrograph", None)
 
     edition["diagram_aspect"] = svg_aspect(build / "diagram.svg")
     original = edition["narrative"]
