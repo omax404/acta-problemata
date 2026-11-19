@@ -4,7 +4,7 @@ import pytest
 
 from acta import legibility
 from acta.cli import main as cli_main
-from acta.diagrams import KINDS, render_diagram
+from acta.diagrams import KINDS, generator, render_diagram
 
 pytestmark = pytest.mark.skipif(not shutil.which("rsvg-convert"), reason="rsvg-convert not installed")
 
@@ -38,3 +38,23 @@ def test_cli_reports_and_sets_exit_code(tmp_path, capsys):
     assert cli_main(["--root", str(tmp_path), "legibility", str(good)]) == 0
     assert cli_main(["--root", str(tmp_path), "legibility", str(bad)]) == 1
     assert "blank" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("kind", sorted(KINDS))
+def test_no_text_overlaps_in_shipped_diagrams(kind, tmp_path):
+    pairs: list = []
+    render_diagram(kind, {}, tmp_path / "d.svg", audit=pairs)
+    assert pairs == [], pairs
+
+
+def test_overlapping_labels_are_detected(tmp_path, monkeypatch):
+    def bad(ax, p):
+        ax.text(0, 0, "Contrainte maximale", ha="center")
+        ax.text(0.05, 0.02, "Charge P", ha="center")
+        ax.text(5, 5, "Far away", ha="center")
+        ax.set_xlim(-2, 6); ax.set_ylim(-2, 6)
+    monkeypatch.setitem(generator.KINDS, "bad", bad)
+    pairs: list = []
+    render_diagram("bad", {}, tmp_path / "d.svg", audit=pairs)
+    assert pairs == [("Contrainte maximale", "Charge P")]
+    assert [f.code for f in legibility.overlap_findings(pairs)] == ["overlap"]

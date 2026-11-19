@@ -202,11 +202,12 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
                             repo_slug=repo_slug, solution_url=solution_url)
 
     def draw_and_compile() -> tuple[dict, Path]:
+        overlaps: list = []
         svg = render_diagram(content.case.diagram.kind,
                              {p.symbol: p.value for p in content.case.diagram.params},
-                             repo_root / "build" / "diagram_src.svg")
+                             repo_root / "build" / "diagram_src.svg", audit=overlaps)
         try:                                   # report-only: never restyles, never blocks the edition
-            for f in legibility.analyze(svg):
+            for f in [*legibility.overlap_findings(overlaps), *legibility.analyze(svg)]:
                 log.warning("legibility [%s] %s: %s", f.level, f.code, f.message)
         except Exception as exc:  # noqa: BLE001
             log.info("legibility check skipped: %s", exc)

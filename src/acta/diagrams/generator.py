@@ -136,13 +136,25 @@ DOMAIN_DEFAULT_KIND = {
 }
 
 
-def render_diagram(kind: str, params: dict, out_path: Path) -> Path:
+def text_overlaps(fig, pad: float = 1.0) -> list[tuple[str, str]]:
+    """Pairs of visible text labels whose boxes intersect (pixels, `pad` of slack). Read-only audit."""
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    boxes = [(t.get_text().strip(), t.get_window_extent(r)) for t in fig.findobj(matplotlib.text.Text)
+             if t.get_visible() and t.get_text().strip()]
+    return [(a, b) for i, (a, ba) in enumerate(boxes) for b, bb in boxes[i + 1:]
+            if ba.x0 + pad < bb.x1 and bb.x0 + pad < ba.x1 and ba.y0 + pad < bb.y1 and bb.y0 + pad < ba.y1]
+
+
+def render_diagram(kind: str, params: dict, out_path: Path, audit: list | None = None) -> Path:
     if kind not in KINDS:
         raise ValueError(f"unknown diagram kind {kind!r}; allowed: {sorted(KINDS)}")
     safe = {str(k)[:20]: float(v) for k, v in (params or {}).items()
             if isinstance(v, (int, float)) and -1e12 < v < 1e12}
     fig, ax = _fig()
     KINDS[kind](ax, safe)
+    if audit is not None:                                  # report-only: the figure is never altered
+        audit.extend(text_overlaps(fig))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, format="svg", transparent=True, bbox_inches="tight", pad_inches=0.06)
     plt.close(fig)

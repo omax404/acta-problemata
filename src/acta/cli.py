@@ -88,13 +88,17 @@ def main(argv: list[str] | None = None) -> int:
 
         from . import legibility
         from .diagrams import KINDS, render_diagram
-        files = list(a.files)
+        files, extra = list(a.files), {}
         if not files:
             tmp = Path(tempfile.mkdtemp())
-            files = [render_diagram(k, {}, tmp / f"{k}.svg") for k in KINDS]
+            for k in KINDS:
+                pairs: list = []
+                f = render_diagram(k, {}, tmp / f"{k}.svg", audit=pairs)
+                files.append(f)
+                extra[f] = legibility.overlap_findings(pairs)
         bad = 0
         for f in files:
-            found = legibility.analyze(f)
+            found = [*extra.get(f, []), *legibility.analyze(f)]
             bad += sum(x.level == "error" for x in found)
             detail = "; ".join(f"[{x.level}] {x.code}: {x.message}" for x in found)
             print(f"{f.stem}: {detail or 'clean'}")

@@ -5,6 +5,7 @@ so the broadside's art direction stays exactly as designed. Checks, on the rende
   * clipped   – ink touching the canvas edge (a label or arrow cut off by the figure bounds)
   * contrast  – darkest ink vs background below WCAG 4.5:1
   * blank     – almost no ink at all
+  * overlap   – two text labels drawn on top of each other (from the figure's text boxes)
   * icon      – ink that disappears when the figure is shrunk to thumbnail size
 """
 from __future__ import annotations
@@ -81,3 +82,8 @@ def analyze(svg: Path, page_bg=(255, 255, 255)) -> list[Finding]:
     if float((_ratio(icon, bg) >= 3.0).mean()) < MIN_ICON_INK:   # readable marks only
         out.append(Finding("warn", "icon", "figure nearly vanishes at thumbnail size"))
     return out
+
+
+def overlap_findings(pairs: list[tuple[str, str]]) -> list[Finding]:
+    """Overlapping-label pairs from the generator -> findings (text on top of text is unreadable)."""
+    return [Finding("error", "overlap", f"labels overlap: {a!r} / {b!r}") for a, b in pairs]
