@@ -28,17 +28,6 @@ jobs:
       - name: Install package
         run: pip install -e .
 
-      # Motion companion (MP4 + GIF in the email). Entirely optional: if any of this fails the edition
-      # still publishes and the email goes out with the PDF alone (acta.video skips when the CLI is absent).
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-      - name: Install motion renderer (optional)
-        continue-on-error: true
-        run: |
-          sudo apt-get install -y --no-install-recommends ffmpeg
-          npm install -g hyperframes@0.9.61
-
       - name: Pull inbox mail (optional)
         env:
           IMAP_HOST: ${{ secrets.IMAP_HOST }}
