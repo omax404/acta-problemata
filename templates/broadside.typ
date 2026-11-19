@@ -94,7 +94,7 @@
         top-edge: "cap-height", bottom-edge: "baseline")[#ed3])
     }),
     ..if mg != none { (block(width: 100%, height: 100%, inset: (right: 6mm, top: 5mm, bottom: 0mm), {
-      block(width: 100%, height: 46mm, {
+      block(width: 100%, height: 34mm, {
         image("micrograph.png", width: 100%, height: 100%, fit: "cover")
         corners(c: graphite, len: 3mm, w: 1.1pt)
       })
@@ -103,7 +103,7 @@
         ("GRAINS", str(mg.grains)), ("MEAN D", str(mg.mean_d_um) + " um"), ("ASTM E112 G", str(mg.astm_g)),
         ("SCALE BAR", str(mg.bar_um) + " um"))
       set text(font: mono, size: 5.2pt, fill: graphite)
-      grid(columns: (auto, 1fr), column-gutter: 2mm, row-gutter: 1.1mm, stroke: none,
+      grid(columns: (auto, 1fr), column-gutter: 2mm, row-gutter: 0.6mm, stroke: none,
         ..rows.map(r => (text(fill: rgb("#3a1100"))[#r.at(0)], align(right, text(weight: "bold")[#r.at(1)]))).flatten())
       v(0.8mm)
       text(font: mono, size: 4.6pt, fill: rgb("#3a1100"))[PLATE #mg.seed \/\/ SYNTHETIC MICROSTRUCTURE]
