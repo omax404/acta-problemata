@@ -140,13 +140,14 @@ acta request --url <page> --email you@x.com    # link + email in, PDF out
 Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
 
 <!-- ACTA:BEGIN -->
-![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-2-8a6d3b)
+![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-3-8a6d3b)
 
-**Current streak: 2 day(s) · 2 editions issued.**
+**Current streak: 3 day(s) · 3 editions issued.**
 
 ### Recent broadsides
 | Date | № | Domain | Headline | Read | Verify |
 |---|---|---|---|---|---|
+| 2026-11-19 | 3 | Mechanical | Compressed Air Network Orifice Leak Cost Estimation | [PDF](docs/gazette/archive/acta-0003.pdf) | [Solution](docs/gazette/solutions/edition-0003.html) |
 | 2026-11-18 | 2 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0002.pdf) | [Solution](docs/gazette/solutions/edition-0002.html) |
 | 2026-11-17 | 1 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0001.pdf) | [Solution](docs/gazette/solutions/edition-0001.html) |
 
@@ -155,5 +156,6 @@ Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflo
 pie showData title Editions by domain
   "Fluids" : 1
   "Thermal" : 1
+  "Mechanical" : 1
 ```
 <!-- ACTA:END -->

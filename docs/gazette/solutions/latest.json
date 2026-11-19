@@ -1,15 +1,14 @@
 {
-  "edition": 2,
-  "date": "2026-11-18",
-  "unit": "kW",
-  "result": 527.0,
-  "full_precision": 526.62,
-  "symbolic": "m * cp * (T2 - T1)",
+  "edition": 3,
+  "date": "2026-11-19",
+  "unit": "MAD",
+  "result": 49900.0,
+  "full_precision": 49920.0,
+  "symbolic": "P * h * c",
   "variables": {
-    "m": 2.0,
-    "cp": 3.93,
-    "T2": 72.0,
-    "T1": 5.0
+    "P": 5.2,
+    "h": 8000.0,
+    "c": 1.2
   },
   "significant_figures": 3
 }
