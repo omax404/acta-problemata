@@ -65,7 +65,32 @@
 
 #let tag(t, c: graphite, size: 6pt) = text(font: mono, size: size, weight: "bold", fill: c, tracking: 0.4pt)[#t]
 
-#set page(paper: "a4", fill: bone, margin: 10mm)
+// ── metric rulers in the page margins: true 1 mm ticks, 5 mm / 10 mm marks, cm numerals (A4 = 210 x 297 mm) ──
+#let ruler-bg = {
+  let tk = 0.22pt + graphite
+  let tlen(i) = if calc.rem(i, 10) == 0 { 4mm } else if calc.rem(i, 5) == 0 { 2.6mm } else { 1.5mm }
+  let num(t) = text(font: mono, size: 3.6pt, fill: graphite, weight: "bold")[#t]
+  for i in range(0, 211) {
+    place(top + left, dx: i * 1mm, line(angle: 90deg, length: tlen(i), stroke: tk))
+    place(bottom + left, dx: i * 1mm, dy: -tlen(i), line(angle: 90deg, length: tlen(i), stroke: tk))
+    if calc.rem(i, 10) == 0 and i > 0 and i < 210 and i != 100 and i != 110 {
+      place(top + left, dx: i * 1mm + 0.5mm, dy: 4.2mm, num(str(calc.quo(i, 10))))
+      place(bottom + left, dx: i * 1mm + 0.5mm, dy: -7.4mm, num(str(calc.quo(i, 10))))
+    }
+  }
+  for j in range(0, 298) {
+    place(top + left, dy: j * 1mm, line(length: tlen(j), stroke: tk))
+    place(top + right, dy: j * 1mm, dx: -tlen(j), line(length: tlen(j), stroke: tk))
+    if calc.rem(j, 10) == 0 and j > 0 and j < 297 and j != 150 {
+      place(top + left, dx: 4.4mm, dy: j * 1mm - 0.5mm, rotate(-90deg, origin: top + left, num(str(calc.quo(j, 10)))))
+      place(top + right, dx: -7.4mm, dy: j * 1mm - 0.5mm, rotate(-90deg, origin: top + left, num(str(calc.quo(j, 10)))))
+    }
+  }
+  place(top + center, dy: 4.6mm, box(fill: bone, inset: (x: 1mm), text(font: mono, size: 4pt, weight: "bold", fill: orange)[#sym.arrow.l  210 MM  #sym.arrow.r]))
+  place(left + horizon, dx: -2.4mm, rotate(-90deg, box(fill: bone, inset: (x: 1mm), text(font: mono, size: 4pt, weight: "bold", fill: orange)[#sym.arrow.l  297 MM  #sym.arrow.r])))
+  place(bottom + right, dx: -11mm, dy: -4.6mm, box(fill: bone, inset: (x: 1mm), text(font: mono, size: 3.8pt, weight: "bold", fill: graphite)[A4  210 #sym.times 297 MM  \/\/  SCALE 1:1  \/\/  TICK 1 MM]))
+}
+#set page(paper: "a4", fill: bone, margin: 10mm, background: ruler-bg)
 #set text(font: body, stretch: 87.5%, size: 9.4pt, fill: graphite, hyphenate: true, lang: "en")
 #set par(justify: false, leading: 0.58em, spacing: 0.8em)
 
