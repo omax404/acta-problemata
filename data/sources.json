@@ -226,5 +226,89 @@
     "link_pattern": "",
     "domain_hint": "Mechanical",
     "note": "Failure Analysis, Machine Design, Piping forums. User-generated posts: the pipeline paraphrases into an original scenario and never quotes. Public challenge pages are the best automatable source. Disabled until you run `acta sources-check`, then fill listing_url + link_pattern (a regex matching challenge-page links)."
+  },
+  {
+    "id": "fail-csb",
+    "name": "US Chemical Safety Board investigations",
+    "url": "https://www.csb.gov",
+    "category": "failure",
+    "mode": "listing",
+    "enabled": false,
+    "listing_url": "https://www.csb.gov/investigations/completed-investigations/",
+    "link_pattern": "",
+    "domain_hint": "Chemical",
+    "note": "Public-domain US government failure reports (root cause + recommendations). Run `acta sources-check`, then fill link_pattern with a regex matching investigation page links and enable."
+  },
+  {
+    "id": "fail-ntsb",
+    "name": "NTSB investigations",
+    "url": "https://www.ntsb.gov",
+    "category": "failure",
+    "mode": "listing",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Aerospace",
+    "note": "Public-domain accident reports. Fill listing_url/link_pattern after `acta sources-check`."
+  },
+  {
+    "id": "ma-masen",
+    "name": "MASEN e-tendering",
+    "url": "https://etendering.masen.ma",
+    "category": "tender",
+    "mode": "manual",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Mechanical",
+    "note": "Public-company tender page (Morocco). Likely form/session-driven: save the public CPS/notice PDF into data/inbox/ or paste its URL into data/inbox/urls.txt. Verify with `acta sources-check` first."
+  },
+  {
+    "id": "ma-onda",
+    "name": "ONDA appels d'offres",
+    "url": "https://www.onda.ma",
+    "category": "tender",
+    "mode": "manual",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Mechanical",
+    "note": "Public-company tender page (Morocco). Likely form/session-driven: save the public CPS/notice PDF into data/inbox/ or paste its URL into data/inbox/urls.txt. Verify with `acta sources-check` first."
+  },
+  {
+    "id": "ma-alomrane",
+    "name": "Al Omrane appels d'offres",
+    "url": "https://www.alomrane.gov.ma/Eservices/Appels-d-offres",
+    "category": "tender",
+    "mode": "manual",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Mechanical",
+    "note": "Public-company tender page (Morocco). Likely form/session-driven: save the public CPS/notice PDF into data/inbox/ or paste its URL into data/inbox/urls.txt. Verify with `acta sources-check` first."
+  },
+  {
+    "id": "ma-oncf",
+    "name": "ONCF appels d'offres",
+    "url": "https://www.oncf.ma",
+    "category": "tender",
+    "mode": "manual",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Mechanical",
+    "note": "Public-company tender page (Morocco). Likely form/session-driven: save the public CPS/notice PDF into data/inbox/ or paste its URL into data/inbox/urls.txt. Verify with `acta sources-check` first."
+  },
+  {
+    "id": "ma-marsamaroc",
+    "name": "Marsa Maroc achats",
+    "url": "https://achats.marsamaroc.co.ma",
+    "category": "tender",
+    "mode": "manual",
+    "enabled": false,
+    "listing_url": "",
+    "link_pattern": "",
+    "domain_hint": "Mechanical",
+    "note": "Public-company tender page (Morocco). Likely form/session-driven: save the public CPS/notice PDF into data/inbox/ or paste its URL into data/inbox/urls.txt. Verify with `acta sources-check` first."
   }
 ]
