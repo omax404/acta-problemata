@@ -59,12 +59,13 @@ def _compile(build: Path, out_pdf: Path, entry: str = "broadside.typ") -> float:
         typst = None
     try:
         if typst is not None:
-            typst.compile(str(build / entry), output=str(out_pdf), root=str(build))
+            typst.compile(str(build / entry), output=str(out_pdf), root=str(build),
+                         font_paths=[str(build / "fonts")])
         else:
             cli = shutil.which("typst")
             if not cli:
                 raise RuntimeError("no Typst compiler: pip install typst (or put the CLI on PATH)")
-            r = subprocess.run([cli, "compile", "--root", str(build), entry, str(out_pdf)],
+            r = subprocess.run([cli, "compile", "--root", str(build), "--font-path", str(build / "fonts"), entry, str(out_pdf)],
                                cwd=build, capture_output=True, text=True, timeout=30)
             if r.returncode:
                 raise RuntimeError(f"typst compile failed:\n{r.stderr.strip()}")
@@ -80,6 +81,7 @@ def render_edition(edition: dict, diagram_svg: Path, qr_url: str,
     build = repo_root / "build"
     build.mkdir(exist_ok=True)
     shutil.copy(repo_root / "templates" / "broadside.typ", build / "broadside.typ")
+    shutil.copytree(repo_root / "templates" / "fonts", build / "fonts", dirs_exist_ok=True)
     shutil.copy(diagram_svg, build / "diagram.svg")
     make_qr(qr_url, build / "qr.svg")
     try:                                         # decorative plate: never allowed to break a render
