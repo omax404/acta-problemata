@@ -1,14 +1,18 @@
 {
-  "edition": 3,
-  "date": "2026-11-19",
-  "unit": "m/s",
-  "result": 0.174,
-  "full_precision": 0.17430336990595613,
-  "symbolic": "J * k / m",
+  "edition": 4,
+  "date": "2026-11-20",
+  "unit": "m",
+  "result": 22.4,
+  "full_precision": 22.400003883306635,
+  "symbolic": "dz + (f * L / D + K) * v**2 / (2 * g)",
   "variables": {
-    "J": 25.0,
-    "k": 4.448222,
-    "m": 638.0
+    "dz": 18.0,
+    "f": 0.0194,
+    "L": 250.0,
+    "D": 0.105,
+    "K": 6.5,
+    "v": 1.28,
+    "g": 9.81
   },
   "significant_figures": 3
 }

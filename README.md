@@ -140,13 +140,14 @@ acta request --url <page> --email you@x.com    # link + email in, PDF out
 Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
 
 <!-- ACTA:BEGIN -->
-![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-3-8a6d3b)
+![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-4-8a6d3b)
 
-**Current streak: 3 day(s) · 3 editions issued.**
+**Current streak: 4 day(s) · 4 editions issued.**
 
 ### Recent broadsides
 | Date | № | Domain | Headline | Read | Verify |
 |---|---|---|---|---|---|
+| 2026-11-20 | 4 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0004.pdf) | [Solution](docs/gazette/solutions/edition-0004.html) |
 | 2026-11-19 | 3 | Aerospace | Mars Climate Orbiter Unit Mismatch Trajectory Impulse | [PDF](docs/gazette/archive/acta-0003.pdf) | [Solution](docs/gazette/solutions/edition-0003.html) |
 | 2026-11-18 | 2 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0002.pdf) | [Solution](docs/gazette/solutions/edition-0002.html) |
 | 2026-11-17 | 1 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0001.pdf) | [Solution](docs/gazette/solutions/edition-0001.html) |
@@ -154,7 +155,7 @@ Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflo
 ### November 2026 — domain focus
 ```mermaid
 pie showData title Editions by domain
-  "Fluids" : 1
+  "Fluids" : 2
   "Thermal" : 1
   "Aerospace" : 1
 ```
