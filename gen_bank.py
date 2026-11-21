@@ -13,7 +13,7 @@ A=math.pi*D*D/4; v=Q/A; Re=v*D/nu
 f=.25/math.log10(eps/(3.7*D)+5.74/Re**.9)**2
 hf=f*L/D*v*v/(2*g); hm=K*v*v/(2*g); H=dz+hf+hm; P=1000*g*Q*H/eta
 add("pompage", title="Dimensionnement d'une ligne de pompage", sector="Agroalimentaire", sector_code="AGR", region="Fès-Meknès", level=2,
- context="Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle est surdimensionnée et consomme trop d'énergie. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
+ context="Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle consomme trop d'énergie par rapport au besoin hydraulique réel. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
  data=[["Débit","Q","40 m³/h"],["Longueur","L","250 m"],["Diamètre intérieur","D","105 mm"],["Dénivelé","Δz","18 m"],["Rugosité","ε","0,045 mm"],["Singularités","ΣK","6,5"],["Viscosité cinématique","ν","1,004·10⁻⁶ m²/s"],["Rendement","η","0,68"]],
  questions=["La vitesse v, le nombre de Reynolds Re et le coefficient de frottement f ;","La hauteur manométrique totale H et la puissance à l'arbre ;","Une recommandation commentée (point de fonctionnement, marge, variateur de vitesse)."],
  formulas=["H = Δz + (f·L/D + ΣK)·v²/2g","f = 0,25 / [log10( ε/(3,7·D) + 5,74/Re^0,9 )]²  (Swamee-Jain)","P = ρ·g·Q·H / η"],
@@ -37,7 +37,7 @@ rho0=p0/(R*T0); Qn=mdot/rho0*3600; kwh_m3=.11; hours=8000; tar=1.2
 kw=Qn*kwh_m3; cost=kw*hours*tar
 add("fuite-air", title="Coût d'une fuite d'air comprimé", sector="Textile", sector_code="TEX", region="Tanger-Tétouan-Al Hoceïma", level=1,
  context="Lors d'un audit énergétique d'un atelier de confection, une fuite de 3 mm est repérée sur un réseau d'air comprimé qui tourne en continu. Le responsable maintenance demande de chiffrer ce que coûte cette seule fuite par an.",
- data=[["Diamètre de l'orifice","d","3 mm"],["Pression relative réseau","pg","7 bar"],["Température de l'air","T","20 °C"],["Coefficient de décharge","Cd","0,65"],["Énergie spécifique du compresseur","e","0,11 kWh/Nm³"],["Fonctionnement","h","8 000 h/an"],["Tarif électricité","c","1,2 MAD/kWh"]],
+ data=[["Diamètre de l'orifice","d","3 mm"],["Pression relative réseau","pg","7 bar"],["Température de l'air","T","20 °C"],["Conditions de référence","ISO 1217","1,013 bar, 20 °C"],["Coefficient de décharge","Cd","0,65"],["Énergie spécifique du compresseur","e","0,11 kWh/Nm³"],["Fonctionnement","h","8 000 h/an"],["Tarif électricité","c","1,2 MAD/kWh"]],
  questions=["Le débit massique de la fuite (écoulement supposé sonique) ;","Le débit volumique en Nm³/h ;","La puissance perdue et le coût annuel, puis le gain d'une campagne de réparation."],
  formulas=["ṁ = Cd·A·p·√(γ/(R·T)) · (2/(γ+1))^((γ+1)/(2(γ−1)))","Qₙ = ṁ / ρₙ  avec ρₙ = p₀/(R·T₀)","Coût = Qₙ · e · h · c"],
  answer_key=[f"ṁ = {fr(mdot*1000,2)} g/s", f"Qn = {fr(Qn,1)} Nm³/h", f"Puissance perdue = {fr(kw,1)} kW ; coût annuel = {fr(cost,0)} MAD"])
@@ -46,7 +46,7 @@ add("fuite-air", title="Coût d'une fuite d'air comprimé", sector="Textile", se
 Pn=55; share=.85; fl=.7; eta_v=.97; hrs=7000; c=1.1
 P_damp=Pn*share; P_vfd=Pn*fl**3/eta_v; sav=(P_damp-P_vfd)*hrs; sav_mad=sav*c
 add("variateur-ventilateur", title="Gain d'un variateur sur un ventilateur de process", sector="Matériaux de construction", sector_code="MAT", region="Marrakech-Safi", level=2,
- context="Un ventilateur de dépoussiérage de 55 kW est régulé par un volet d'étranglement et tourne en moyenne à 70 % du débit nominal. L'équipe maintenance envisage un variateur de fréquence et veut savoir s'il se rembourse vite.",
+ context="Un ventilateur de dépoussiérage de 55 kW est régulé par un volet d'étranglement et tourne en moyenne à 70 % du débit nominal. L'équipe maintenance envisage un variateur de fréquence et veut savoir s'il se rembourse vite. Hypothèse : pas de pression statique ; la loi cubique surestime le gain si le circuit a une hauteur statique.",
  data=[["Puissance nominale","Pn","55 kW"],["Puissance avec volet à 70 % de débit","Pv","85 % de Pn"],["Débit moyen","Q/Qn","0,70"],["Rendement du variateur","ηv","0,97"],["Fonctionnement","h","7 000 h/an"],["Tarif électricité","c","1,1 MAD/kWh"]],
  questions=["La puissance absorbée avec volet et avec variateur (lois de similitude) ;","L'économie annuelle en kWh et en MAD ;","Le temps de retour sur investissement pour un variateur dont le prix est à demander à un fournisseur."],
  formulas=["P ∝ n³  et  Q ∝ n  ⇒  P = Pn·(Q/Qn)³","P_variateur = Pn·(Q/Qn)³ / ηv"],
@@ -78,9 +78,9 @@ add("chaudiere", title="Rendement d'une chaudière vapeur", sector="Agroalimenta
 lb=4.448222; J=25.0; m=638.0; n_ev=100
 Jtrue=J*lb; dv_true=Jtrue/m; dv_read=J/m; err=dv_true-dv_read
 add("mco-unites", status="real", title="Piège d'unités : le cas Mars Climate Orbiter", sector="Aérospatial (cas public)", sector_code="AER", region="International", level=1,
- source_url="http://sunnyday.mit.edu/accidents/MCO_report.pdf", source_title="Mars Climate Orbiter Mishap Investigation Board, Phase I Report", source_publisher="NASA, 10 novembre 1999",
- accessed="2026-11-15",
- source_note="Faits tirés de la source : un fichier de logiciel sol (SM_FORCES) fournissait l'impulsion des propulseurs en lbf·s au lieu de N·s exigés par la spécification d'interface ; la trajectoire a donc été sous-estimée d'un facteur 4,45. Lien cité par une publication tierce ; je n'ai pas pu ouvrir le PDF directement.",
+ source_url="https://sunnyday.mit.edu/accidents/MCO_report.pdf", source_title="Mars Climate Orbiter Mishap Investigation Board, Phase I Report", source_publisher="NASA, 10 novembre 1999",
+ accessed="2026-11-15", verified_by_human=False,
+ source_note="Faits tirés de la source : un fichier de logiciel sol (SM_FORCES) fournissait l'impulsion des propulseurs en lbf·s au lieu de N·s exigés par la spécification d'interface ; la trajectoire a donc été sous-estimée d'un facteur 4,45.",
  exercise_note="Les valeurs numériques ci-dessous (impulsion, masse, nombre d'événements) sont celles de l'exercice, pas celles du rapport.",
  context="En 1999, la sonde Mars Climate Orbiter de la NASA a été perdue après une erreur d'unités : un logiciel au sol exprimait l'impulsion des propulseurs en livre-force seconde alors que le logiciel de navigation attendait des newton-secondes. Le même piège existe dans l'industrie (automates, SCADA, fichiers d'échange entre services). L'exercice chiffre l'effet d'une telle confusion.",
  data=[["Impulsion lue dans le fichier","J","25,0 (lbf·s, lue comme N·s)"],["Masse de l'engin (valeur d'exercice)","m","638 kg"],["Nombre d'événements identiques (même sens)","n","100"],["Conversion","1 lbf·s","4,448222 N·s"]],
@@ -88,7 +88,7 @@ add("mco-unites", status="real", title="Piège d'unités : le cas Mars Climate O
  formulas=["1 lbf·s = 4,448222 N·s","Δv = J / m","facteur = J_réel / J_lu"],
  answer_key=[f"facteur = {fr(lb,3)}", f"Δv réel = {fr(dv_true,4)} m/s ; Δv lu = {fr(dv_read,4)} m/s ; écart = {fr(err,4)} m/s par événement", f"Cumul sur {n_ev} événements : {fr(err*n_ev,2)} m/s ; mesures : spécification d'interface avec unités, données étiquetées, test d'intégration croisé"])
 
-# 8 -- REALISTIC: Kanban line dimensioning (automotive wiring, inspiration Yazaki / FSDM)
+# 8 -- REALISTIC: Kanban line dimensioning (automotive wiring, inspiration automotive wiring sector)
 D_dem=480; L_lead=0.75; alpha_sec=0.20; C_cont=25
 K_exact=D_dem*L_lead*(1+alpha_sec)/C_cont
 K_cards=math.ceil(K_exact)
@@ -100,7 +100,7 @@ add("kanban-cablage", title="Dimensionnement d'une boucle Kanban en câblage aut
  formulas=["K = [D · L · (1 + α)] / C","\\text{WIP}_{\\max} = K \\cdot C"],
  answer_key=[f"K théorique = {fr(K_exact,2)} ; K retenu = {K_cards} cartes (bacs)", f"WIP max = {WIP_max} connecteurs", f"Avec L = 0,25 j : K = {math.ceil(D_dem*0.25*(1+alpha_sec)/C_cont)} cartes (baisse de l'en-cours de {WIP_max - math.ceil(D_dem*0.25*(1+alpha_sec)/C_cont)*C_cont} connecteurs)"])
 
-# 9 -- REALISTIC: OEE / TRS diagnosis (bag manufacturing, inspiration Papsac Casablanca)
+# 9 -- REALISTIC: OEE / TRS diagnosis (bag manufacturing, inspiration industrial packaging sector)
 T_ouv=8*3600; T_arrets=78*60; T_fonction=T_ouv-T_arrets
 Dispo=T_fonction/T_ouv
 Cadence_theorique=1/1.5 # 1 sac toutes les 1.5 s
@@ -111,25 +111,25 @@ Perf=T_net/T_fonction
 Qual=Prod_conforme/Prod_totale
 TRS=Dispo*Perf*Qual
 add("trs-ensachage", title="Diagnostic TRS et pertes d'une ligne de sacs industriels", sector="Emballage & Chimie", sector_code="EMB", region="Casablanca-Settat", level=2,
- context="Lors d'un audit de productivité sur une ligne de fabrication de sacs industriels (fond de sac), le Taux de Rendement Synthétique (TRS) moyen s'avère anormalement bas (~49 %). L'ingénieur de production doit décomposer les 3 taux pour identifier le levier prioritaire.",
+ context=f"Lors d'un audit de productivité sur une ligne de fabrication de sacs industriels (fond de sac), le Taux de Rendement Synthétique (TRS) moyen s'avère anormalement bas (~{fr(TRS*100,0)} %). L'ingénieur de production doit décomposer les 3 taux pour identifier le levier prioritaire.",
  data=[["Temps d'ouverture poste (1 poste de 8 h)","T_ouv","28 800 s (8 h)"],["Arrêts non planifiés cumulés (pannes, réglages)","T_arr","4 680 s (78 min)"],["Production totale enregistrée","N_tot","11 200 sacs"],["Production conforme livrable","N_bon","10 850 sacs"],["Temps de cycle nominal machine","t_cycle","1,5 s/sac"]],
  questions=["Le taux de disponibilité temporelle de la ligne ;","Le taux de performance machine (perte de cadence) ;","Le taux de qualité et le TRS global, avec identification de la perte principale (disponibilité vs cadence)."],
  formulas=["\\text{Disponibilité} = \\frac{T_{\\text{fonctionnement}}}{T_{\\text{ouverture}}}", "\\text{Performance} = \\frac{N_{\\text{tot}} \\cdot t_{\\text{cycle}}}{T_{\\text{fonctionnement}}}", "\\text{Qualité} = \\frac{N_{\\text{bon}}}{N_{\\text{tot}}}", "\\text{TRS} = D \\cdot P \\cdot Q"],
  answer_key=[f"Disponibilité = {fr(Dispo*100,1)} %", f"Performance = {fr(Perf*100,1)} %", f"Qualité = {fr(Qual*100,1)} % ; TRS = {fr(TRS*100,2)} % (perte principale : cadence/micro-arrêts, perte de performance = {fr((1-Perf)*100,1)} %)"])
 
-# 10 -- REALISTIC: Little's Law / Queue bottleneck (fertilizer chemical processing, inspiration OCP/ENSMR)
+# 10 -- REALISTIC: Little's Law / Queue bottleneck (fertilizer chemical processing, inspiration phosphate mining sector)
 lambda_arr=45.0 # tonnes/heure reçues
 W_sejour=2.4 # heures de séjour moyen cuve/broyage
 L_en_cours=lambda_arr*W_sejour
 lambda_pic=lambda_arr*1.40 # +40%
 add("goulot-engrais", title="Loi de Little et engorgement d'une unité de broyage d'engrais", sector="Mines & Chimie lourde", sector_code="CHM", region="Casablanca-Settat", level=2,
- context="Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation. Il faut quantifier l'en-cours moyen et la capacité critique de l'installation.",
- data=[["Débit moyen d'alimentation matière","λ","45 t/h"],["Temps de séjour moyen dans le process","W","2,4 h"],["Augmentation de charge prévue","ΔD","+40 % (63 t/h)"],["Capacité nominale de stockage tampon","L_max","120 tonnes"]],
- questions=["L'en-cours moyen matière L dans le système en régime nominal (loi de Little) ;","L'en-cours prévu sous une hausse de 40 % si le temps de séjour reste identique ;","Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t déborde à 63 t/h."],
+ context="Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. L est l'en-cours total matière du système et la cuve de 120 t en constitue le stockage tampon. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation.",
+ data=[["Débit moyen d'alimentation matière","λ","45 t/h"],["Temps de séjour moyen dans le process","W","2,4 h"],["Augmentation de charge prévue","ΔD","+40 % (63 t/h)"],["Capacité du stockage tampon dans le système","L_max","120 tonnes"]],
+ questions=["L'en-cours moyen matière total L dans le système en régime nominal (loi de Little) ;","L'en-cours total prévu sous une hausse de 40 % si le temps de séjour reste identique ;","Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t sature sous le flux de 63 t/h."],
  formulas=["L = \\lambda \\cdot W \\quad (\\text{Loi de Little})", "W_{\\text{crit}} = \\frac{L_{\\max}}{\\lambda_{\\text{pic}}}"],
  answer_key=[f"L nominal = {fr(L_en_cours,1)} tonnes", f"L à +40 % = {fr(lambda_pic*W_sejour,1)} tonnes", f"W critique à 63 t/h = {fr(120/lambda_pic,2)} h ({fr(120/lambda_pic*60,0)} min) avant saturation du stockage tampon"])
 
-# 11 -- REALISTIC: Dual-resource sewing line balancing (textile garment manufacturing, inspiration EMO SAS/ROADEF)
+# 11 -- REALISTIC: Sewing line balancing (textile garment manufacturing, inspiration garment assembly sector)
 T_total=320.0 # secondes de travail par vêtement
 T_cadence=45.0 # temps de cycle takt time souhaité
 N_theo=T_total/T_cadence

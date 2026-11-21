@@ -8,7 +8,7 @@
  "sector_code": "AGR",
  "region": "Fès-Meknès",
  "level": 2,
- "context": "Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle est surdimensionnée et consomme trop d'énergie. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
+ "context": "Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle consomme trop d'énergie par rapport au besoin hydraulique réel. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
  "data": [
   [
    "Débit",

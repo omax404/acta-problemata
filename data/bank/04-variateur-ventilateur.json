@@ -8,7 +8,7 @@
  "sector_code": "MAT",
  "region": "Marrakech-Safi",
  "level": 2,
- "context": "Un ventilateur de dépoussiérage de 55 kW est régulé par un volet d'étranglement et tourne en moyenne à 70 % du débit nominal. L'équipe maintenance envisage un variateur de fréquence et veut savoir s'il se rembourse vite.",
+ "context": "Un ventilateur de dépoussiérage de 55 kW est régulé par un volet d'étranglement et tourne en moyenne à 70 % du débit nominal. L'équipe maintenance envisage un variateur de fréquence et veut savoir s'il se rembourse vite. Hypothèse : pas de pression statique ; la loi cubique surestime le gain si le circuit a une hauteur statique.",
  "data": [
   [
    "Puissance nominale",

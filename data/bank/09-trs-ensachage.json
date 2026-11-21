@@ -8,7 +8,7 @@
  "sector_code": "EMB",
  "region": "Casablanca-Settat",
  "level": 2,
- "context": "Lors d'un audit de productivité sur une ligne de fabrication de sacs industriels (fond de sac), le Taux de Rendement Synthétique (TRS) moyen s'avère anormalement bas (~49 %). L'ingénieur de production doit décomposer les 3 taux pour identifier le levier prioritaire.",
+ "context": "Lors d'un audit de productivité sur une ligne de fabrication de sacs industriels (fond de sac), le Taux de Rendement Synthétique (TRS) moyen s'avère anormalement bas (~57 %). L'ingénieur de production doit décomposer les 3 taux pour identifier le levier prioritaire.",
  "data": [
   [
    "Temps d'ouverture poste (1 poste de 8 h)",

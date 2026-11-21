@@ -2,7 +2,7 @@
  "slug": "mco-unites",
  "lang": "fr",
  "status": "real",
- "source_url": "http://sunnyday.mit.edu/accidents/MCO_report.pdf",
+ "source_url": "https://sunnyday.mit.edu/accidents/MCO_report.pdf",
  "title": "Piège d'unités : le cas Mars Climate Orbiter",
  "sector": "Aérospatial (cas public)",
  "sector_code": "AER",
@@ -11,7 +11,8 @@
  "source_title": "Mars Climate Orbiter Mishap Investigation Board, Phase I Report",
  "source_publisher": "NASA, 10 novembre 1999",
  "accessed": "2026-11-15",
- "source_note": "Faits tirés de la source : un fichier de logiciel sol (SM_FORCES) fournissait l'impulsion des propulseurs en lbf·s au lieu de N·s exigés par la spécification d'interface ; la trajectoire a donc été sous-estimée d'un facteur 4,45. Lien cité par une publication tierce ; je n'ai pas pu ouvrir le PDF directement.",
+ "verified_by_human": false,
+ "source_note": "Faits tirés de la source : un fichier de logiciel sol (SM_FORCES) fournissait l'impulsion des propulseurs en lbf·s au lieu de N·s exigés par la spécification d'interface ; la trajectoire a donc été sous-estimée d'un facteur 4,45.",
  "exercise_note": "Les valeurs numériques ci-dessous (impulsion, masse, nombre d'événements) sont celles de l'exercice, pas celles du rapport.",
  "context": "En 1999, la sonde Mars Climate Orbiter de la NASA a été perdue après une erreur d'unités : un logiciel au sol exprimait l'impulsion des propulseurs en livre-force seconde alors que le logiciel de navigation attendait des newton-secondes. Le même piège existe dans l'industrie (automates, SCADA, fichiers d'échange entre services). L'exercice chiffre l'effet d'une telle confusion.",
  "data": [

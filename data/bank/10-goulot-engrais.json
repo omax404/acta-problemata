@@ -8,7 +8,7 @@
  "sector_code": "CHM",
  "region": "Casablanca-Settat",
  "level": 2,
- "context": "Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation. Il faut quantifier l'en-cours moyen et la capacité critique de l'installation.",
+ "context": "Une unité de traitement chimique de phosphate et engrais reçoit un flux continu de matière broyée. L est l'en-cours total matière du système et la cuve de 120 t en constitue le stockage tampon. Les ingénieurs observent qu'une augmentation de 40 % de la demande amène l'atelier à saturation.",
  "data": [
   [
    "Débit moyen d'alimentation matière",
@@ -26,15 +26,15 @@
    "+40 % (63 t/h)"
   ],
   [
-   "Capacité nominale de stockage tampon",
+   "Capacité du stockage tampon dans le système",
    "L_max",
    "120 tonnes"
   ]
  ],
  "questions": [
-  "L'en-cours moyen matière L dans le système en régime nominal (loi de Little) ;",
-  "L'en-cours prévu sous une hausse de 40 % si le temps de séjour reste identique ;",
-  "Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t déborde à 63 t/h."
+  "L'en-cours moyen matière total L dans le système en régime nominal (loi de Little) ;",
+  "L'en-cours total prévu sous une hausse de 40 % si le temps de séjour reste identique ;",
+  "Le temps de séjour critique W_critique au-delà duquel la cuve tampon de 120 t sature sous le flux de 63 t/h."
  ],
  "formulas": [
   "L = \\lambda \\cdot W \\quad (\\text{Loi de Little})",
