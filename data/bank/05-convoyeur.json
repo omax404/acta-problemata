@@ -1,13 +1,14 @@
 {
+ "id": 5,
  "slug": "convoyeur",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Puissance moteur d'un convoyeur à bande",
  "sector": "Mines et carrières",
  "sector_code": "MIN",
  "region": "Oriental",
  "level": 3,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une carrière veut remplacer le convoyeur qui alimente son concasseur. La bande transporte du tout-venant avec un faible dénivelé. Il faut estimer la puissance de motorisation par une méthode simplifiée (frottement équivalent).",
  "data": [
   [
@@ -57,16 +58,19 @@
   "P_fr = f·g·L·(m' + q)·v",
   "P_moteur = (P_lev + P_fr) / η"
  ],
- "answer_key": [
-  "q = 55,6 kg/m",
-  "P levage = 13,1 kW ; P frottement = 14,8 kW",
-  "P moteur = 30,3 kW ; puissance normalisée retenue = 37,0 kW"
- ],
  "formulas_tex": [
   "q=\\frac{Q}{3{,}6\\,v}",
   "P_{lev}=\\frac{Q}{3{,}6}\\,g\\,H",
   "P_{fr}=f\\,g\\,L\\,(m'+q)\\,v",
   "P_{mot}=\\frac{P_{lev}+P_{fr}}{\\eta}"
  ],
- "id": 5
+ "answer_key": [
+  "q = 55,6 kg/m",
+  "P levage = 13,1 kW ; P frottement = 14,8 kW",
+  "P moteur = 30,3 kW ; puissance normalisée retenue = 37,0 kW"
+ ],
+ "results": {
+  "id": 5,
+  "slug": "convoyeur"
+ }
 }

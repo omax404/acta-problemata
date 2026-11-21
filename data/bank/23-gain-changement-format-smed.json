@@ -1,13 +1,14 @@
 {
+ "id": 23,
  "slug": "gain-changement-format-smed",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Gain de capacité par réduction de temps de changement (SMED)",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Fès-Meknès",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une ligne de conditionnement de jus d'agrumes subit de fréquents changements de formats de briques. Un chantier SMED a permis de convertir les réglages internes en tâches externes préparées à l'avance.",
  "data": [
   [
@@ -46,15 +47,18 @@
   "\\text{Heures gagnées} = \\frac{\\Delta t \\cdot N \\cdot S}{60}",
   "\\text{Gain production} = \\text{Heures} \\cdot C"
  ],
- "answer_key": [
-  "Gain par changement = 53 min (70,7 %)",
-  "Temps de production dégagé = 594 heures/an",
-  "Production additionnelle possible = 712 320 briques/an"
- ],
  "formulas_tex": [
   "\\Delta t = T_1 - T_2",
   "\\text{Heures gagnées} = \\frac{\\Delta t \\cdot N \\cdot S}{60}",
   "\\text{Gain prod} = \\text{Heures} \\cdot C"
  ],
- "id": 23
+ "answer_key": [
+  "Gain par changement = 53 min (70,7 %)",
+  "Temps de production dégagé = 594 heures/an",
+  "Production additionnelle possible = 712 320 briques/an"
+ ],
+ "results": {
+  "id": 23,
+  "slug": "gain-changement-format-smed"
+ }
 }

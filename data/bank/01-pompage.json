@@ -1,13 +1,14 @@
 {
+ "id": 1,
  "slug": "pompage",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Dimensionnement d'une ligne de pompage",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Fès-Meknès",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une unité de transformation alimente un réservoir en hauteur depuis une cuve de réception. La pompe actuelle consomme trop d'énergie par rapport au besoin hydraulique réel. Un technicien junior doit vérifier la hauteur manométrique réelle et proposer une pompe adaptée.",
  "data": [
   [
@@ -61,15 +62,23 @@
   "f = 0,25 / [log10( ε/(3,7·D) + 5,74/Re^0,9 )]²  (Swamee-Jain)",
   "P = ρ·g·Q·H / η"
  ],
- "answer_key": [
-  "v = 1,28 m/s ; Re = 134 198 ; f = 0,0194",
-  "H = 22,4 m (frottement 3,87 m, singularités 0,55 m)",
-  "P arbre = 3,59 kW"
- ],
  "formulas_tex": [
   "H=\\Delta z+\\Bigl(f\\frac{L}{D}+\\sum K\\Bigr)\\frac{v^{2}}{2g}",
   "f=\\frac{0{,}25}{\\left[\\log_{10}\\!\\left(\\frac{\\varepsilon}{3{,}7\\,D}+\\frac{5{,}74}{\\mathrm{Re}^{0{,}9}}\\right)\\right]^{2}}",
   "P=\\frac{\\rho\\, g\\, Q\\, H}{\\eta}"
  ],
- "id": 1
+ "answer_key": [
+  "v = 1,28 m/s ; Re = 134 198 ; f = 0,0194",
+  "H = 22,4 m (frottement 3,87 m, singularités 0,55 m)",
+  "P arbre = 3,59 kW"
+ ],
+ "results": {
+  "v": 1.2831842224592218,
+  "Re": 134197.55314563576,
+  "f": 0.019362736670058955,
+  "hf": 3.86897984956943,
+  "hm": 0.5454970115695109,
+  "H": 22.414476861138944,
+  "P": 3592.908790976683
+ }
 }

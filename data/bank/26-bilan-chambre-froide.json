@@ -1,13 +1,14 @@
 {
+ "id": 26,
  "slug": "bilan-chambre-froide",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Bilan thermique frigorifique d'une chambre froide de conservation",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Souss-Massa",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une station d'emballage d'agrumes installe une chambre froide positive pour le stockage temporaire avant expédition frigorifique. L'ingénieur utilités doit calculer le bilan frigorifique pour dimensionner le groupe compresseur.",
  "data": [
   [
@@ -61,15 +62,18 @@
   "\\Phi_{\\text{prod}} = \\frac{m \\cdot c_p \\cdot \\Delta T}{\\Delta t}",
   "\\Phi_{\\text{tot}} = (\\Phi_{\\text{paroi}} + \\Phi_{\\text{prod}} + Q_{\\text{int}}) \\cdot 1{,}15"
  ],
- "answer_key": [
-  "Transmission parois = 2,69 kW",
-  "Puissance refroidissement produit = 6,74 kW",
-  "Puissance frigorifique à installer = 12,92 kW (marge 15 %)"
- ],
  "formulas_tex": [
   "\\Phi_{\\text{paroi}} = U \\cdot S \\cdot (T_{\\text{ext}} - T_{\\text{int}})",
   "\\Phi_{\\text{prod}} = \\frac{m \\cdot c_p \\cdot \\Delta T}{\\Delta t}",
   "\\Phi_{\\text{tot}} = (\\Phi_{\\text{paroi}} + \\Phi_{\\text{prod}} + Q_{\\text{int}}) \\cdot 1{,}15"
  ],
- "id": 26
+ "answer_key": [
+  "Transmission parois = 2,69 kW",
+  "Puissance refroidissement produit = 6,74 kW",
+  "Puissance frigorifique à installer = 12,92 kW (marge 15 %)"
+ ],
+ "results": {
+  "id": 26,
+  "slug": "bilan-chambre-froide"
+ }
 }

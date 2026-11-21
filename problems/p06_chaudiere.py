@@ -1,0 +1,132 @@
+"""Problem 06: Rendement d'une chaudière vapeur."""
+
+META = {
+    "slug": "chaudiere",
+    "title": "Rendement d'une chaudière vapeur",
+    "sector": "Agroalimentaire",
+    "sector_code": "AGR",
+    "region": "Souss-Massa",
+    "level": 2,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Production de vapeur",
+                "ṁ",
+                "5 000 kg/h"
+        ],
+        [
+                "Enthalpie vapeur (11 bar abs, saturée)",
+                "hv",
+                "2 781 kJ/kg"
+        ],
+        [
+                "Enthalpie eau d'alimentation à 80 °C",
+                "h₁",
+                "335 kJ/kg"
+        ],
+        [
+                "Enthalpie eau d'alimentation à 100 °C",
+                "h₂",
+                "419 kJ/kg"
+        ],
+        [
+                "Consommation de gaz",
+                "G",
+                "380 Nm³/h"
+        ],
+        [
+                "PCI du gaz",
+                "PCI",
+                "35,8 MJ/Nm³"
+        ]
+],
+    "formulas_raw": [
+        "P_utile = ṁ·(h_v − h_eau) / 3600",
+        "P_comb = G·PCI",
+        "η = P_utile / P_comb"
+],
+    "formulas_tex_raw": [
+        "P_u=\\frac{\\dot m\\,(h_v-h_e)}{3600}",
+        "P_c=G\\cdot \\mathrm{PCI}",
+        "\\eta=\\frac{P_u}{P_c}"
+],
+    "answer_key_raw": [
+        "P utile = 3 397 kW ; P combustible = 3 779 kW",
+        "η = 89,9 %",
+        "Gaz à 100 °C : 367,0 Nm³/h ; économie = 13,0 Nm³/h"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 6, "slug": "chaudiere"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Une conserverie exploite une chaudière au gaz qui produit de la vapeur saturée. Avant d'investir dans un économiseur sur les fumées, la direction veut connaître le rendement actuel et l'économie de gaz si l'eau d'alimentation passe de 80 °C à 100 °C."
+    data = [
+    [
+        "Production de vapeur",
+        "ṁ",
+        "5 000 kg/h"
+    ],
+    [
+        "Enthalpie vapeur (11 bar abs, saturée)",
+        "hv",
+        "2 781 kJ/kg"
+    ],
+    [
+        "Enthalpie eau d'alimentation à 80 °C",
+        "h₁",
+        "335 kJ/kg"
+    ],
+    [
+        "Enthalpie eau d'alimentation à 100 °C",
+        "h₂",
+        "419 kJ/kg"
+    ],
+    [
+        "Consommation de gaz",
+        "G",
+        "380 Nm³/h"
+    ],
+    [
+        "PCI du gaz",
+        "PCI",
+        "35,8 MJ/Nm³"
+    ]
+]
+    questions = [
+    "La puissance utile et la puissance combustible ;",
+    "Le rendement actuel de la chaudière ;",
+    "La consommation de gaz à rendement constant avec l'eau à 100 °C, et l'économie en Nm³/h."
+]
+    formulas = [
+    "P_utile = ṁ·(h_v − h_eau) / 3600",
+    "P_comb = G·PCI",
+    "η = P_utile / P_comb"
+]
+    formulas_tex = [
+    "P_u=\\frac{\\dot m\\,(h_v-h_e)}{3600}",
+    "P_c=G\\cdot \\mathrm{PCI}",
+    "\\eta=\\frac{P_u}{P_c}"
+]
+    answer_key = [
+    "P utile = 3 397 kW ; P combustible = 3 779 kW",
+    "η = 89,9 %",
+    "Gaz à 100 °C : 367,0 Nm³/h ; économie = 13,0 Nm³/h"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

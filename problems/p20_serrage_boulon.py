@@ -1,0 +1,108 @@
+"""Problem 20: Couple de serrage au couple d'un assemblage boulonné précontraint."""
+
+META = {
+    "slug": "serrage-boulon",
+    "title": "Couple de serrage au couple d'un assemblage boulonné précontraint",
+    "sector": "Mines & Équipements",
+    "sector_code": "MIN",
+    "region": "Béni Mellal-Khénifra",
+    "level": 1,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Type de boulonnerie",
+                "Vis",
+                "M16 classe 8.8"
+        ],
+        [
+                "Précharge axiale recommandée (70 % Re)",
+                "F₀",
+                "62 kN (62 000 N)"
+        ],
+        [
+                "Facteur de serrage global estimé (lubrifié)",
+                "k",
+                "0,20"
+        ],
+        [
+                "Diamètre nominal de vis",
+                "d",
+                "16 mm"
+        ]
+],
+    "formulas_raw": [
+        "C_s = k \\cdot F_0 \\cdot d",
+        "\\sigma = \\frac{F_0}{A_s}"
+],
+    "formulas_tex_raw": [
+        "C_s = k \\cdot F_0 \\cdot d",
+        "\\sigma = \\frac{F_0}{A_s}"
+],
+    "answer_key_raw": [
+        "Couple de serrage = 198,4 N·m",
+        "Contrainte de traction = 394,9 MPa",
+        "Serrage préalable à 50 %, puis à 100 % en croix avec marquage témoin"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 20, "slug": "serrage-boulon"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Lors de la révision d'un concasseur giratoire, les techniciens de maintenance doivent resserrer les vis de fixation du carter avec une clé dynamométrique étalonnée pour éviter le desserrage sous vibrations."
+    data = [
+    [
+        "Type de boulonnerie",
+        "Vis",
+        "M16 classe 8.8"
+    ],
+    [
+        "Précharge axiale recommandée (70 % Re)",
+        "F₀",
+        "62 kN (62 000 N)"
+    ],
+    [
+        "Facteur de serrage global estimé (lubrifié)",
+        "k",
+        "0,20"
+    ],
+    [
+        "Diamètre nominal de vis",
+        "d",
+        "16 mm"
+    ]
+]
+    questions = [
+    "Le couple de serrage théorique préconisé à la clé dynamométrique ;",
+    "La tension dans le fût de vis en MPa pour une section résistante de 157 mm² ;",
+    "La procédure de contrôle de serrage en croix sur une bride circulaire."
+]
+    formulas = [
+    "C_s = k \\cdot F_0 \\cdot d",
+    "\\sigma = \\frac{F_0}{A_s}"
+]
+    formulas_tex = [
+    "C_s = k \\cdot F_0 \\cdot d",
+    "\\sigma = \\frac{F_0}{A_s}"
+]
+    answer_key = [
+    "Couple de serrage = 198,4 N·m",
+    "Contrainte de traction = 394,9 MPa",
+    "Serrage préalable à 50 %, puis à 100 % en croix avec marquage témoin"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

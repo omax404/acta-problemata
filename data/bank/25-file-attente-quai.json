@@ -1,13 +1,14 @@
 {
+ "id": 25,
  "slug": "file-attente-quai",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Modélisation de file d'attente M/M/1 à un quai d'expédition",
  "sector": "Logistique & Distribution",
  "sector_code": "LOG",
  "region": "Casablanca-Settat",
  "level": 3,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Le quai de pesée et de chargement d'un silo portuaire connaît des congestions répétées de camions aux heures de pointe. Le responsable d'exploitation utilise le modèle de file d'attente markovien M/M/1 pour évaluer l'opportunité d'ouvrir une seconde balance.",
  "data": [
   [
@@ -31,15 +32,18 @@
   "L_q = \\frac{\\rho^2}{1 - \\rho}",
   "W_q = \\frac{L_q}{\\lambda} = \\frac{\\rho}{\\mu - \\lambda}"
  ],
- "answer_key": [
-  "Intensité de trafic ρ = 80,0 %",
-  "Longueur moyenne de file Lq = 3,2 camions",
-  "Temps d'attente moyen Wq = 60 min (1,00 h)"
- ],
  "formulas_tex": [
   "\\rho = \\frac{\\lambda}{\\mu}",
   "L_q = \\frac{\\rho^2}{1 - \\rho}",
   "W_q = \\frac{\\rho}{\\mu - \\lambda}"
  ],
- "id": 25
+ "answer_key": [
+  "Intensité de trafic ρ = 80,0 %",
+  "Longueur moyenne de file Lq = 3,2 camions",
+  "Temps d'attente moyen Wq = 60 min (1,00 h)"
+ ],
+ "results": {
+  "id": 25,
+  "slug": "file-attente-quai"
+ }
 }

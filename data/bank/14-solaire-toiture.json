@@ -1,13 +1,14 @@
 {
+ "id": 14,
  "slug": "solaire-toiture",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Productible d'une centrale solaire photovoltaïque en toiture",
  "sector": "Chimie & Plasturgie",
  "sector_code": "CHM",
  "region": "Marrakech-Safi",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une usine d'injection plastique dispose d'une toiture bien orientée et souhaite installer des panneaux solaires en autoconsommation sans injection réseau pour écrêter sa facture électrique ONEE.",
  "data": [
   [
@@ -46,15 +47,18 @@
   "E_{\\text{an}} = P_c \\cdot H_{\\text{site}} \\cdot \\text{PR} / 1\\text{ kW/m}^2",
   "\\text{Gain} = E_{\\text{an}} \\cdot c"
  ],
- "answer_key": [
-  "Puissance crête = 240 kWc",
-  "Production annuelle = 346 320 kWh/an",
-  "Économie annuelle = 398 268 MAD/an"
- ],
  "formulas_tex": [
   "P_c = S \\cdot p",
   "E_{\\text{an}} = P_c \\cdot H_{\\text{site}} \\cdot \\text{PR} / 1\\text{ kW/m}^2",
   "\\text{Gain} = E_{\\text{an}} \\cdot c"
  ],
- "id": 14
+ "answer_key": [
+  "Puissance crête = 240 kWc",
+  "Production annuelle = 346 320 kWh/an",
+  "Économie annuelle = 398 268 MAD/an"
+ ],
+ "results": {
+  "id": 14,
+  "slug": "solaire-toiture"
+ }
 }

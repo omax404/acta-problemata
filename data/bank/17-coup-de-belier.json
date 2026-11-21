@@ -1,13 +1,14 @@
 {
+ "id": 17,
  "slug": "coup-de-belier",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Surpression de coup de bélier selon Joukowsky",
  "sector": "Hydraulique & Eau",
  "sector_code": "AGR",
  "region": "Gharb-Chrarda-Béni Hsen",
  "level": 3,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Sur une conduite d'adduction d'eau brute agricole, une vanne papillon motorisée se ferme brutalement lors d'un déclenchement électrique d'urgence. L'ingénieur d'exploitation calcule la surpression maximale pour dimensionner la soupape de décharge.",
  "data": [
   [
@@ -41,15 +42,18 @@
   "\\Delta H = \\frac{c \\cdot \\Delta v}{g}",
   "T_{\\text{crit}} = \\frac{2 \\cdot L}{c}"
  ],
- "answer_key": [
-  "Surpression = 27,60 bar (2,76 MPa)",
-  "Surpression = 281,3 mCE",
-  "Temps de manœuvre critique (L=450m) = 0,78 s"
- ],
  "formulas_tex": [
   "\\Delta P = \\rho \\cdot c \\cdot \\Delta v",
   "\\Delta H = \\frac{c \\cdot \\Delta v}{g}",
   "T_{\\text{crit}} = \\frac{2 \\cdot L}{c}"
  ],
- "id": 17
+ "answer_key": [
+  "Surpression = 27,60 bar (2,76 MPa)",
+  "Surpression = 281,3 mCE",
+  "Temps de manœuvre critique (L=450m) = 0,78 s"
+ ],
+ "results": {
+  "id": 17,
+  "slug": "coup-de-belier"
+ }
 }

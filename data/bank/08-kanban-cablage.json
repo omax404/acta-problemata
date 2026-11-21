@@ -1,13 +1,14 @@
 {
+ "id": 8,
  "slug": "kanban-cablage",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Dimensionnement d'une boucle Kanban en câblage automobile",
  "sector": "Automobile & Électromécanique",
  "sector_code": "AUT",
  "region": "Rabat-Salé-Kénitra",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Sur une ligne d'assemblage de faisceaux électriques automobiles, les ruptures de connecteurs provoquent des arrêts de ligne non planifiés. L'ingénieur méthodes doit dimensionner la boucle Kanban (nombre d'étiquettes) entre le magasin et le poste d'encliquetage.",
  "data": [
   [
@@ -40,14 +41,17 @@
   "K = [D · L · (1 + α)] / C",
   "\\text{WIP}_{\\max} = K \\cdot C"
  ],
+ "formulas_tex": [
+  "K = \\frac{D \\cdot L \\cdot (1 + \\alpha)}{C}",
+  "\\text{WIP}_{\\max} = K \\cdot C"
+ ],
  "answer_key": [
   "K théorique = 17,28 ; K retenu = 18 cartes (bacs)",
   "WIP max = 450 connecteurs",
   "Avec L = 0,25 j : K = 6 cartes (baisse de l'en-cours de 300 connecteurs)"
  ],
- "formulas_tex": [
-  "K = \\frac{D \\cdot L \\cdot (1 + \\alpha)}{C}",
-  "\\text{WIP}_{\\max} = K \\cdot C"
- ],
- "id": 8
+ "results": {
+  "id": 8,
+  "slug": "kanban-cablage"
+ }
 }

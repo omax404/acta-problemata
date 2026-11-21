@@ -1,13 +1,14 @@
 {
+ "id": 22,
  "slug": "quantite-economique-stock",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Optimisation de stock par la quantité économique de Wilson",
  "sector": "Logistique & Distribution",
  "sector_code": "LOG",
  "region": "Casablanca-Settat",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Le magasin central des pièces de rechange d'un groupe industriel gère une référence de filtre hydraulique à rotation élevée. Pour réduire les coûts combinés de commande et de stockage, le logisticien applique le modèle de Wilson.",
  "data": [
   [
@@ -36,15 +37,18 @@
   "N = \\frac{D}{Q^*}",
   "\\text{Coût total} = \\sqrt{2 \\cdot D \\cdot S \\cdot H}"
  ],
- "answer_key": [
-  "Lot économique Q* = 980 unités",
-  "Nombre de commandes = 12,2 commandes/an",
-  "Coût total optimal = 4 409 MAD/an"
- ],
  "formulas_tex": [
   "Q^* = \\sqrt{\\frac{2 \\cdot D \\cdot S}{H}}",
   "N = \\frac{D}{Q^*}",
   "\\text{Coût total} = \\sqrt{2 \\cdot D \\cdot S \\cdot H}"
  ],
- "id": 22
+ "answer_key": [
+  "Lot économique Q* = 980 unités",
+  "Nombre de commandes = 12,2 commandes/an",
+  "Coût total optimal = 4 409 MAD/an"
+ ],
+ "results": {
+  "id": 22,
+  "slug": "quantite-economique-stock"
+ }
 }

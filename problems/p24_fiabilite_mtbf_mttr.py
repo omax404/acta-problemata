@@ -1,0 +1,102 @@
+"""Problem 24: Calcul de fiabilité opérationnelle par les indicateurs MTBF et MTTR."""
+
+META = {
+    "slug": "fiabilite-mtbf-mttr",
+    "title": "Calcul de fiabilité opérationnelle par les indicateurs MTBF et MTTR",
+    "sector": "Automobile & Électromécanique",
+    "sector_code": "AUT",
+    "region": "Tanger-Tétouan-Al Hoceïma",
+    "level": 1,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Période d'analyse continue",
+                "T_tot",
+                "720 heures (30 jours)"
+        ],
+        [
+                "Nombre d'arrêts pour pannes constatés",
+                "N",
+                "12 pannes"
+        ],
+        [
+                "Temps cumulé d'indisponibilité pour réparation",
+                "T_rep",
+                "42 heures"
+        ]
+],
+    "formulas_raw": [
+        "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+        "\\text{MTBF} = \\frac{T_{\\text{ouverture}} - \\sum T_{\\text{arrêt}}}{N}",
+        "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+],
+    "formulas_tex_raw": [
+        "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+        "\\text{MTBF} = \\frac{T_{\\text{ouv}} - \\sum T_{\\text{arrêt}}}{N}",
+        "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+],
+    "answer_key_raw": [
+        "MTTR = 3,50 h (210 min)",
+        "MTBF = 56,5 h",
+        "Disponibilité intrinsèque = 94,17 %"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 24, "slug": "fiabilite-mtbf-mttr"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Dans le cadre du tableau de bord de maintenance préventive d'une presse d'emboutissage, l'analyste méthodes consolide les interventions curatives du mois écoulé pour juger de la politique de maintenance."
+    data = [
+    [
+        "Période d'analyse continue",
+        "T_tot",
+        "720 heures (30 jours)"
+    ],
+    [
+        "Nombre d'arrêts pour pannes constatés",
+        "N",
+        "12 pannes"
+    ],
+    [
+        "Temps cumulé d'indisponibilité pour réparation",
+        "T_rep",
+        "42 heures"
+    ]
+]
+    questions = [
+    "Le temps moyen de réparation (MTTR) ;",
+    "Le temps moyen de bon fonctionnement entre pannes (MTBF) ;",
+    "Le taux de disponibilité opérationnelle intrinsèque de la presse."
+]
+    formulas = [
+    "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+    "\\text{MTBF} = \\frac{T_{\\text{ouverture}} - \\sum T_{\\text{arrêt}}}{N}",
+    "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+]
+    formulas_tex = [
+    "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+    "\\text{MTBF} = \\frac{T_{\\text{ouv}} - \\sum T_{\\text{arrêt}}}{N}",
+    "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+]
+    answer_key = [
+    "MTTR = 3,50 h (210 min)",
+    "MTBF = 56,5 h",
+    "Disponibilité intrinsèque = 94,17 %"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

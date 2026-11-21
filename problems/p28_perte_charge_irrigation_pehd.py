@@ -1,0 +1,112 @@
+"""Problem 28: Pertes de charge d'une rampe d'irrigation goutte-à-goutte en PEHD."""
+
+META = {
+    "slug": "perte-charge-irrigation-pehd",
+    "title": "Pertes de charge d'une rampe d'irrigation goutte-à-goutte en PEHD",
+    "sector": "Agroalimentaire & Hydraulique",
+    "sector_code": "AGR",
+    "region": "Souss-Massa",
+    "level": 2,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Débit transitant dans la conduite principale",
+                "Q",
+                "18 m³/h (0,005 m³/s)"
+        ],
+        [
+                "Diamètre intérieur de la conduite PEHD",
+                "Di",
+                "82 mm (DN90 PEHD)"
+        ],
+        [
+                "Longueur totale de la ligne",
+                "L",
+                "420 m"
+        ],
+        [
+                "Coefficient de rugosité de Hazen-Williams",
+                "C",
+                "140 (PEHD neuf)"
+        ]
+],
+    "formulas_raw": [
+        "v = \\frac{4 \\cdot Q}{\\pi \\cdot D_i^2}",
+        "J = 10{,}67 \\cdot \\frac{Q^{1{,}852}}{C^{1{,}852} \\cdot D_i^{4{,}87}} \\quad [\\text{m/m}]",
+        "\\Delta h = J \\cdot L"
+],
+    "formulas_tex_raw": [
+        "v = \\frac{4 \\cdot Q}{\\pi \\cdot D_i^2}",
+        "J = 10{,}67 \\cdot \\frac{Q^{1{,}852}}{C^{1{,}852} \\cdot D_i^{4{,}87}}",
+        "\\Delta h = J \\cdot L"
+],
+    "answer_key_raw": [
+        "Vitesse d'écoulement = 0,95 m/s",
+        "Perte linéique J = 12,07 mm/m (0,0121 mCE/m)",
+        "Perte de charge totale = 5,07 mCE (0,50 bar)"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 28, "slug": "perte-charge-irrigation-pehd"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Dans une exploitation agricole d'agrumes irriguée au goutte-à-goutte, une conduite principale en PEHD de 420 m alimente les secteurs d'arrosage. L'agronome dimensionne la pression en tête de réseau pour assurer la pression minimale aux goutteurs."
+    data = [
+    [
+        "Débit transitant dans la conduite principale",
+        "Q",
+        "18 m³/h (0,005 m³/s)"
+    ],
+    [
+        "Diamètre intérieur de la conduite PEHD",
+        "Di",
+        "82 mm (DN90 PEHD)"
+    ],
+    [
+        "Longueur totale de la ligne",
+        "L",
+        "420 m"
+    ],
+    [
+        "Coefficient de rugosité de Hazen-Williams",
+        "C",
+        "140 (PEHD neuf)"
+    ]
+]
+    questions = [
+    "La vitesse d'écoulement de l'eau dans la conduite ;",
+    "La perte de charge linéique unitaire selon Hazen-Williams ;",
+    "La perte de charge totale sur la longueur et la pression minimale à fournir en tête."
+]
+    formulas = [
+    "v = \\frac{4 \\cdot Q}{\\pi \\cdot D_i^2}",
+    "J = 10{,}67 \\cdot \\frac{Q^{1{,}852}}{C^{1{,}852} \\cdot D_i^{4{,}87}} \\quad [\\text{m/m}]",
+    "\\Delta h = J \\cdot L"
+]
+    formulas_tex = [
+    "v = \\frac{4 \\cdot Q}{\\pi \\cdot D_i^2}",
+    "J = 10{,}67 \\cdot \\frac{Q^{1{,}852}}{C^{1{,}852} \\cdot D_i^{4{,}87}}",
+    "\\Delta h = J \\cdot L"
+]
+    answer_key = [
+    "Vitesse d'écoulement = 0,95 m/s",
+    "Perte linéique J = 12,07 mm/m (0,0121 mCE/m)",
+    "Perte de charge totale = 5,07 mCE (0,50 bar)"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

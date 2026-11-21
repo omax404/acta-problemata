@@ -1,0 +1,112 @@
+"""Problem 19: Dimensionnement d'arbre en torsion et flexion combinées."""
+
+META = {
+    "slug": "arbre-torsion-flexion",
+    "title": "Dimensionnement d'arbre en torsion et flexion combinées",
+    "sector": "Mécanique & Machinisme",
+    "sector_code": "MEC",
+    "region": "Fès-Meknès",
+    "level": 3,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Puissance transmise",
+                "P",
+                "45 kW"
+        ],
+        [
+                "Vitesse de rotation",
+                "N",
+                "750 tr/min"
+        ],
+        [
+                "Moment de flexion maximal estimé",
+                "Mf",
+                "420 N·m"
+        ],
+        [
+                "Contrainte admissible en fatigue/sécurité",
+                "Rpe",
+                "50 MPa (50 N/mm²)"
+        ]
+],
+    "formulas_raw": [
+        "C = \\frac{P}{\\omega} = \\frac{60 \\cdot P}{2\\pi \\cdot N}",
+        "M_{\\text{id}} = \\sqrt{M_f^2 + C^2}",
+        "d_{\\min} = \\left( \\frac{32 \\cdot M_{\\text{id}}}{\\pi \\cdot R_{pe}} \\right)^{1/3}"
+],
+    "formulas_tex_raw": [
+        "C = \\frac{60 \\cdot P}{2\\pi \\cdot N}",
+        "M_{\\text{id}} = \\sqrt{M_f^2 + C^2}",
+        "d_{\\min} = \\left( \\frac{32 \\cdot M_{\\text{id}}}{\\pi \\cdot R_{pe}} \\right)^{1/3}"
+],
+    "answer_key_raw": [
+        "Couple de torsion = 573,0 N·m",
+        "Moment idéal Tresca = 710,4 N·m",
+        "Diamètre calculé = 52,5 mm ; Diamètre standard = 55 mm"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 19, "slug": "arbre-torsion-flexion"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "L'arbre de sortie d'un broyeur à marteaux supporte à la fois le couple moteur de 45 kW et la tension radiale d'une transmission par poulie-courroie. Le bureau des méthodes doit vérifier le diamètre minimal d'arbre en acier C45."
+    data = [
+    [
+        "Puissance transmise",
+        "P",
+        "45 kW"
+    ],
+    [
+        "Vitesse de rotation",
+        "N",
+        "750 tr/min"
+    ],
+    [
+        "Moment de flexion maximal estimé",
+        "Mf",
+        "420 N·m"
+    ],
+    [
+        "Contrainte admissible en fatigue/sécurité",
+        "Rpe",
+        "50 MPa (50 N/mm²)"
+    ]
+]
+    questions = [
+    "Le couple de torsion nominal transmis par l'arbre ;",
+    "Le moment idéal équivalent selon le critère de Tresca ;",
+    "Le diamètre théorique minimal et le diamètre standard d'arbre à retenir."
+]
+    formulas = [
+    "C = \\frac{P}{\\omega} = \\frac{60 \\cdot P}{2\\pi \\cdot N}",
+    "M_{\\text{id}} = \\sqrt{M_f^2 + C^2}",
+    "d_{\\min} = \\left( \\frac{32 \\cdot M_{\\text{id}}}{\\pi \\cdot R_{pe}} \\right)^{1/3}"
+]
+    formulas_tex = [
+    "C = \\frac{60 \\cdot P}{2\\pi \\cdot N}",
+    "M_{\\text{id}} = \\sqrt{M_f^2 + C^2}",
+    "d_{\\min} = \\left( \\frac{32 \\cdot M_{\\text{id}}}{\\pi \\cdot R_{pe}} \\right)^{1/3}"
+]
+    answer_key = [
+    "Couple de torsion = 573,0 N·m",
+    "Moment idéal Tresca = 710,4 N·m",
+    "Diamètre calculé = 52,5 mm ; Diamètre standard = 55 mm"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

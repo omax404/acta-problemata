@@ -1,13 +1,14 @@
 {
+ "id": 3,
  "slug": "fuite-air",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Coût d'une fuite d'air comprimé",
  "sector": "Textile",
  "sector_code": "TEX",
  "region": "Tanger-Tétouan-Al Hoceïma",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Lors d'un audit énergétique d'un atelier de confection, une fuite de 3 mm est repérée sur un réseau d'air comprimé qui tourne en continu. Le responsable maintenance demande de chiffrer ce que coûte cette seule fuite par an.",
  "data": [
   [
@@ -61,15 +62,18 @@
   "Qₙ = ṁ / ρₙ  avec ρₙ = p₀/(R·T₀)",
   "Coût = Qₙ · e · h · c"
  ],
- "answer_key": [
-  "ṁ = 8,69 g/s",
-  "Qn = 26,0 Nm³/h",
-  "Puissance perdue = 2,9 kW ; coût annuel = 27 435 MAD"
- ],
  "formulas_tex": [
   "\\dot m=C_d\\,A\\,p\\sqrt{\\frac{\\gamma}{R\\,T}}\\left(\\frac{2}{\\gamma+1}\\right)^{\\frac{\\gamma+1}{2(\\gamma-1)}}",
   "Q_n=\\frac{\\dot m}{\\rho_n},\\quad \\rho_n=\\frac{p_0}{R\\,T_0}",
   "\\text{Coût}=Q_n\\,e\\,h\\,c"
  ],
- "id": 3
+ "answer_key": [
+  "ṁ = 8,69 g/s",
+  "Qn = 26,0 Nm³/h",
+  "Puissance perdue = 2,9 kW ; coût annuel = 27 435 MAD"
+ ],
+ "results": {
+  "id": 3,
+  "slug": "fuite-air"
+ }
 }

@@ -1,0 +1,128 @@
+"""Problem 13: Dimensionnement de câble par chute de tension admissible."""
+
+META = {
+    "slug": "section-cable",
+    "title": "Dimensionnement de câble par chute de tension admissible",
+    "sector": "Automobile & Électromécanique",
+    "sector_code": "AUT",
+    "region": "Tanger-Tétouan-Al Hoceïma",
+    "level": 2,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Courant d'emploi nominal",
+                "Ib",
+                "145 A"
+        ],
+        [
+                "Longueur de la liaison",
+                "L",
+                "180 m"
+        ],
+        [
+                "Facteur de puissance",
+                "cos φ",
+                "0,85"
+        ],
+        [
+                "Tension nominale",
+                "Un",
+                "400 V triphasé"
+        ],
+        [
+                "Chute de tension maximale",
+                "Δu_max",
+                "3 % (12 V)"
+        ],
+        [
+                "Résistivité cuivre en service",
+                "ρ",
+                "0,0225 Ω·mm²/m"
+        ]
+],
+    "formulas_raw": [
+        "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+        "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+],
+    "formulas_tex_raw": [
+        "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+        "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+],
+    "answer_key_raw": [
+        "ΔU max = 12,0 V",
+        "Section minimale calculée = 72,0 mm²",
+        "Section normalisée retenue = 95 mm²"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 13, "slug": "section-cable"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Une nouvelle cellule robotisée est raccordée au TGBT de l'usine par une liaison cuivre enterrée de 180 m. La chute de tension ne doit pas dépasser 3 % en régime nominal pour garantir le fonctionnement des variateurs."
+    data = [
+    [
+        "Courant d'emploi nominal",
+        "Ib",
+        "145 A"
+    ],
+    [
+        "Longueur de la liaison",
+        "L",
+        "180 m"
+    ],
+    [
+        "Facteur de puissance",
+        "cos φ",
+        "0,85"
+    ],
+    [
+        "Tension nominale",
+        "Un",
+        "400 V triphasé"
+    ],
+    [
+        "Chute de tension maximale",
+        "Δu_max",
+        "3 % (12 V)"
+    ],
+    [
+        "Résistivité cuivre en service",
+        "ρ",
+        "0,0225 Ω·mm²/m"
+    ]
+]
+    questions = [
+    "La chute de tension maximale admise en volts ;",
+    "La section théorique minimale du câble cuivre ;",
+    "La section normalisée à retenir et la chute de tension réelle correspondante."
+]
+    formulas = [
+    "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+    "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+]
+    formulas_tex = [
+    "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+    "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+]
+    answer_key = [
+    "ΔU max = 12,0 V",
+    "Section minimale calculée = 72,0 mm²",
+    "Section normalisée retenue = 95 mm²"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

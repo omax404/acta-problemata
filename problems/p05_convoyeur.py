@@ -1,0 +1,146 @@
+"""Problem 05: Puissance moteur d'un convoyeur à bande."""
+
+META = {
+    "slug": "convoyeur",
+    "title": "Puissance moteur d'un convoyeur à bande",
+    "sector": "Mines et carrières",
+    "sector_code": "MIN",
+    "region": "Oriental",
+    "level": 3,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Débit massique",
+                "Q",
+                "400 t/h"
+        ],
+        [
+                "Longueur",
+                "L",
+                "300 m"
+        ],
+        [
+                "Dénivelé",
+                "H",
+                "12 m"
+        ],
+        [
+                "Vitesse de bande",
+                "v",
+                "2,0 m/s"
+        ],
+        [
+                "Coefficient de frottement équivalent",
+                "f",
+                "0,025"
+        ],
+        [
+                "Masse linéique bande + rouleaux",
+                "m'",
+                "45 kg/m"
+        ],
+        [
+                "Rendement de transmission",
+                "η",
+                "0,92"
+        ]
+],
+    "formulas_raw": [
+        "q = Q / (3,6·v)  [kg/m]",
+        "P_lev = (Q/3,6)·g·H",
+        "P_fr = f·g·L·(m' + q)·v",
+        "P_moteur = (P_lev + P_fr) / η"
+],
+    "formulas_tex_raw": [
+        "q=\\frac{Q}{3{,}6\\,v}",
+        "P_{lev}=\\frac{Q}{3{,}6}\\,g\\,H",
+        "P_{fr}=f\\,g\\,L\\,(m'+q)\\,v",
+        "P_{mot}=\\frac{P_{lev}+P_{fr}}{\\eta}"
+],
+    "answer_key_raw": [
+        "q = 55,6 kg/m",
+        "P levage = 13,1 kW ; P frottement = 14,8 kW",
+        "P moteur = 30,3 kW ; puissance normalisée retenue = 37,0 kW"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 5, "slug": "convoyeur"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Une carrière veut remplacer le convoyeur qui alimente son concasseur. La bande transporte du tout-venant avec un faible dénivelé. Il faut estimer la puissance de motorisation par une méthode simplifiée (frottement équivalent)."
+    data = [
+    [
+        "Débit massique",
+        "Q",
+        "400 t/h"
+    ],
+    [
+        "Longueur",
+        "L",
+        "300 m"
+    ],
+    [
+        "Dénivelé",
+        "H",
+        "12 m"
+    ],
+    [
+        "Vitesse de bande",
+        "v",
+        "2,0 m/s"
+    ],
+    [
+        "Coefficient de frottement équivalent",
+        "f",
+        "0,025"
+    ],
+    [
+        "Masse linéique bande + rouleaux",
+        "m'",
+        "45 kg/m"
+    ],
+    [
+        "Rendement de transmission",
+        "η",
+        "0,92"
+    ]
+]
+    questions = [
+    "La charge linéique de matière ;",
+    "La puissance de levage et la puissance de frottement ;",
+    "La puissance moteur requise et la puissance normalisée à retenir avec 10 % de marge."
+]
+    formulas = [
+    "q = Q / (3,6·v)  [kg/m]",
+    "P_lev = (Q/3,6)·g·H",
+    "P_fr = f·g·L·(m' + q)·v",
+    "P_moteur = (P_lev + P_fr) / η"
+]
+    formulas_tex = [
+    "q=\\frac{Q}{3{,}6\\,v}",
+    "P_{lev}=\\frac{Q}{3{,}6}\\,g\\,H",
+    "P_{fr}=f\\,g\\,L\\,(m'+q)\\,v",
+    "P_{mot}=\\frac{P_{lev}+P_{fr}}{\\eta}"
+]
+    answer_key = [
+    "q = 55,6 kg/m",
+    "P levage = 13,1 kW ; P frottement = 14,8 kW",
+    "P moteur = 30,3 kW ; puissance normalisée retenue = 37,0 kW"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

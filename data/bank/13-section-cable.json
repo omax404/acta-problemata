@@ -1,13 +1,14 @@
 {
+ "id": 13,
  "slug": "section-cable",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Dimensionnement de câble par chute de tension admissible",
  "sector": "Automobile & Électromécanique",
  "sector_code": "AUT",
  "region": "Tanger-Tétouan-Al Hoceïma",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une nouvelle cellule robotisée est raccordée au TGBT de l'usine par une liaison cuivre enterrée de 180 m. La chute de tension ne doit pas dépasser 3 % en régime nominal pour garantir le fonctionnement des variateurs.",
  "data": [
   [
@@ -50,14 +51,17 @@
   "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
   "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
  ],
+ "formulas_tex": [
+  "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+  "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+ ],
  "answer_key": [
   "ΔU max = 12,0 V",
   "Section minimale calculée = 72,0 mm²",
   "Section normalisée retenue = 95 mm²"
  ],
- "formulas_tex": [
-  "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
-  "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
- ],
- "id": 13
+ "results": {
+  "id": 13,
+  "slug": "section-cable"
+ }
 }

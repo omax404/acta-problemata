@@ -1,13 +1,14 @@
 {
+ "id": 24,
  "slug": "fiabilite-mtbf-mttr",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Calcul de fiabilité opérationnelle par les indicateurs MTBF et MTTR",
  "sector": "Automobile & Électromécanique",
  "sector_code": "AUT",
  "region": "Tanger-Tétouan-Al Hoceïma",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Dans le cadre du tableau de bord de maintenance préventive d'une presse d'emboutissage, l'analyste méthodes consolide les interventions curatives du mois écoulé pour juger de la politique de maintenance.",
  "data": [
   [
@@ -36,15 +37,18 @@
   "\\text{MTBF} = \\frac{T_{\\text{ouverture}} - \\sum T_{\\text{arrêt}}}{N}",
   "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
  ],
- "answer_key": [
-  "MTTR = 3,50 h (210 min)",
-  "MTBF = 56,5 h",
-  "Disponibilité intrinsèque = 94,17 %"
- ],
  "formulas_tex": [
   "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
   "\\text{MTBF} = \\frac{T_{\\text{ouv}} - \\sum T_{\\text{arrêt}}}{N}",
   "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
  ],
- "id": 24
+ "answer_key": [
+  "MTTR = 3,50 h (210 min)",
+  "MTBF = 56,5 h",
+  "Disponibilité intrinsèque = 94,17 %"
+ ],
+ "results": {
+  "id": 24,
+  "slug": "fiabilite-mtbf-mttr"
+ }
 }

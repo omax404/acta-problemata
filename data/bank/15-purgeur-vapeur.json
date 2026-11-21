@@ -1,13 +1,14 @@
 {
+ "id": 15,
  "slug": "purgeur-vapeur",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Coût d'un purgeur vapeur bloqué ouvert",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Casablanca-Settat",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Lors d'une campagne de diagnostic acoustique des purgeurs vapeur sur le collecteur général d'une brasserie, un purgeur thermodynamique est diagnostiqué fuyard en continu avec un orifice équivalent de 4 mm.",
  "data": [
   [
@@ -41,15 +42,18 @@
   "\\text{Perte annuelle} = Q \\cdot h / 1000",
   "\\text{Coût} = \\text{Perte} \\cdot c_{\\text{vap}}"
  ],
- "answer_key": [
-  "Débit de fuite = 57,2 kg/h",
-  "Vapeur perdue = 429,2 t/an",
-  "Coût annuel = 137 343 MAD/an"
- ],
  "formulas_tex": [
   "Q = 0{,}51 \\cdot P_{\\text{abs}} \\cdot d^2",
   "\\text{Perte} = Q \\cdot h / 1000",
   "\\text{Coût} = \\text{Perte} \\cdot c_{\\text{vap}}"
  ],
- "id": 15
+ "answer_key": [
+  "Débit de fuite = 57,2 kg/h",
+  "Vapeur perdue = 429,2 t/an",
+  "Coût annuel = 137 343 MAD/an"
+ ],
+ "results": {
+  "id": 15,
+  "slug": "purgeur-vapeur"
+ }
 }

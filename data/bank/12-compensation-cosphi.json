@@ -1,13 +1,14 @@
 {
+ "id": 12,
  "slug": "compensation-cosphi",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Compensation d'énergie réactive par batterie de condensateurs",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Fès-Meknès",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une minoterie industrielle subit des pénalités pour dépassement de puissance réactive sur sa facture moyenne tension ONEE. Le responsable électrique doit dimensionner la batterie de condensateurs automatique pour remonter le facteur de puissance.",
  "data": [
   [
@@ -40,14 +41,17 @@
   "Q_c = P \\cdot (\\tan \\varphi_1 - \\tan \\varphi_2)",
   "S = \\sqrt{P^2 + Q^2}"
  ],
+ "formulas_tex": [
+  "Q_c = P \\cdot (\\tan \\varphi_1 - \\tan \\varphi_2)",
+  "S = \\sqrt{P^2 + Q^2}"
+ ],
  "answer_key": [
   "tan φ₁ = 0,964 ; tan φ₂ = 0,395",
   "Q_c nécessaire = 142,2 kVAr",
   "Batterie normalisée recommandée = 150 kVAr (gradins de 25 kVAr)"
  ],
- "formulas_tex": [
-  "Q_c = P \\cdot (\\tan \\varphi_1 - \\tan \\varphi_2)",
-  "S = \\sqrt{P^2 + Q^2}"
- ],
- "id": 12
+ "results": {
+  "id": 12,
+  "slug": "compensation-cosphi"
+ }
 }

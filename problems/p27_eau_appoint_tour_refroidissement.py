@@ -1,0 +1,112 @@
+"""Problem 27: Consommation d'eau d'appoint d'une tour de refroidissement."""
+
+META = {
+    "slug": "eau-appoint-tour-refroidissement",
+    "title": "Consommation d'eau d'appoint d'une tour de refroidissement",
+    "sector": "Chimie lourde",
+    "sector_code": "CHM",
+    "region": "Casablanca-Settat",
+    "level": 2,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Puissance thermique dissipée par la tour",
+                "Pth",
+                "2 400 kW"
+        ],
+        [
+                "Chaleur latente d'évaporation de l'eau",
+                "Lv",
+                "2 420 kJ/kg"
+        ],
+        [
+                "Cycles de concentration maintenus",
+                "CC",
+                "3,5"
+        ],
+        [
+                "Heures de marche continue",
+                "h",
+                "8 000 h/an"
+        ]
+],
+    "formulas_raw": [
+        "Q_{\\text{evap}} = \\frac{P_{\\text{th}}}{L_v} \\cdot 3{,}6 \\quad [\\text{m}^3/\\text{h}]",
+        "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
+        "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
+],
+    "formulas_tex_raw": [
+        "Q_{\\text{evap}} = \\frac{P_{\\text{th}}}{L_v} \\cdot 3{,}6",
+        "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
+        "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
+],
+    "answer_key_raw": [
+        "Évaporation = 3,57 m³/h",
+        "Purge déconcentration = 1,43 m³/h",
+        "Appoint horaire = 5,00 m³/h ; Consommation annuelle = 39 987 m³/an"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 27, "slug": "eau-appoint-tour-refroidissement"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Le complexe de cogénération et de synthèse chimique refroidit ses condenseurs à l'aide d'une tour aéroréfrigérante semi-fermée. Face aux restrictions hydriques, l'usine doit estimer son débit d'eau d'appoint (évaporation + déconcentration)."
+    data = [
+    [
+        "Puissance thermique dissipée par la tour",
+        "Pth",
+        "2 400 kW"
+    ],
+    [
+        "Chaleur latente d'évaporation de l'eau",
+        "Lv",
+        "2 420 kJ/kg"
+    ],
+    [
+        "Cycles de concentration maintenus",
+        "CC",
+        "3,5"
+    ],
+    [
+        "Heures de marche continue",
+        "h",
+        "8 000 h/an"
+    ]
+]
+    questions = [
+    "Le débit d'eau évaporé dans l'atmosphère en m³/h ;",
+    "Le débit de purge de déconcentration nécessaire pour stabiliser le salinité ;",
+    "Le débit horaire et le volume annuel global d'eau d'appoint fraîche requis."
+]
+    formulas = [
+    "Q_{\\text{evap}} = \\frac{P_{\\text{th}}}{L_v} \\cdot 3{,}6 \\quad [\\text{m}^3/\\text{h}]",
+    "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
+    "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
+]
+    formulas_tex = [
+    "Q_{\\text{evap}} = \\frac{P_{\\text{th}}}{L_v} \\cdot 3{,}6",
+    "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
+    "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
+]
+    answer_key = [
+    "Évaporation = 3,57 m³/h",
+    "Purge déconcentration = 1,43 m³/h",
+    "Appoint horaire = 5,00 m³/h ; Consommation annuelle = 39 987 m³/an"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

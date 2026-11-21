@@ -1,13 +1,14 @@
 {
+ "id": 6,
  "slug": "chaudiere",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Rendement d'une chaudière vapeur",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Souss-Massa",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une conserverie exploite une chaudière au gaz qui produit de la vapeur saturée. Avant d'investir dans un économiseur sur les fumées, la direction veut connaître le rendement actuel et l'économie de gaz si l'eau d'alimentation passe de 80 °C à 100 °C.",
  "data": [
   [
@@ -51,15 +52,18 @@
   "P_comb = G·PCI",
   "η = P_utile / P_comb"
  ],
- "answer_key": [
-  "P utile = 3 397 kW ; P combustible = 3 779 kW",
-  "η = 89,9 %",
-  "Gaz à 100 °C : 367,0 Nm³/h ; économie = 13,0 Nm³/h"
- ],
  "formulas_tex": [
   "P_u=\\frac{\\dot m\\,(h_v-h_e)}{3600}",
   "P_c=G\\cdot \\mathrm{PCI}",
   "\\eta=\\frac{P_u}{P_c}"
  ],
- "id": 6
+ "answer_key": [
+  "P utile = 3 397 kW ; P combustible = 3 779 kW",
+  "η = 89,9 %",
+  "Gaz à 100 °C : 367,0 Nm³/h ; économie = 13,0 Nm³/h"
+ ],
+ "results": {
+  "id": 6,
+  "slug": "chaudiere"
+ }
 }

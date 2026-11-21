@@ -1,13 +1,14 @@
 {
+ "id": 30,
  "slug": "rendement-transformateur",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Bilan des pertes et rendement d'un transformateur de distribution",
  "sector": "Matériaux de construction",
  "sector_code": "MAT",
  "region": "Béni Mellal-Khénifra",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une cimenterie alimente son atelier d'ensachage par un transformateur triphasé 630 kVA 22 kV / 400 V. Le service énergie analyse le taux de charge réel pour optimiser le rendement énergétique global de la sous-station.",
  "data": [
   [
@@ -51,15 +52,18 @@
   "P_{\\text{utile}} = \\beta \\cdot S_n \\cdot \\cos \\varphi",
   "\\eta = \\frac{P_{\\text{utile}}}{P_{\\text{utile}} + P_{\\text{pertes}}}"
  ],
- "answer_key": [
-  "Pertes cuivre = 2,75 kW ; Pertes totales = 4,05 kW",
-  "Puissance utile = 360,4 kW ; Rendement = 98,89 %",
-  "Pertes annuelles = 35 445 kWh/an ; Coût = 37 217 MAD/an"
- ],
  "formulas_tex": [
   "P_{\\text{pertes}} = P_0 + \\beta^2 \\cdot P_{cc}",
   "P_{\\text{utile}} = \\beta \\cdot S_n \\cdot \\cos \\varphi",
   "\\eta = \\frac{P_{\\text{utile}}}{P_{\\text{utile}} + P_{\\text{pertes}}}"
  ],
- "id": 30
+ "answer_key": [
+  "Pertes cuivre = 2,75 kW ; Pertes totales = 4,05 kW",
+  "Puissance utile = 360,4 kW ; Rendement = 98,89 %",
+  "Pertes annuelles = 35 445 kWh/an ; Coût = 37 217 MAD/an"
+ ],
+ "results": {
+  "id": 30,
+  "slug": "rendement-transformateur"
+ }
 }

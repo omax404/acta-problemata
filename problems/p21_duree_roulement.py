@@ -1,0 +1,108 @@
+"""Problem 21: Calcul de la durée de vie nominale L10 d'un roulement."""
+
+META = {
+    "slug": "duree-roulement",
+    "title": "Calcul de la durée de vie nominale L10 d'un roulement",
+    "sector": "Automobile & Électromécanique",
+    "sector_code": "AUT",
+    "region": "Casablanca-Settat",
+    "level": 3,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Capacité de charge dynamique catalogue",
+                "C",
+                "81,5 kN"
+        ],
+        [
+                "Charge dynamique radiale équivalente",
+                "P",
+                "11,2 kN"
+        ],
+        [
+                "Vitesse de rotation nominale",
+                "n",
+                "1 480 tr/min"
+        ],
+        [
+                "Exposant de la loi de fatigue (billes)",
+                "p",
+                "3 (10/3 pour rouleaux)"
+        ]
+],
+    "formulas_raw": [
+        "L_{10} = \\left( \\frac{C}{P} \\right)^p \\quad [10^6\\text{ tr}]",
+        "L_{10h} = \\frac{10^6 \\cdot L_{10}}{60 \\cdot n} \\quad [\\text{heures}]"
+],
+    "formulas_tex_raw": [
+        "L_{10} = \\left( \\frac{C}{P} \\right)^p",
+        "L_{10h} = \\frac{10^6 \\cdot L_{10}}{60 \\cdot n}"
+],
+    "answer_key_raw": [
+        "L10 = 385,3 millions de tours",
+        "L10h = 4 339 heures",
+        "Insuffisant pour 2 ans continu (17 500 h) : passer sur série renforcée ou roulement à rouleaux"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 21, "slug": "duree-roulement"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Le roulement côté entraînement d'une pompe haute pression de lavage industriel a subi deux défaillances prématurées. L'ingénieur fiabilité recalcule la durée de vie théorique nominale L10h selon la norme ISO 281."
+    data = [
+    [
+        "Capacité de charge dynamique catalogue",
+        "C",
+        "81,5 kN"
+    ],
+    [
+        "Charge dynamique radiale équivalente",
+        "P",
+        "11,2 kN"
+    ],
+    [
+        "Vitesse de rotation nominale",
+        "n",
+        "1 480 tr/min"
+    ],
+    [
+        "Exposant de la loi de fatigue (billes)",
+        "p",
+        "3 (10/3 pour rouleaux)"
+    ]
+]
+    questions = [
+    "La durée de vie nominale en millions de révolutions L10 ;",
+    "La durée de vie nominale en heures de service L10h ;",
+    "L'évaluation de la suffisance pour un fonctionnement continu 24/7 sur 2 ans."
+]
+    formulas = [
+    "L_{10} = \\left( \\frac{C}{P} \\right)^p \\quad [10^6\\text{ tr}]",
+    "L_{10h} = \\frac{10^6 \\cdot L_{10}}{60 \\cdot n} \\quad [\\text{heures}]"
+]
+    formulas_tex = [
+    "L_{10} = \\left( \\frac{C}{P} \\right)^p",
+    "L_{10h} = \\frac{10^6 \\cdot L_{10}}{60 \\cdot n}"
+]
+    answer_key = [
+    "L10 = 385,3 millions de tours",
+    "L10h = 4 339 heures",
+    "Insuffisant pour 2 ans continu (17 500 h) : passer sur série renforcée ou roulement à rouleaux"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

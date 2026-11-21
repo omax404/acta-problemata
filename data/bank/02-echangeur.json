@@ -1,13 +1,14 @@
 {
+ "id": 2,
  "slug": "echangeur",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Surface d'un échangeur de pasteurisation",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Casablanca-Settat",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une laiterie veut chauffer son lait avant pasteurisation avec de l'eau chaude de récupération, dans un échangeur à plaques à contre-courant. Il faut déterminer la puissance échangée, le débit d'eau chaude et la surface d'échange nécessaires.",
  "data": [
   [
@@ -51,15 +52,18 @@
   "ΔTlm = (ΔT₂ − ΔT₁) / ln(ΔT₂/ΔT₁)",
   "A = Φ / (U·ΔTlm)"
  ],
- "answer_key": [
-  "Φ = 526,6 kW",
-  "ṁ eau = 12,60 kg/s",
-  "ΔTlm = 39,94 K ; A = 8,79 m² ; avec 15 % de marge : 10,11 m²"
- ],
  "formulas_tex": [
   "\\Phi=\\dot m\\,c_p\\,\\Delta T",
   "\\Delta T_{lm}=\\frac{\\Delta T_2-\\Delta T_1}{\\ln\\left(\\Delta T_2/\\Delta T_1\\right)}",
   "A=\\frac{\\Phi}{U\\,\\Delta T_{lm}}"
  ],
- "id": 2
+ "answer_key": [
+  "Φ = 526,6 kW",
+  "ṁ eau = 12,60 kg/s",
+  "ΔTlm = 39,94 K ; A = 8,79 m² ; avec 15 % de marge : 10,11 m²"
+ ],
+ "results": {
+  "id": 2,
+  "slug": "echangeur"
+ }
 }

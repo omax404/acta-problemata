@@ -1,13 +1,14 @@
 {
+ "id": 20,
  "slug": "serrage-boulon",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Couple de serrage au couple d'un assemblage boulonné précontraint",
  "sector": "Mines & Équipements",
  "sector_code": "MIN",
  "region": "Béni Mellal-Khénifra",
  "level": 1,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Lors de la révision d'un concasseur giratoire, les techniciens de maintenance doivent resserrer les vis de fixation du carter avec une clé dynamométrique étalonnée pour éviter le desserrage sous vibrations.",
  "data": [
   [
@@ -40,14 +41,17 @@
   "C_s = k \\cdot F_0 \\cdot d",
   "\\sigma = \\frac{F_0}{A_s}"
  ],
+ "formulas_tex": [
+  "C_s = k \\cdot F_0 \\cdot d",
+  "\\sigma = \\frac{F_0}{A_s}"
+ ],
  "answer_key": [
   "Couple de serrage = 198,4 N·m",
   "Contrainte de traction = 394,9 MPa",
   "Serrage préalable à 50 %, puis à 100 % en croix avec marquage témoin"
  ],
- "formulas_tex": [
-  "C_s = k \\cdot F_0 \\cdot d",
-  "\\sigma = \\frac{F_0}{A_s}"
- ],
- "id": 20
+ "results": {
+  "id": 20,
+  "slug": "serrage-boulon"
+ }
 }

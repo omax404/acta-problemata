@@ -1,13 +1,14 @@
 {
+ "id": 27,
  "slug": "eau-appoint-tour-refroidissement",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Consommation d'eau d'appoint d'une tour de refroidissement",
  "sector": "Chimie lourde",
  "sector_code": "CHM",
  "region": "Casablanca-Settat",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Le complexe de cogénération et de synthèse chimique refroidit ses condenseurs à l'aide d'une tour aéroréfrigérante semi-fermée. Face aux restrictions hydriques, l'usine doit estimer son débit d'eau d'appoint (évaporation + déconcentration).",
  "data": [
   [
@@ -41,15 +42,18 @@
   "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
   "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
  ],
- "answer_key": [
-  "Évaporation = 3,57 m³/h",
-  "Purge déconcentration = 1,43 m³/h",
-  "Appoint horaire = 5,00 m³/h ; Consommation annuelle = 39 987 m³/an"
- ],
  "formulas_tex": [
   "Q_{\\text{evap}} = \\frac{P_{\\text{th}}}{L_v} \\cdot 3{,}6",
   "Q_{\\text{purge}} = \\frac{Q_{\\text{evap}}}{\\text{CC} - 1}",
   "Q_{\\text{appoint}} = Q_{\\text{evap}} + Q_{\\text{purge}}"
  ],
- "id": 27
+ "answer_key": [
+  "Évaporation = 3,57 m³/h",
+  "Purge déconcentration = 1,43 m³/h",
+  "Appoint horaire = 5,00 m³/h ; Consommation annuelle = 39 987 m³/an"
+ ],
+ "results": {
+  "id": 27,
+  "slug": "eau-appoint-tour-refroidissement"
+ }
 }

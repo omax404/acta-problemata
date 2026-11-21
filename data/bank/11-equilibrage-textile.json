@@ -1,13 +1,14 @@
 {
+ "id": 11,
  "slug": "equilibrage-textile",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Équilibrage de ligne d'assemblage textile sous contraintes d'opérateurs",
  "sector": "Textile & Confection",
  "sector_code": "TEX",
  "region": "Tanger-Tétouan-Al Hoceïma",
  "level": 3,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Un atelier de confection textile produit des blousons techniques. Face à des commandes instables et des temps de réglage machine, le chef d'atelier doit rééquilibrer la ligne de couture pour atteindre le temps de cycle client (takt time).",
  "data": [
   [
@@ -41,15 +42,18 @@
   "\\text{Efficience} = \\frac{\\sum t_i}{N_{\\text{retenu}} \\cdot T_c}",
   "\\text{Perte d'équilibrage} = (N \\cdot T_c) - \\sum t_i"
  ],
- "answer_key": [
-  "N théorique = 7,11 ; N retenu = 8 postes de travail",
-  "Efficience = 88,9 %",
-  "Perte d'équilibrage = 40 s par vêtement (soit 6,67 h d'inactivité cumulée par jour)"
- ],
  "formulas_tex": [
   "N_{\\text{théo}} = \\frac{\\sum t_i}{T_c}",
   "\\text{Efficience} = \\frac{\\sum t_i}{N_{\\text{retenu}} \\cdot T_c}",
   "\\text{Perte} = (N \\cdot T_c) - \\sum t_i"
  ],
- "id": 11
+ "answer_key": [
+  "N théorique = 7,11 ; N retenu = 8 postes de travail",
+  "Efficience = 88,9 %",
+  "Perte d'équilibrage = 40 s par vêtement (soit 6,67 h d'inactivité cumulée par jour)"
+ ],
+ "results": {
+  "id": 11,
+  "slug": "equilibrage-textile"
+ }
 }

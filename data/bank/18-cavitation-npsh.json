@@ -1,13 +1,14 @@
 {
+ "id": 18,
  "slug": "cavitation-npsh",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Vérification du non-risque de cavitation (NPSH disponible)",
  "sector": "Agroalimentaire",
  "sector_code": "AGR",
  "region": "Rabat-Salé-Kénitra",
  "level": 2,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une pompe centrifuge aspire du jus de fruit clarifié depuis une cuve ouverte en contrebas. En période de forte production, des bruits de crépitement anormaux font craindre une entrée en cavitation destructive.",
  "data": [
   [
@@ -45,14 +46,17 @@
   "\\text{NPSH}_a = \\frac{P_{\\text{atm}} - P_v}{\\rho \\cdot g} - H_a - \\Delta h_a",
   "\\text{Marge} = \\text{NPSH}_a - \\text{NPSH}_r \\ge 0{,}5\\text{ m}"
  ],
+ "formulas_tex": [
+  "\\text{NPSH}_a = \\frac{P_{\\text{atm}} - P_v}{\\rho \\cdot g} - H_a - \\Delta h_a",
+  "\\text{Marge} = \\text{NPSH}_a - \\text{NPSH}_r \\ge 0{,}5\\text{ m}"
+ ],
  "answer_key": [
   "Charge atmosphérique nette = 10,09 m",
   "NPSH disponible = 5,39 m",
   "Marge de sécurité = 1,59 m (Conforme car > 0,5 m)"
  ],
- "formulas_tex": [
-  "\\text{NPSH}_a = \\frac{P_{\\text{atm}} - P_v}{\\rho \\cdot g} - H_a - \\Delta h_a",
-  "\\text{Marge} = \\text{NPSH}_a - \\text{NPSH}_r \\ge 0{,}5\\text{ m}"
- ],
- "id": 18
+ "results": {
+  "id": 18,
+  "slug": "cavitation-npsh"
+ }
 }

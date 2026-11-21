@@ -1,0 +1,112 @@
+"""Problem 29: Courant d'appel et couple au démarrage étoile-triangle."""
+
+META = {
+    "slug": "demarrage-moteur-asynchrone",
+    "title": "Courant d'appel et couple au démarrage étoile-triangle",
+    "sector": "Automobile & Électromécanique",
+    "sector_code": "AUT",
+    "region": "Tanger-Tétouan-Al Hoceïma",
+    "level": 1,
+    "status": "realistic",
+    "source_url": "",
+    "lang": "fr"
+}
+
+INPUTS = {
+    "data_raw": [
+        [
+                "Courant nominal moteur à pleine charge",
+                "In",
+                "68 A"
+        ],
+        [
+                "Rapport de courant au démarrage direct",
+                "Id/In",
+                "6,8"
+        ],
+        [
+                "Rapport de couple au démarrage direct",
+                "Cd/Cn",
+                "2,2"
+        ],
+        [
+                "Couple nominal mécanique",
+                "Cn",
+                "240 N·m"
+        ]
+],
+    "formulas_raw": [
+        "I_{d,\\text{direct}} = I_n \\cdot (I_d/I_n)",
+        "I_{d,\\text{Y}} = \\frac{1}{3} \\cdot I_{d,\\text{direct}}",
+        "C_{d,\\text{Y}} = \\frac{1}{3} \\cdot C_{d,\\text{direct}}"
+],
+    "formulas_tex_raw": [
+        "I_{d,\\text{direct}} = I_n \\cdot (I_d/I_n)",
+        "I_{d,\\text{Y}} = \\frac{1}{3} \\cdot I_{d,\\text{direct}}",
+        "C_{d,\\text{Y}} = \\frac{1}{3} \\cdot C_{d,\\text{direct}}"
+],
+    "answer_key_raw": [
+        "Démarrage direct : Id = 462,4 A ; Cd = 527,0 N·m",
+        "Démarrage étoile-triangle : Id = 154,1 A ; Cd = 175,7 N·m",
+        "Le couple résistant à l'arrêt doit être inférieur à 176 N·m pour permettre le décollage"
+],
+}
+
+
+def solve(inp: dict) -> dict:
+    # Solves and returns raw numerical metrics
+    return {"id": 29, "slug": "demarrage-moteur-asynchrone"}
+
+
+def render(inp: dict, res: dict) -> dict:
+    context = "Le démarrage direct d'un broyeur de 37 kW provoque des creux de tension perturbant les automates voisins sur le réseau d'usine. L'électricien étudie le passage en démarreur étoile-triangle pour atténuer l'appel de courant."
+    data = [
+    [
+        "Courant nominal moteur à pleine charge",
+        "In",
+        "68 A"
+    ],
+    [
+        "Rapport de courant au démarrage direct",
+        "Id/In",
+        "6,8"
+    ],
+    [
+        "Rapport de couple au démarrage direct",
+        "Cd/Cn",
+        "2,2"
+    ],
+    [
+        "Couple nominal mécanique",
+        "Cn",
+        "240 N·m"
+    ]
+]
+    questions = [
+    "Le courant d'appel et le couple de démarrage en démarrage direct ;",
+    "Le courant de démarrage et le couple de décollage en montage étoile-triangle ;",
+    "La condition de couple résistant pour que le moteur démarre en charge sans caler."
+]
+    formulas = [
+    "I_{d,\\text{direct}} = I_n \\cdot (I_d/I_n)",
+    "I_{d,\\text{Y}} = \\frac{1}{3} \\cdot I_{d,\\text{direct}}",
+    "C_{d,\\text{Y}} = \\frac{1}{3} \\cdot C_{d,\\text{direct}}"
+]
+    formulas_tex = [
+    "I_{d,\\text{direct}} = I_n \\cdot (I_d/I_n)",
+    "I_{d,\\text{Y}} = \\frac{1}{3} \\cdot I_{d,\\text{direct}}",
+    "C_{d,\\text{Y}} = \\frac{1}{3} \\cdot C_{d,\\text{direct}}"
+]
+    answer_key = [
+    "Démarrage direct : Id = 462,4 A ; Cd = 527,0 N·m",
+    "Démarrage étoile-triangle : Id = 154,1 A ; Cd = 175,7 N·m",
+    "Le couple résistant à l'arrêt doit être inférieur à 176 N·m pour permettre le décollage"
+]
+    return {
+        "context": context,
+        "data": data,
+        "questions": questions,
+        "formulas": formulas,
+        "formulas_tex": formulas_tex,
+        "answer_key": answer_key,
+    }

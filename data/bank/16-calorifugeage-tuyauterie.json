@@ -1,13 +1,14 @@
 {
+ "id": 16,
  "slug": "calorifugeage-tuyauterie",
- "lang": "fr",
- "status": "realistic",
- "source_url": "",
  "title": "Rentabilité du calorifugeage d'une ligne vapeur nue",
  "sector": "Chimie lourde",
  "sector_code": "CHM",
  "region": "Souss-Massa",
  "level": 3,
+ "status": "realistic",
+ "source_url": "",
+ "lang": "fr",
  "context": "Une ligne de distribution de vapeur saturée de 60 mètres n'a jamais été calorifugée suite à des travaux de maintenance. L'ingénieur utilités doit justifier l'investissement de calorifugeage auprès de la direction financière.",
  "data": [
   [
@@ -67,16 +68,19 @@
   "\\text{Gain} = \\Phi \\cdot \\eta_{\\text{iso}} \\cdot t \\cdot c_{\\text{th}}",
   "\\text{TRI} = \\frac{C_{\\text{inv}}}{\\text{Gain}}"
  ],
- "answer_key": [
-  "Perte linéique = 587,2 W/m ; Puissance perdue totale = 35,2 kW",
-  "Économie annuelle = 186 013 kWh/an",
-  "Gain = 78 126 MAD/an ; TRI = 3,2 mois"
- ],
  "formulas_tex": [
   "q = \\pi \\cdot D_e \\cdot h \\cdot (T_p - T_a)",
   "\\Phi = q \\cdot L",
   "\\text{Gain} = \\Phi \\cdot \\eta_{\\text{iso}} \\cdot t \\cdot c_{\\text{th}}",
   "\\text{TRI} = \\frac{C_{\\text{inv}}}{\\text{Gain}}"
  ],
- "id": 16
+ "answer_key": [
+  "Perte linéique = 587,2 W/m ; Puissance perdue totale = 35,2 kW",
+  "Économie annuelle = 186 013 kWh/an",
+  "Gain = 78 126 MAD/an ; TRI = 3,2 mois"
+ ],
+ "results": {
+  "id": 16,
+  "slug": "calorifugeage-tuyauterie"
+ }
 }
