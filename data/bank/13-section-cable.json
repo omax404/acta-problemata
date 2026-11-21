@@ -1,0 +1,63 @@
+{
+ "slug": "section-cable",
+ "lang": "fr",
+ "status": "realistic",
+ "source_url": "",
+ "title": "Dimensionnement de câble par chute de tension admissible",
+ "sector": "Automobile & Électromécanique",
+ "sector_code": "AUT",
+ "region": "Tanger-Tétouan-Al Hoceïma",
+ "level": 2,
+ "context": "Une nouvelle cellule robotisée est raccordée au TGBT de l'usine par une liaison cuivre enterrée de 180 m. La chute de tension ne doit pas dépasser 3 % en régime nominal pour garantir le fonctionnement des variateurs.",
+ "data": [
+  [
+   "Courant d'emploi nominal",
+   "Ib",
+   "145 A"
+  ],
+  [
+   "Longueur de la liaison",
+   "L",
+   "180 m"
+  ],
+  [
+   "Facteur de puissance",
+   "cos φ",
+   "0,85"
+  ],
+  [
+   "Tension nominale",
+   "Un",
+   "400 V triphasé"
+  ],
+  [
+   "Chute de tension maximale",
+   "Δu_max",
+   "3 % (12 V)"
+  ],
+  [
+   "Résistivité cuivre en service",
+   "ρ",
+   "0,0225 Ω·mm²/m"
+  ]
+ ],
+ "questions": [
+  "La chute de tension maximale admise en volts ;",
+  "La section théorique minimale du câble cuivre ;",
+  "La section normalisée à retenir et la chute de tension réelle correspondante."
+ ],
+ "formulas": [
+  "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+  "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+ ],
+ "answer_key": [
+  "ΔU max = 12,0 V",
+  "Section minimale calculée = 72,0 mm²",
+  "Section normalisée retenue = 95 mm²"
+ ],
+ "formulas_tex": [
+  "\\Delta U = \\sqrt{3} \\cdot I_b \\cdot \\frac{L}{S} \\cdot \\rho \\cdot \\cos \\varphi",
+  "S_{\\min} = \\frac{\\sqrt{3} \\cdot I_b \\cdot L \\cdot \\rho \\cdot \\cos \\varphi}{\\Delta U_{\\max}}"
+ ],
+ "id": 13
+}

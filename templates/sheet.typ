@@ -104,14 +104,30 @@
       place(bottom + left, dx: 3mm, dy: -1.8mm, micro-white([AP-#(ed)-SYS-OK \/\/ LANG: #upper(d.lang)]))
     }))
 
-    // 3. RIGHT STAMP / MONOGRAM BOX — minimal dark
-    place(top + left, dx: 164mm, dy: mast-y, rect(width: 34mm, height: mast-h, fill: graphite, stroke: 0.4pt + soft-dark, {
-      place(top + left, dx: 2mm, dy: 2mm, micro-white([VALIDATION BADGE]))
-      place(top + left, dx: 2mm, dy: 5mm, micro([STAMP_DIGITAL_AUTH]))
-      place(top + center, dx: 0mm, dy: 8.5mm, box(width: 20mm, height: 17mm, clip: true, image("logo.svg", height: 18mm)))
-      place(bottom + left, dx: 2mm, dy: -4.5mm, micro-orange([SECTOR: #upper(d.code.slice(11, 14))]))
-      place(bottom + left, dx: 2mm, dy: -1.8mm, micro([UNIT: SI_METRIC]))
-    }))
+    // 3. RIGHT STAMP / MONOGRAM BOX — stacked, no overlaps
+    // Layout: [label row 6mm] [logo zone 16mm] [sector row 5mm] [unit row 5mm] = 32mm total
+    place(top + left, dx: 164mm, dy: mast-y, rect(width: 34mm, height: mast-h, fill: graphite, stroke: 0.4pt + soft-dark,
+      stack(dir: ttb,
+        // Label row
+        pad(left: 2mm, top: 2mm, bottom: 1mm,
+          stack(dir: ttb, spacing: 1.2mm,
+            micro-white([VALIDATION BADGE]),
+            micro([STAMP_DIGITAL_AUTH])
+          )
+        ),
+        // Logo zone — isolated, never touching text
+        align(center, box(width: 22mm, height: 14mm, clip: true,
+          image("logo.svg", height: 14mm, fit: "contain")
+        )),
+        // Sector + unit rows at bottom
+        pad(left: 2mm, top: 2mm,
+          stack(dir: ttb, spacing: 1.6mm,
+            micro-orange([SECTOR: #upper(d.code.slice(11, 14))]),
+            micro([UNIT: SI_METRIC])
+          )
+        )
+      )
+    ))
   },
   
   // ── FOOTER TELEMETRY & BARCODES ──
@@ -236,16 +252,25 @@
         v(0.16em)
       }
       
-      // 04 FORMULAS
+      // 04 FORMULAS — rendered: $...$ segments as Typst math, rest as mono text
       sec("04", T.form)
       for f in d.formulas {
         block(
           width: 100%,
           fill: light-card,
           stroke: (left: 2.2pt + orange, rest: 0.25pt + line-grey),
-          inset: (x: 2.8mm, y: 1.4mm),
-          below: 1mm,
-          text(font: mono, size: 0.88em, weight: "bold", fill: dark)[#f]
+          inset: (x: 2.8mm, y: 2.2mm),
+          below: 1.4mm,
+          {
+            // If formula is a pure Typst math expression (wrapped in $...$), eval it
+            // Otherwise render as styled monospace — clean, intentional, no slop
+            if f.starts-with("$") and f.ends-with("$") and f.len() > 2 {
+              set text(size: 1.0em)
+              eval(f, mode: "markup")
+            } else {
+              text(font: mono, size: 0.9em, weight: "bold", fill: dark, tracking: 0.3pt)[#f]
+            }
+          }
         )
       }
     } else {

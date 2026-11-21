@@ -1,0 +1,50 @@
+{
+ "slug": "fiabilite-mtbf-mttr",
+ "lang": "fr",
+ "status": "realistic",
+ "source_url": "",
+ "title": "Calcul de fiabilité opérationnelle par les indicateurs MTBF et MTTR",
+ "sector": "Automobile & Électromécanique",
+ "sector_code": "AUT",
+ "region": "Tanger-Tétouan-Al Hoceïma",
+ "level": 1,
+ "context": "Dans le cadre du tableau de bord de maintenance préventive d'une presse d'emboutissage, l'analyste méthodes consolide les interventions curatives du mois écoulé pour juger de la politique de maintenance.",
+ "data": [
+  [
+   "Période d'analyse continue",
+   "T_tot",
+   "720 heures (30 jours)"
+  ],
+  [
+   "Nombre d'arrêts pour pannes constatés",
+   "N",
+   "12 pannes"
+  ],
+  [
+   "Temps cumulé d'indisponibilité pour réparation",
+   "T_rep",
+   "42 heures"
+  ]
+ ],
+ "questions": [
+  "Le temps moyen de réparation (MTTR) ;",
+  "Le temps moyen de bon fonctionnement entre pannes (MTBF) ;",
+  "Le taux de disponibilité opérationnelle intrinsèque de la presse."
+ ],
+ "formulas": [
+  "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+  "\\text{MTBF} = \\frac{T_{\\text{ouverture}} - \\sum T_{\\text{arrêt}}}{N}",
+  "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+ ],
+ "answer_key": [
+  "MTTR = 3,50 h (210 min)",
+  "MTBF = 56,5 h",
+  "Disponibilité intrinsèque = 94,17 %"
+ ],
+ "formulas_tex": [
+  "\\text{MTTR} = \\frac{\\sum T_{\\text{arrêt}}}{N}",
+  "\\text{MTBF} = \\frac{T_{\\text{ouv}} - \\sum T_{\\text{arrêt}}}{N}",
+  "D_i = \\frac{\\text{MTBF}}{\\text{MTBF} + \\text{MTTR}}"
+ ],
+ "id": 24
+}
