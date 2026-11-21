@@ -65,8 +65,9 @@ def _compile(build: Path, out_pdf: Path, entry: str = "broadside.typ") -> float:
             cli = shutil.which("typst")
             if not cli:
                 raise RuntimeError("no Typst compiler: pip install typst (or put the CLI on PATH)")
-            r = subprocess.run([cli, "compile", "--root", str(build), "--font-path", str(build / "fonts"), entry, str(out_pdf)],
-                               cwd=build, capture_output=True, text=True, timeout=30)
+            cmd = [cli, "compile", "--root", str(build), "--font-path", str(build / "fonts"),
+                   entry, str(out_pdf)]
+            r = subprocess.run(cmd, cwd=build, capture_output=True, text=True, timeout=30)
             if r.returncode:
                 raise RuntimeError(f"typst compile failed:\n{r.stderr.strip()}")
     except RuntimeError:
