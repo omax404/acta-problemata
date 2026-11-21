@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acta Problemata №5 — Solution</title><style>body{font-family:Georgia,'Times New Roman',serif;background:#f7f3ea;color:#1c1a17;
+max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.55}
+h1{font-size:1.5rem;border-bottom:3px double #1c1a17;padding-bottom:.4rem}
+code,pre{font-family:'Courier New',monospace;background:#efe9db}
+pre{padding:.8rem;overflow-x:auto;border:1px solid #c9c0ab}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #c9c0ab;padding:.3rem .6rem;text-align:left}
+.meta{font-style:italic;color:#5a5346}.ans{font-size:1.2rem;font-weight:bold}</style></head><body>
+<h1>№5 — Pasteurisation Heat Exchanger Thermal Duty Verification</h1>
+<p class="meta">21 November 2026 · Thermal · verified by SymPy</p>
+
+<h2>1 · Governing equation</h2><pre>m * cp * (T2 - T1)</pre>
+<h2>2 · Boundary conditions</h2><table><tr><th>Quantity</th><th>Value</th></tr><tr><td>Milk mass flow m</td><td><code>2.0 kg/s</code></td></tr><tr><td>Milk specific heat cp</td><td><code>3.93 kJ/(kg*K)</code></td></tr><tr><td>Exit temperature T2</td><td><code>72 C</code></td></tr><tr><td>Inlet temperature T1</td><td><code>5 C</code></td></tr></table>
+<h2>3 · Substitution</h2><table><tr><th>Symbol</th><th>SI value</th></tr><tr><td><code>m</code></td><td><code>2</code></td></tr><tr><td><code>cp</code></td><td><code>3.93</code></td></tr><tr><td><code>T2</code></td><td><code>72</code></td></tr><tr><td><code>T1</code></td><td><code>5</code></td></tr></table>
+<pre>(2) * (3.93) * ((72) - (5))</pre>
+<h2>4 · Evaluation</h2>
+<p>Full precision: <code>526.62 kW</code></p>
+<p class="ans">Answer (3 s.f.): 527 kW</p>
+<h2>5 · Reproduce it yourself</h2><pre id="snip">import sympy as sp
+m = 2.0
+cp = 3.93
+T2 = 72.0
+T1 = 5.0
+expr = sp.sympify(&#x27;m * cp * (T2 - T1)&#x27;)
+result = expr.evalf(30)   # -&gt; 526.62 kW
+answer = float(f&#x27;{result:.3g}&#x27;)  # 527 kW (3 s.f.)</pre>
+<button onclick="navigator.clipboard.writeText(
+document.getElementById('snip').textContent)">Copy SymPy snippet</button>
+<p><a href="../archive/acta-0005.pdf">⬇ Today's broadside (PDF)</a> ·
+<a href="../index.html">Archive</a></p>
+<p class="meta">Independent educational scenario, rewritten from public information; not affiliated with any
+company named or implied. <a href="../../legal.html">Sources, takedown &amp; non-affiliation</a></p>
+<p class="meta">Check your own answer in a terminal: <code>acta check &lt;value&gt; --edition 5</code></p>
+</body></html>
