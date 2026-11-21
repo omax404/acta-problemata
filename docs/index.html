@@ -13,12 +13,12 @@
 <style>
 /* ACTA PROBLEMATA — hero-poster system
    Subject: the real AP monogram (assets/logo.svg path), lit by one raking light, cropped by the frame.
-   Palette: graphite #121212 field · industrial white #EBEBEB · signal orange #FF4500 (accent, ~25% of hero).
+   Palette: graphite #121212 field · industrial white #EBEBEB · signal orange #E8693C (accent, ~25% of hero).
    Every micrograph label is computed from the parameters it prints. */
 :root{
   --ink:#121212; --ink2:#1A1A1A; --ink3:#242424;
   --paper:#EBEBEB; --paper2:#DEDDD8; --paper3:#CFCEC8;
-  --or:#FF4500; --or-d:#D93A00;
+  --or:#E8693C; --or-d:#C9552B;
   --mute:#8C8A85; --mute-d:#5C5A56;
   --line-l:rgba(235,235,235,.16); --line-d:rgba(18,18,18,.2);
   --disp:'Anton','Impact','Arial Narrow',sans-serif;
@@ -71,9 +71,10 @@ a{color:inherit}
 .hero{position:relative;min-height:calc(100vh - 100px);min-height:calc(100svh - 100px);overflow:hidden;background:
   radial-gradient(120% 90% at 78% 40%,#262626 0%,#161616 55%,#0F0F0F 100%);isolation:isolate;display:flex;align-items:center}
 .hero-wrap{width:100%;padding-top:36px;padding-bottom:84px}
-.ruler{position:absolute;left:0;top:0;height:100%;width:44px;z-index:3;opacity:.7}
-.ruler text{font:500 8px var(--mono);fill:var(--mute)}
-.ruler path{stroke:var(--mute);stroke-width:1;fill:none}
+.ruler{position:fixed;left:0;top:0;height:100vh;width:44px;z-index:90;opacity:.75;mix-blend-mode:difference;pointer-events:none}
+.ruler text{font:500 8px var(--mono);fill:#fff}
+.ruler path{stroke:#fff;stroke-width:1;fill:none}
+.ruler .mk{fill:#fff;stroke:none}
 .logo-stage{position:absolute;z-index:1;right:-7%;bottom:-13%;height:118%;aspect-ratio:869/1000;pointer-events:none}
 .logo-stage svg{width:100%;height:100%;overflow:visible;display:block}
 .hero.intro .logo-stage svg{clip-path:inset(-10% 100% -10% -10%);animation:wipe 1.5s cubic-bezier(.7,0,.2,1) 1.5s forwards}
@@ -84,8 +85,8 @@ a{color:inherit}
 .hero-scrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(18,18,18,.78) 0%,rgba(18,18,18,.35) 46%,rgba(18,18,18,0) 62%)}
 .hero-grid{position:relative;z-index:4;max-width:640px}
 .hero-meta{display:flex;align-items:center;gap:10px;margin-bottom:22px;color:var(--paper)}
-.pulse{width:9px;height:9px;background:var(--or);border-radius:50%;box-shadow:0 0 0 0 rgba(255,69,0,.7);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(255,69,0,0)}100%{box-shadow:0 0 0 0 rgba(255,69,0,0)}}
+.pulse{width:9px;height:9px;background:var(--or);border-radius:50%;box-shadow:0 0 0 0 rgba(232,105,60,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(232,105,60,0)}100%{box-shadow:0 0 0 0 rgba(232,105,60,0)}}
 h1.disp{font-size:clamp(3rem,6.4vw,6.2rem);margin:0}
 h1 .ln{display:block;overflow:hidden;padding:.2em 0 .04em;margin-top:-.2em}
 h1 .ln>span{display:inline-block;transform:translateY(0)}
@@ -489,16 +490,17 @@ function handleSubscription(e){
   var x=0,bars="";
   while(x<148){var w=1+Math.floor(r()*3),g=1+Math.floor(r()*2);bars+='<rect x="'+x+'" y="0" width="'+w+'" height="34" fill="#EBEBEB"/>';x+=w+g}
   $("barcode").innerHTML=bars;
-  /* A4 ruler: 297 mm over the hero height */
-  var hero=$("hero"),ru=$("ruler");
+  /* metric scale: fixed ruler, ticks travel with the scroll (4 px = 1 mm), marker reads the position */
+  var ru=$("ruler"),K=4;
   function ruler(){
-    var H=hero.clientHeight,k=H/297,d="",t="";
+    var H=innerHeight,y0=scrollY,m0=Math.floor(y0/K),d="",t="";
     ru.setAttribute("viewBox","0 0 44 "+H);
-    for(var mm=0;mm<=297;mm++){var y=mm*k,len=mm%50===0?18:mm%10===0?11:4;d+="M0 "+y.toFixed(1)+"h"+len;
-      if(mm%50===0&&mm>0&&mm<297)t+='<text x="22" y="'+(y+3).toFixed(1)+'">'+mm+'</text>'}
-    ru.innerHTML='<path d="'+d+'"/>'+t;
+    for(var mm=m0;mm<=m0+H/K+1;mm++){var y=mm*K-y0,len=mm%50===0?18:mm%10===0?11:4;d+="M0 "+y.toFixed(1)+"h"+len;
+      if(mm%50===0)t+='<text x="22" y="'+(y+3).toFixed(1)+'">'+mm+'</text>'}
+    var cur=Math.round((y0+H/2)/K);
+    ru.innerHTML='<path d="'+d+'"/>'+t+'<path d="M0 '+(H/2)+'h44" style="stroke:#fff;stroke-width:1.5"/><path class="mk" d="M44 '+(H/2-4)+'l-7 4l7 4z"/><text x="3" y="'+(H/2-6)+'" style="font-size:9px">'+cur+' mm</text>';
   }
-  ruler();addEventListener("resize",ruler);
+  ruler();addEventListener("resize",ruler);addEventListener("scroll",ruler,{passive:true});
 })();
 </script>
 
@@ -529,17 +531,17 @@ function handleSubscription(e){
     for(var r=0;r<ROWS;r++){var row=MASK[r];
       for(var c=0;c<COLS;c++){
         var v=row.charCodeAt(c)-48;if(v<1)continue;
-        var x=ox+c*cw,y=oy+r*ch;if(x>W||y>H||x<-cw||y<-ch)continue;
+        var x=ox+c*cw,y=oy+r*ch-Math.min(scrollY,900)*.25;if(x>W||y>H||x<-cw||y<-ch)continue;
         var life=(t-delay[r*COLS+c])/600,cx=x+cw/2,cy=y+ch/2;
         var md=Math.hypot(cx-mouse.x,cy-mouse.y),near=md<110?1-md/110:0;
         var diag=(c/COLS)*.6+(r/ROWS)*.4,hot=Math.max(0,1-Math.abs(diag-sweep)*14);
         var chr,a,col;
-        if(life<1){if(life<=0)continue;chr=NOISE.charAt((c*7+r*13+tk)%NOISE.length);a=.12+.3*life;col="255,69,0"}
+        if(life<1){if(life<=0)continue;chr=NOISE.charAt((c*7+r*13+tk)%NOISE.length);a=.12+.3*life;col="226,124,84"}
         else{
-          chr=near>.35?NOISE.charAt((c+r+tk)%NOISE.length):RAMP.charAt(Math.min(9,Math.max(1,v-(near?2:0))));
+          var wv=Math.round(2.2*Math.sin(c*.28+r*.18-t/450)+1.2*Math.sin(r*.5+t/900));chr=near>.35?NOISE.charAt((c+r+tk)%NOISE.length):((c*13+r*7+tk)%41===0?NOISE.charAt((c+r*3+tk)%NOISE.length):RAMP.charAt(Math.min(9,Math.max(1,v+wv-(near?2:0)))));
           if(chr===" ")continue;
           if(near>0||hot>.15){col="235,235,235";a=Math.min(.95,.35+near*.6+hot*.6)}
-          else{col="255,69,0";a=.28+v*.07}
+          else{col="226,124,84";a=.16+v*.05}
         }
         ctx.fillStyle="rgba("+col+","+a.toFixed(3)+")";ctx.fillText(chr,x,y);
       }}
@@ -617,27 +619,27 @@ function handleSubscription(e){
         "[FIG.MIN-05] P = ṁ·g·H = "+fr(P)+" kW<br>ṁ = 400 t/h · H = 12 m · levage seul","Convoyeur incliné : puissance de levage")},
     boiler:function(){
       var seg=[["utile",88],["fumées",10],["parois",2]],x=X0,s="",i=0;
-      seg.forEach(function(g){var w=g[1]/100*(X1-X0);s+='<rect class="grow" x="'+x.toFixed(1)+'" y="30" width="'+w.toFixed(1)+'" height="34" '+(i==0?'fill="#FF4500"':'fill="none" stroke="currentColor" stroke-width=".8"')+'/><text class="tx" x="'+(x+w/2).toFixed(1)+'" y="26" text-anchor="middle" style="opacity:1">'+g[0]+' '+g[1]+'</text>';x+=w;i++});
+      seg.forEach(function(g){var w=g[1]/100*(X1-X0);s+='<rect class="grow" x="'+x.toFixed(1)+'" y="30" width="'+w.toFixed(1)+'" height="34" '+(i==0?'fill="#E8693C"':'fill="none" stroke="currentColor" stroke-width=".8"')+'/><text class="tx" x="'+(x+w/2).toFixed(1)+'" y="26" text-anchor="middle" style="opacity:1">'+g[0]+' '+g[1]+'</text>';x+=w;i++});
       var y2=82,w2=.91*(X1-X0);
-      s+='<rect class="grow" x="'+X0+'" y="'+y2+'" width="'+w2.toFixed(1)+'" height="14" fill="#FF4500" opacity=".55"/><rect class="grow" x="'+(X0+w2).toFixed(1)+'" y="'+y2+'" width="'+((X1-X0)-w2).toFixed(1)+'" height="14" fill="none" stroke="currentColor" stroke-width=".8"/>';
+      s+='<rect class="grow" x="'+X0+'" y="'+y2+'" width="'+w2.toFixed(1)+'" height="14" fill="#E8693C" opacity=".55"/><rect class="grow" x="'+(X0+w2).toFixed(1)+'" y="'+y2+'" width="'+((X1-X0)-w2).toFixed(1)+'" height="14" fill="none" stroke="currentColor" stroke-width=".8"/>';
       s+='<text class="tx" x="'+X0+'" y="78">avec économiseur : 91 %</text><path class="ax" d="M'+X0+' 106H'+X1+'"/>';
       for(var k=0;k<=10;k++){s+='<path class="ax" d="M'+(X0+k*(X1-X0)/10)+' 106v3"/>'}
       s+='<text class="tx" x="'+X0+'" y="118">0 %</text><text class="tx" x="'+X1+'" y="118" text-anchor="end">100 % du PCI</text>';
       return wrap(s,"[FIG.AGR-06] η = 88 % PCI · pertes fumées 10 % · parois 2 %<br>économiseur : +3 points → 91 %","Bilan énergétique d'une chaudière vapeur")},
     kanban:function(){
       var D=120,Lt=.5,al=.1,C=10,Nr=D*Lt*(1+al)/C,N=Math.ceil(Nr),cx=120,cy=58,R=36,cards="";
-      for(var i=0;i<N;i++){var a=i/N*2*Math.PI;cards+='<rect x="'+(cx+R*Math.cos(a)-5).toFixed(1)+'" y="'+(cy+R*Math.sin(a)-3.5).toFixed(1)+'" width="10" height="7" fill="'+(i==0?'#FF4500':'none')+'" stroke="currentColor" stroke-width=".8" transform="rotate('+(a*180/Math.PI+90).toFixed(0)+' '+(cx+R*Math.cos(a)).toFixed(1)+' '+(cy+R*Math.sin(a)).toFixed(1)+')"/>'}
+      for(var i=0;i<N;i++){var a=i/N*2*Math.PI;cards+='<rect x="'+(cx+R*Math.cos(a)-5).toFixed(1)+'" y="'+(cy+R*Math.sin(a)-3.5).toFixed(1)+'" width="10" height="7" fill="'+(i==0?'#E8693C':'none')+'" stroke="currentColor" stroke-width=".8" transform="rotate('+(a*180/Math.PI+90).toFixed(0)+' '+(cx+R*Math.cos(a)).toFixed(1)+' '+(cy+R*Math.sin(a)).toFixed(1)+')"/>'}
       return wrap('<circle class="ax" cx="'+cx+'" cy="'+cy+'" r="'+R+'" style="stroke-dasharray:2 3"/><g class="spin">'+cards+'</g><text class="tx" x="'+cx+'" y="'+(cy+3)+'" text-anchor="middle" style="opacity:1;font-size:9px">N = '+N+'</text>',
         "[FIG.AUT-07] N = ⌈D·L·(1+α)/C⌉ = ⌈"+fr(Nr)+"⌉ = "+N+"<br>D 120/h · L 0,5 h · α 10 % · C 10 pièces","Boucle Kanban : nombre de cartes")},
     oee:function(){
       var a=.85,p=.9,q=.98,o=a*p*q,v=[["DISPO",a],["PERF",p],["QUAL",q],["TRS",o]],s='<path class="ax" d="M'+X0+' 106H'+X1+'"/>',bw=34,gap=(X1-X0-4*bw)/3;
       v.forEach(function(t,i){var x=X0+i*(bw+gap),h=t[1]*92,last=i==3;
-        s+='<rect class="grow" x="'+x.toFixed(1)+'" y="'+(106-h).toFixed(1)+'" width="'+bw+'" height="'+h.toFixed(1)+'" '+(last?'fill="#FF4500"':'fill="none" stroke="currentColor" stroke-width=".9"')+'/>'
+        s+='<rect class="grow" x="'+x.toFixed(1)+'" y="'+(106-h).toFixed(1)+'" width="'+bw+'" height="'+h.toFixed(1)+'" '+(last?'fill="#E8693C"':'fill="none" stroke="currentColor" stroke-width=".9"')+'/>'
           +'<text class="tx" x="'+(x+bw/2).toFixed(1)+'" y="'+(100-h).toFixed(1)+'" text-anchor="middle" style="opacity:1">'+fr(t[1]*100)+'</text><text class="tx" x="'+(x+bw/2).toFixed(1)+'" y="116" text-anchor="middle">'+t[0]+'</text>'});
       return wrap(s,"[FIG.EMB-08] TRS = A·P·Q = "+fr(o*100)+" %<br>A 85 % · P 90 % · Q 98 %","Décomposition du TRS")},
     mars:function(){
       var k=4.448222,J=25,right=J*k,mx=right,s='<path class="ax" d="M10 70H230"/>',w=(rv)=>rv/mx*200;
-      s+='<rect class="grow" x="10" y="14" width="'+w(right).toFixed(1)+'" height="16" fill="#FF4500"/><text class="tx" x="10" y="10" style="opacity:1">attendu · '+fr(right)+' N·s</text>';
+      s+='<rect class="grow" x="10" y="14" width="'+w(right).toFixed(1)+'" height="16" fill="#E8693C"/><text class="tx" x="10" y="10" style="opacity:1">attendu · '+fr(right)+' N·s</text>';
       s+='<rect class="grow" x="10" y="44" width="'+w(J).toFixed(1)+'" height="16" fill="none" stroke="currentColor" stroke-width=".9"/><text class="tx" x="10" y="40" style="opacity:1">lu · '+fr(J)+' N·s</text>';
       s+='<text class="tx" x="'+(10+w(J)+6)+'" y="55" style="opacity:1">×'+fr(k,3)+'</text>';
       return '<svg class="mgs" viewBox="0 0 240 74" role="img" aria-label="Impulsion attendue contre lue">'+s+'</svg>'}
