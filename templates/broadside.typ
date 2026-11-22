@@ -8,7 +8,8 @@
 #set document(title: "Acta Problemata № " + str(d.edition_number) + " — " + d.headline,
   author: "Acta Problemata", keywords: (d.domain, d.difficulty, "engineering", "problem"))
 
-#let orange   = rgb("#ff4d00")
+// The accent is per-domain (edition.json "accent", set by src/acta/style.py); signal orange is the house default.
+#let orange   = rgb(d.at("accent", default: "#ff4d00"))
 #let bone     = rgb("#ebebeb")
 #let graphite = rgb("#121212")
 #let mid      = rgb("#8d8d8d")
