@@ -59,7 +59,7 @@ def test_pipeline_falls_back_when_the_source_is_copied(repo, monkeypatch):
     import json
     cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
     led = {"seen": {}, "history": [], "edition_number": 0}
-    got = pipeline.acquire_content(repo, cfg, led, date(2026, 11, 18), force_vault=False)
+    got, _notes = pipeline.acquire_content(repo, cfg, led, date(2026, 11, 18), force_vault=False)
     assert got.origin in ("bank", "vault")                  # the copied web case was NOT used
 
 
@@ -72,7 +72,7 @@ def test_pipeline_keeps_an_original_case(repo, monkeypatch):
     import json
     cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
     led = {"seen": {}, "history": [], "edition_number": 0}
-    got = pipeline.acquire_content(repo, cfg, led, date(2026, 11, 18), force_vault=False)
+    got, _notes = pipeline.acquire_content(repo, cfg, led, date(2026, 11, 18), force_vault=False)
     assert got.origin == "web" and got.source_url == "https://example.org/p"
 
 
