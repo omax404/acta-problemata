@@ -1,6 +1,8 @@
 """Orchestration: fetch -> synthesize -> guard -> diagram -> render -> deliver.
 
-Fallback order: live source + LLM -> bank (committed problems) -> vault (last resort).
+Fallback order: live source + LLM -> Gemini ideation -> bank (committed problems)
+-> vault (last resort). Ideation keeps the daily edition fresh even when every
+scraper fails, as long as an LLM key is configured.
 Each stage is a small function; `run` only sequences them and owns the timings.
 Publication never depends on delivery: a broken SMTP/printer is reported, not fatal.
 """
@@ -15,11 +17,11 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, ingest, legibility, originality, pages, readme_widget, render, synthesize, video
+from . import deliver, ingest, legibility, originality, pages, readme_widget, render, style, synthesize, video
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, VerifiedFormula, verify_formula
-from .schemas import LLMCase
+from .schemas import DOMAINS, LLMCase
 
 log = logging.getLogger("acta")
 NFR_BUDGET_S = 45
@@ -30,7 +32,7 @@ SYNTH_DEADLINE_S = 35
 class Content:
     case: LLMCase
     case_id: str
-    origin: str          # vault | bank | market | inbox | web | ntrs | arxiv
+    origin: str          # vault | bank | gemini | market | inbox | web | ntrs | arxiv
     source_url: str = ""
 
 
@@ -74,25 +76,57 @@ def _vault_content(repo_root: Path, led: dict, today: date) -> Content:
     raise RuntimeError(f"vault exhausted or corrupt: {errors}")
 
 
+def _target_domain(cfg: dict, today: date) -> str:
+    """Domain of the day: rotates through the 8 domains unless pinned in config."""
+    if not cfg.get("rotate_domains"):
+        return cfg["target_domain"]
+    return DOMAINS[today.toordinal() % len(DOMAINS)]
+
+
+def _ideation_content(cfg: dict, today: date) -> Content | None:
+    """Gemini invents a fresh problem when the live sources yield nothing usable.
+    Honesty: 'gemini' sheets are always 'realistic problem' class (no companies named)."""
+    llm_cfg = cfg.get("llm", {})
+    if not llm_cfg.get("ideation", True):
+        return None
+    domain = _target_domain(cfg, today)
+    try:
+        case = synthesize.synthesize_ideation(domain, cfg["difficulty_level"], llm_cfg, today,
+                                              deadline=time.monotonic() + SYNTH_DEADLINE_S)
+        log.info("gemini ideation produced a fresh %s case", domain)
+        return Content(case, f"gemini:{domain.lower()}:{today.isoformat()}", "gemini")
+    except synthesize.SynthesisError as exc:
+        log.warning("gemini ideation failed -> bank: %s", exc)
+        return None
+
+
 def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
-                    force_vault: bool) -> Content:
-    """Live source + LLM when possible; otherwise falls back to the bank (then vault)."""
+                    force_vault: bool) -> tuple[Content, list[str]]:
+    """Live source + LLM when possible, then Gemini ideation, then the bank (then vault).
+    Returns the content plus notes about what failed on the way (surfaced in summary.json)."""
+    notes: list[str] = []
     if not force_vault:
-        src = ingest.fetch_source(cfg["target_domain"], led, today, repo_root, cfg.get("source_order"))
+        domain = _target_domain(cfg, today)
+        src = ingest.fetch_source(domain, led, today, repo_root, cfg.get("source_order"))
         if src:
             try:
-                case = synthesize.synthesize(src.text, src.domain or cfg["target_domain"],
+                case = synthesize.synthesize(src.text, src.domain or domain,
                                              cfg["difficulty_level"], cfg.get("llm", {}),
                                              deadline=time.monotonic() + SYNTH_DEADLINE_S,
                                              anonymize=not cfg.get("name_companies", False))
                 originality.check_original(src.text, case)     # rewritten, never copied
-                return Content(case, src.case_id, src.origin, src.url)
+                return Content(case, src.case_id, src.origin, src.url), notes
             except synthesize.SynthesisError as exc:
-                log.warning("synthesis failed -> fallback to bank: %s", exc)
+                notes.append(f"live synthesis: {exc}")
+                log.warning("synthesis failed -> ideation/bank: %s", exc)
             except originality.NotOriginalError as exc:
-                log.warning("originality guard rejected %s (%s) -> fallback to bank", src.case_id, exc)
-        return _bank_content(repo_root, led, today)
-    return _vault_content(repo_root, led, today)
+                notes.append(f"originality: {src.case_id}: {exc}")
+                log.warning("originality guard rejected %s (%s) -> ideation/bank", src.case_id, exc)
+        idea = _ideation_content(cfg, today)
+        if idea:
+            return idea, notes
+        return _bank_content(repo_root, led, today), notes
+    return _vault_content(repo_root, led, today), notes
 
 
 def verified_content(content: Content, repo_root: Path, led: dict,
@@ -113,6 +147,7 @@ _SOURCE_LINES: dict[str, str] = {
     "ntsb":   "Source: NTSB hazmat investigation {tail} (public domain).",
     "inbox":  "Adapted from a public document ({host}); company details omitted.",
     "web":    "Adapted from a public page ({host}); company details omitted.",
+    "gemini": "Scenario class: original AI-composed industrial problem ({case_id}); figures illustrative.",
     "bank":   "Source: Acta Problemata problem bank ({case_id}).",
     "vault":  "Source: Acta Problemata vault, case {case_id}.",
 }
@@ -133,6 +168,7 @@ def build_edition(content: Content, vf: VerifiedFormula, cfg: dict, *, edition_n
         "date": today.isoformat(),
         "date_display": today.strftime("%d %B %Y"),
         "domain": case.domain.value,
+        "accent": style.accent_for(case.domain.value),
         "difficulty": cfg["difficulty_level"],
         "headline": case.title,
         "narrative": case.narrative,
@@ -196,7 +232,7 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
         timings[name] = round(time.perf_counter() - t, 2)
         return out
 
-    content = timed("content", acquire_content, repo_root, cfg, led, today, force_vault)
+    content, synth_notes = timed("content", acquire_content, repo_root, cfg, led, today, force_vault)
     content, vf = timed("math_guard", verified_content, content, repo_root, led, today)
     edition = build_edition(content, vf, cfg, edition_no=edition_no, today=today,
                             repo_slug=repo_slug, solution_url=solution_url)
@@ -232,6 +268,7 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
                "video": {k: str(v) for k, v in media.items() if v} if media else None,
                "solution_url": solution_url,
                "dry_run": dry_run, "fit": fit, "delivery_errors": delivery_errors,
+               "synthesis_notes": synth_notes,
                "timings_s": timings, "total_s": total}
     (repo_root / "build").mkdir(exist_ok=True)
     (repo_root / "build" / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
