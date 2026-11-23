@@ -1,2 +1,10 @@
 # One public URL per line, optionally "| Domain". Example (delete the leading # to use):
 # https://example.org/public-tender-notice | Fluids
+
+# Public US Chemical Safety Board investigation reports (US government works), seeded 2026-11-23
+https://www.csb.gov/assets/1/6/final_case_study_-_enterprise.pdf | Thermal
+https://www.csb.gov/assets/1/7/tesoro_anacortes_2014-may-01.pdf | Materials
+https://www.csb.gov/assets/1/20/exxonmobil_report_for_public_release.pdf | Thermal
+https://www.csb.gov/assets/1/6/cuisine_solutions_investigation_report_final_for_pdf1.pdf | Fluids
+https://www.csb.gov/goodyear-heat-exchanger-rupture/ | Mechanical
+https://www.csb.gov/assets/1/6/csb_incident_reports_volume_one_2025-01-14_rev_1.pdf | Mechanical
