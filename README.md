@@ -174,6 +174,13 @@ carries the honesty label (real vs realistic) and the hint never shows the numer
 runs it with `continue-on-error` and uploads `build/carousel/` as the `carousel-<edition>` artifact, so a
 failure here can never block publication.
 
+### Leaderboard (`acta leaderboard`)
+
+`acta sheet <problem> --solution my.json --record` appends a solution to `data/solutions.json` **only if it is
+VERIFIED**; `acta leaderboard` builds `docs/leaderboard.html` (counts per problem, per domain, streaks) and the
+daily workflow refreshes it. Entries hold a public `handle` (optional pseudonym) + problem + date: never a real
+name or e-mail (handles that look like an e-mail or URL are dropped to anonymous).
+
 <!-- ACTA:BEGIN -->
 ![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
 

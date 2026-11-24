@@ -68,11 +68,14 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--solution", type=Path, help="JSON with name, email, steps, result ... -> solution sheet")
     s.add_argument("--lang", choices=["fr", "en"])
     s.add_argument("--tol", type=float, default=0.01, help="relative tolerance for the VERIFIED stamp")
+    s.add_argument("--record", action="store_true",
+                   help="if VERIFIED, add it to data/solutions.json (public handle only) for the leaderboard")
     s.add_argument("--out", type=Path)
     k = sub.add_parser("carousel", help="render the day's problem as 5 square PNG slides + caption.txt")
     k.add_argument("problem", nargs="?", default="today", help="`today` (default) or a bank slug / id")
     k.add_argument("--out", type=Path, help="output folder (default build/carousel/)")
     k.add_argument("--lang", choices=["fr", "en"], help="UI language (default: the content's language)")
+    sub.add_parser("leaderboard", help="build docs/leaderboard.html from data/solutions.json")
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
     g = sub.add_parser("legibility", help="report-only audit of SVG figures (default: all kinds)")
     g.add_argument("files", nargs="*", type=Path)
@@ -125,6 +128,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({k: str(v) for k, v in out.items() if v}, indent=2))
         return 0
 
+    if a.cmd == "leaderboard":
+        from . import leaderboard
+        print(leaderboard.build(root))
+        return 0
+
     if a.cmd == "carousel":
         from . import carousel
         try:
@@ -150,6 +158,11 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{'VERIFIED' if verdict.verified else 'NOT VERIFIED'}: {verdict.detail}", file=sys.stderr)
         if a.lang:
             prob["lang"] = a.lang
+        if a.record and verdict and verdict.verified:
+            from . import leaderboard
+            print(f"recorded for leaderboard: {leaderboard.record(root, prob, sol)}", file=sys.stderr)
+        elif a.record:
+            print("not recorded: only VERIFIED solutions reach the leaderboard", file=sys.stderr)
         mode = "solution" if sol else "problem"
         data = sheet.build_data(prob, mode, sol, verdict=verdict)
         out = a.out or root / "build" / f"{data['code']}.pdf"
