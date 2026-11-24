@@ -59,6 +59,20 @@ jobs:
             echo "::warning title=Delivery failed::$e"
           done
 
+      - name: LinkedIn carousel (optional, never blocks publication)
+        continue-on-error: true
+        run: acta carousel today --out build/carousel/
+
+      - name: Upload carousel slides
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: carousel-${{ steps.acta.outputs.edition || 'latest' }}
+          path: build/carousel/
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Commit edition (Git = the database)
         run: |
           git config user.name "acta-bot"

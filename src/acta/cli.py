@@ -1,4 +1,4 @@
-"""acta run | preview | video | check | verify-vault"""
+"""acta run | preview | video | carousel | sheet | check | verify-vault"""
 from __future__ import annotations
 
 import argparse
@@ -69,6 +69,10 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--lang", choices=["fr", "en"])
     s.add_argument("--tol", type=float, default=0.01, help="relative tolerance for the VERIFIED stamp")
     s.add_argument("--out", type=Path)
+    k = sub.add_parser("carousel", help="render the day's problem as 5 square PNG slides + caption.txt")
+    k.add_argument("problem", nargs="?", default="today", help="`today` (default) or a bank slug / id")
+    k.add_argument("--out", type=Path, help="output folder (default build/carousel/)")
+    k.add_argument("--lang", choices=["fr", "en"], help="UI language (default: the content's language)")
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
     g = sub.add_parser("legibility", help="report-only audit of SVG figures (default: all kinds)")
     g.add_argument("files", nargs="*", type=Path)
@@ -119,6 +123,17 @@ def main(argv: list[str] | None = None) -> int:
             print(f"video failed: {exc}", file=sys.stderr)
             return 3
         print(json.dumps({k: str(v) for k, v in out.items() if v}, indent=2))
+        return 0
+
+    if a.cmd == "carousel":
+        from . import carousel
+        try:
+            deck = carousel.load_deck(root, a.problem, a.lang)
+            files = carousel.render_carousel(deck, root, a.out or root / "build" / "carousel")
+        except Exception as exc:  # noqa: BLE001 - optional garnish: report, never raise
+            print(f"carousel failed: {exc}", file=sys.stderr)
+            return 3
+        print(json.dumps([str(f) for f in files], indent=2))
         return 0
 
     if a.cmd == "sheet":

@@ -162,6 +162,18 @@ is simply unchecked. The QR code links to the problem's public archive page. Exa
 
 ![Solution sheet sample](docs/assets/solution-sheet-sample.png)
 
+### LinkedIn carousel (`acta carousel`)
+
+```bash
+acta carousel today --out build/carousel/            # or a bank slug: acta carousel pompage --lang en
+```
+
+Writes five 1080x1080 PNGs (hook, data, question, hint, call-to-action) and `caption.txt` (post text + hashtags),
+using the broadside palette, the domain accent and the logo. `--lang fr|en` switches the labels. The slide
+carries the honesty label (real vs realistic) and the hint never shows the numeric answer. The daily workflow
+runs it with `continue-on-error` and uploads `build/carousel/` as the `carousel-<edition>` artifact, so a
+failure here can never block publication.
+
 <!-- ACTA:BEGIN -->
 ![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
 

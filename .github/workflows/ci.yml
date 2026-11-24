@@ -16,6 +16,7 @@ jobs:
       - run: acta verify-vault
       - run: node --test extras/worker/worker.test.mjs
       - run: acta sheet today --out build/today.pdf
+      - run: acta carousel today --out build/carousel
       - run: acta preview          # compiles a real PDF via the python typst binding
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with: { name: preview-pdf, path: docs/gazette/archive/*.pdf }
