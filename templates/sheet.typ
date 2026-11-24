@@ -203,6 +203,11 @@
 // Main Title: bold sans, clean industrial sizing
 #text(font: sans, weight: "black", size: 14pt, tracking: -0.3pt)[#upper(d.title)]
 
+#if d.mode == "solution" {
+  v(0.2mm)
+  text(font: mono, size: 6.4pt, tracking: 0.6pt)[#upper(T.by) : #strong(d.s.name)]
+}
+
 #v(0.4mm)
 // Case Context Note Bar (clean grey card with subtle orange border-left)
 #block(width: 100%, stroke: (left: 2.8pt + orange, rest: 0.3pt + line-grey), inset: (x: 2.8mm, y: 1.8mm), fill: light-card)[
@@ -299,6 +304,18 @@
         #v(0.2em)
         #text(size: 0.85em, fill: rgb("#C8C6C0"))[#d.s.recommendation]
       ])
+      if d.s.verdict != "" {
+        v(1.4mm)
+        if d.s.verified {
+          // Earned only when every declared answer matches the computed one (see acta.solution.verify)
+          align(right, rotate(-2deg, box(stroke: 1.4pt + orange, inset: (x: 2.6mm, y: 1.4mm), radius: 0.6mm)[
+            #text(font: mono, size: 8pt, weight: "bold", fill: orange, tracking: 0.8pt)[✓ #d.s.verdict] \
+            #text(font: mono, size: 5.4pt, fill: mid-grey)[#d.s.verdict_detail]
+          ]))
+        } else {
+          align(right, text(font: mono, size: 5.6pt, fill: mid-grey)[#d.s.verdict \| #d.s.verdict_detail])
+        }
+      }
     }
   }
 

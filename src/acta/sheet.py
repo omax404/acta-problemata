@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from . import render
+from .solution import Verdict
 
 LABELS = {
     "fr": {"no": "N°", "status": "Statut", "source": "Source", "context": "Contexte", "data": "Données",
@@ -21,7 +22,8 @@ LABELS = {
                               "désignée, aucun besoin d'une entreprise précise n'est affirmé.",
                "note_real": "Cas public documenté. La source ci-dessous fait foi.",
                "nosrc": "— (aucune source : problème réaliste)",
-               "honest": "Problème de type réaliste ; non commandé par une entreprise."},
+               "honest": "Problème de type réaliste ; non commandé par une entreprise.",
+               "verified": "VÉRIFIÉ par math_guard", "unverified": "NON VÉRIFIÉ : écart avec la valeur calculée"},
     "en": {"no": "No.", "status": "Status", "source": "Source", "context": "Context", "data": "Given data",
                "ask": "To determine", "form": "Useful formulas", "problem": "Problem", "assump": "Assumptions",
                "calc": "Calculation", "result": "Result", "by": "Prepared by", "contact": "Contact",
@@ -32,7 +34,8 @@ LABELS = {
                               "no need of a specific company is claimed.",
                "note_real": "Documented public case. The source below is authoritative.",
                "nosrc": "— (no source: realistic problem)",
-               "honest": "Realistic problem class; not commissioned by any company."},
+               "honest": "Realistic problem class; not commissioned by any company.",
+               "verified": "VERIFIED by math_guard", "unverified": "NOT VERIFIED: differs from the computed value"},
 }
 
 
@@ -42,8 +45,17 @@ def fingerprint(seed: str, cols: int = 64, rows: int = 7) -> list[list[int]]:
             for _ in range(rows)]
 
 
+PAGES_URL = "https://omax404.github.io/acta-problemata/"
+
+
+def archive_url(problem: dict, base: str = PAGES_URL) -> str:
+    """Public archive page of a bank problem (docs/e/NN.html)."""
+    base = base.rstrip("/") + "/"
+    return f"{base}e/{int(problem['id']):02d}.html" if problem.get("id") else base + "archive.html"
+
+
 def build_data(problem: dict, mode: str = "problem", solution: dict | None = None,
-               today=None, base_url: str = "https://github.com/omax404/acta-problemata") -> dict:
+               today=None, base_url: str | None = None, verdict: Verdict | None = None) -> dict:
     lang = problem.get("lang", "fr")
     t = LABELS[lang]
     today = today or datetime.now(UTC).date()
@@ -62,14 +74,18 @@ def build_data(problem: dict, mode: str = "problem", solution: dict | None = Non
         "status_note": t["note_real"] if real else t["note_realistic"],
         "source": problem.get("source_url") or t["nosrc"],
         "context": problem["context"], "data": problem["data"], "questions": problem["questions"],
-        "formulas": problem["formulas"], "finger": fingerprint(code), "qr_url": base_url,
+        "formulas": problem["formulas"], "finger": fingerprint(code),
+        "qr_url": base_url or archive_url(problem),
     }
     if mode == "solution":
         s = solution or {}
         c = " // ".join(x for x in (s.get("email"), s.get("phone"), s.get("link")) if x)
         data["s"] = {"name": s.get("name", ""), "contact": c, "assumptions": s.get("assumptions", []),
                      "steps": s.get("steps", []), "result": s.get("result", ""),
-                     "recommendation": s.get("recommendation", "")}
+                     "recommendation": s.get("recommendation", ""),
+                     "verified": bool(verdict and verdict.verified),
+                     "verdict": (t["verified"] if verdict and verdict.verified else t["unverified"]) if verdict else "",
+                     "verdict_detail": verdict.detail if verdict else ""}
     return data
 
 

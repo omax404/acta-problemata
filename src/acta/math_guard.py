@@ -54,6 +54,15 @@ def round_sig(x: float, sig: int = 3) -> float:
     return float(f"{x:.{sig}g}")
 
 
+def within_tolerance(user: float, exact: float, rel_tol: float = 0.01) -> bool:
+    """True if `user` is within `rel_tol` (relative) of `exact`; exact 0 needs |user| < 1e-12."""
+    if isinstance(user, bool) or not math.isfinite(user) or not math.isfinite(exact):
+        return False
+    if exact == 0:
+        return abs(user) < 1e-12
+    return abs(user - exact) <= rel_tol * abs(exact)
+
+
 def _check_expression(expr: str, var_names: set[str]) -> None:
     if not isinstance(expr, str) or not (1 <= len(expr) <= 400):
         raise MathGuardError("symbolic expression must be a string of 1..400 chars")

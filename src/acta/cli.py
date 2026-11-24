@@ -67,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("problem", help="bank slug or id")
     s.add_argument("--solution", type=Path, help="JSON with name, email, steps, result ... -> solution sheet")
     s.add_argument("--lang", choices=["fr", "en"])
+    s.add_argument("--tol", type=float, default=0.01, help="relative tolerance for the VERIFIED stamp")
     s.add_argument("--out", type=Path)
     sub.add_parser("verify-vault", help="validate every vault case through the math guard")
     g = sub.add_parser("legibility", help="report-only audit of SVG figures (default: all kinds)")
@@ -121,13 +122,21 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if a.cmd == "sheet":
-        from . import sheet
+        from . import sheet, solution
         prob = sheet.load_problem(root, a.problem)
-        sol = json.loads(a.solution.read_text(encoding="utf-8")) if a.solution else None
+        sol = verdict = None
+        if a.solution:
+            try:
+                sol = solution.load_solution(a.solution)
+            except solution.SolutionError as exc:
+                print(f"refused: {exc}", file=sys.stderr)
+                return 2
+            verdict = solution.verify(prob, sol, a.tol)
+            print(f"{'VERIFIED' if verdict.verified else 'NOT VERIFIED'}: {verdict.detail}", file=sys.stderr)
         if a.lang:
             prob["lang"] = a.lang
         mode = "solution" if sol else "problem"
-        data = sheet.build_data(prob, mode, sol)
+        data = sheet.build_data(prob, mode, sol, verdict=verdict)
         out = a.out or root / "build" / f"{data['code']}.pdf"
         sheet.render_sheet(data, root, out)
         print(out)

@@ -1,0 +1,15 @@
+{
+  "name": "Youssef El Mansouri",
+  "email": "youssef@example.ma",
+  "link": "linkedin.com/in/your-profile",
+  "assumptions": ["Écoulement permanent, eau à 20 °C", "Rugosité constante sur toute la ligne"],
+  "steps": [
+    "v = 4Q / (pi D^2) = 1,28 m/s",
+    "Re = v D / nu = 134 198 ; f (Colebrook) = 0,0194",
+    "H = Δz + (f L/D + ΣK) v²/2g = 22,4 m",
+    "P arbre = rho g Q H / eta = 3,59 kW"
+  ],
+  "result": "H = 22,4 m ; P arbre = 3,59 kW",
+  "recommendation": "Pompe 4 kW avec variateur de vitesse pour couvrir la marge de débit.",
+  "answers": [1.28, 134198, 0.0194, 22.4, 3.59]
+}

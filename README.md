@@ -139,6 +139,29 @@ acta request --url <page> --email you@x.com    # link + email in, PDF out
 
 Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
 
+### Solution sheets (`acta sheet`)
+
+Turn your working into a one-page A4 PDF you can attach to an application:
+
+```bash
+cp solution.example.json my-solution.json        # edit name, steps, result, answers
+acta sheet pompage --solution my-solution.json --out build/my-solution.pdf
+```
+
+| Field | Required | Meaning |
+|---|---|---|
+| `name` | yes | Name or pseudonym printed on the sheet |
+| `steps` | yes | List of calculation steps (strings) |
+| `result` | yes | Your result, as text |
+| `answers` | no | Your final numbers, e.g. `[22.4, 3.59]` |
+| `email`, `phone`, `link`, `assumptions`, `recommendation` | no | Printed on the sheet |
+
+The **VERIFIED by math_guard** stamp appears only if every number in `answers` matches the value computed by
+`gen_bank.py` within 1 % (`--tol` to change). Otherwise the sheet is marked *not verified*; without `answers` it
+is simply unchecked. The QR code links to the problem's public archive page. Example: `solution.example.json`.
+
+![Solution sheet sample](docs/assets/solution-sheet-sample.png)
+
 <!-- ACTA:BEGIN -->
 ![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
 
