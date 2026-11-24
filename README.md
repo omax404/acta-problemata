@@ -2,47 +2,36 @@
 
 # Acta Problemata
 
-[![daily-edition](https://github.com/omax404/acta-problemata/actions/workflows/daily.yml/badge.svg)](https://github.com/omax404/acta-problemata/actions)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Archive-success?logo=github)](https://omax404.github.io/acta-problemata/)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue?logo=python)](https://python.org)
+[![CI](https://github.com/omax404/acta-problemata/actions/workflows/ci.yml/badge.svg)](https://github.com/omax404/acta-problemata/actions/workflows/ci.yml)
+[![Daily Gazette](https://github.com/omax404/acta-problemata/actions/workflows/daily_gazette.yml/badge.svg)](https://github.com/omax404/acta-problemata/actions/workflows/daily_gazette.yml)
+[![Live archive](https://img.shields.io/badge/GitHub%20Pages-Live%20Archive-success?logo=github)](https://omax404.github.io/acta-problemata/)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)](https://python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
 
-A daily automated pipeline delivering real and realistic **industrial engineering problems** for junior engineers (Morocco first). Solve a challenge, document your engineering solution, and present it directly to companies.
+A daily, automated one-page broadside (A4 PDF) built around a real or realistic **industrial engineering problem**, for junior engineers (Morocco first). Every number is computed and checked by SymPy before it is published. Infrastructure cost: $0 (GitHub Actions + Pages).
 
-**Archive publique en direct** : [https://omax404.github.io/acta-problemata/](https://omax404.github.io/acta-problemata/)
+**Live archive:** https://omax404.github.io/acta-problemata/
 
 ---
 
-## Architecture & Pipeline
+## How it works
 
 ```mermaid
 flowchart LR
-    A["gen_bank.py"] -->|"Generates & Computes"| B["data/bank/*.json"]
-    B --> C["test_bank.py<br/>(Unit Tests)"]
-    B --> D["validate_bank.py<br/>(Honesty Rules)"]
-    D --> E["build_archive.py"]
-    E --> F["docs/<br/>(GitHub Pages)"]
-    B --> G["pick_edition.py"]
-    G --> H["build_html.py"]
-    H --> I["send_email.py<br/>(Resend)"]
+    S[Public sources<br/>CSB, agency audits] --> I[ingest / sources]
+    V[(case vault +<br/>problems/p01-p30)] --> M
+    I --> Y[synthesize<br/>Gemini, optional]
+    Y --> M[math_guard<br/>SymPy verification]
+    M --> O[originality +<br/>legibility checks]
+    O --> T[Typst PDF<br/>templates/broadside.typ]
+    T --> P[docs/ archive<br/>GitHub Pages]
+    T --> D[email / printer<br/>optional]
+    T --> L[data/ledger.json<br/>committed by bot]
 ```
 
----
-
-## Motion companion (optional)
-
-Each daily email can carry a ~10 s animated version of the broadside (ink stamping in, ornaments drawing,
-telemetry values resolving, a "VERIFIED" stamp): an inline **GIF** that plays in any mail client plus an
-**MP4** attachment. The printable Typst **PDF is unchanged and always attached**; the clip is garnish.
-
-- Source: `templates/video/index.html` ([HyperFrames](https://github.com/heygen-com/hyperframes): HTML + GSAP → MP4),
-  fed by the same `edition.json` as the PDF, with bundled OFL fonts and a vendored GSAP (no network at render time).
-- Needs `npm i -g hyperframes` and `ffmpeg`. If either is missing, or a render fails, the pipeline logs it and
-  sends the PDF alone. A clip can never block publication.
-- Local: `acta preview && acta video` → `build/media/acta-NNNN.{mp4,gif}`. Disable with `ACTA_VIDEO=off`
-  or `"video": {"enabled": false}` in `config.json`. Clips live under `build/` and are not committed.
-
----
+- **Zero-secret mode:** with no API keys, the pipeline falls back to the vetted vault and still publishes.
+- **Never blocks:** delivery failures (email, video) raise warnings, not failed editions. Pipeline failures open a GitHub issue.
+- **Git is the database:** each edition is a bot commit (`data/ledger.json`, `docs/`, `badges/`).
 
 ## Honesty Rule (The Core of the Project)
 
@@ -58,106 +47,47 @@ Every sheet strictly carries one of two labels:
 
 ---
 
-## Features
-
-- **Mathematical Integrity**: Every numerical answer in `data/bank/*.json` is computed programmatically by `gen_bank.py` to prevent any statement/solution drift.
-- **Interactive Archive**: Search with instant filtering (`/` hotkey), level filters (★☆☆ to ★★★), and random picker (`Au hasard`).
-- **Print & Memo Ready**:
-  - `Copier l'énoncé [MD]` button to copy the problem statement directly in Markdown for Notion, Word, or LaTeX reports.
-  - One-click print/PDF generator with custom `@page` A4 styling.
-  - KaTeX mathematical rendering with inline (`$ ... $`) and display (`$$ ... $$`) modes.
-  - Keyboard navigation: `←` previous, `→` next, `Escape` to archive.
-- **Honesty Validator (`validate_bank.py`)**: Fails automated builds if any "real" problem lacks complete provenance metadata.
-- **Automated Test Suite (`test_bank.py`)**: Unit tests physics formulas and unit conversion sanity.
-
----
-
-## Project Structure
-
-```
-data/bank/                    One JSON per problem (includes generated answer_key)
-gen_bank.py              Generates data/bank/*.json with computed answer keys
-validate_bank.py         Enforces honesty rules and schema compliance
-test_bank.py             Unit test suite (physics, bounds, formatting)
-pick_edition.py          Selects today's problem (day-of-year rotation)
-build_html.py            Builds responsive email HTML (fr/en)
-build_archive.py         Builds static docs/ archive site for GitHub Pages
-send_email.py            Dispatches daily edition via Resend API
-archive_template.html    Template for archive search & gallery
-problem_template.html    Template for individual problem sheets
-template.html            Template for daily email dispatches
-requirements.txt         Python dependencies (Pillow)
-.github/workflows/       daily.yml automated GitHub Actions cron workflow
-```
-
----
-
-## Quickstart & Local Setup
+## Quickstart
 
 ```bash
-# 1. Install dependencies
-pip install -r requirements.txt
+pip install -e ".[dev]"
+cp .env.example .env        # all keys optional
 
-# 2. Run automated test suite
-python test_bank.py
-
-# 3. Generate problem bank and validate
-python gen_bank.py
-
-# 4. Build archive site into docs/
-python build_archive.py
+acta preview                # compile a vault edition locally, offline
+acta sheet today --out build/today.pdf
+acta verify-vault           # run every vault case through the math guard
+pytest -q                   # full test suite
 ```
 
-### GitHub Pages Deployment
-1. Go to repository **Settings → Pages**.
-2. Under **Build and deployment**, select **Deploy from a branch**.
-3. Set branch to `main` and folder to `/docs`.
-4. Your archive is live at `https://<user>.github.io/acta-problemata/`.
+Other commands: `acta run [--dry-run] [--force-vault]`, `acta check`, `acta request`, `acta mail-pull`, `acta sources-check`, `acta legibility`, `acta video`. Run `acta --help` for details.
+
+### Motion companion (optional)
+Each email can carry a ~10 s animated clip (GIF inline + MP4) rendered from `templates/video/index.html` with [HyperFrames](https://github.com/heygen-com/hyperframes). Needs `npm i -g hyperframes` and `ffmpeg`. Missing tools or a failed render just means the PDF is sent alone. Disable with `ACTA_VIDEO=off`.
 
 ---
 
-## Adding a New Problem
+## Layout
 
-1. Add a problem definition in `gen_bank.py` with physical parameters and formulas.
-2. Run `python gen_bank.py` to compile it to `data/bank/` and check the printed answer key.
-3. Run `python test_bank.py` to ensure all checks pass.
-4. Run `python build_archive.py` to generate the updated static pages.
-5. Commit and push.
+```
+src/acta/        pipeline, math_guard, synthesize, sources, originality, legibility, render, ledger, mailbox, cli
+problems/        p01-p30 parametrized problem generators (French-language)
+templates/       Typst broadside + sheet, video composition
+data/            case_vault, bank, ledger, sources registry
+docs/            published GitHub Pages site (generated)
+extras/          Cloudflare worker for the web request form, email and LaTeX styles
+tests/           pytest suite
+.github/         ci, daily_gazette, request, solution, sources_check workflows
+```
 
+**Legacy v1 (root `*.py` and `*.html` templates):** `gen_bank.py`, `build_archive.py`, `build_html.py`, `pick_edition.py`, `send_email.py`, `validate_bank.py`, `test_bank.py` are the original bank-and-archive generators. They still produce `data/bank/*.json` and the static archive pages, but the `acta` CLI is the current entry point.
 
 ---
 
-## PDF engine & on-demand sheets (Typst pipeline)
+## Adding a problem
 
-A second engine lives in `src/acta/` (CLI: `acta`). It renders one-page A4 PDFs with Typst, verifies every numeric answer with SymPy, and can build a sheet from **any public page**:
+1. Add `problems/pNN_<slug>.py` following `problems/common.py`.
+2. `acta verify-vault && pytest -q`
+3. Open a PR. CI builds a real PDF and uploads it as an artifact.
 
-```bash
-pip install -e .
-acta preview                                   # offline vault edition -> PDF
-acta request --url <page> --email you@x.com    # link + email in, PDF out
-```
-
-Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
-
-<!-- ACTA:BEGIN -->
-![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
-
-**Current streak: 5 day(s) · 5 editions issued.**
-
-### Recent broadsides
-| Date | № | Domain | Headline | Read | Verify |
-|---|---|---|---|---|---|
-| 2026-11-21 | 5 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0005.pdf) | [Solution](docs/gazette/solutions/edition-0005.html) |
-| 2026-11-20 | 4 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0004.pdf) | [Solution](docs/gazette/solutions/edition-0004.html) |
-| 2026-11-19 | 3 | Aerospace | Mars Climate Orbiter Unit Mismatch Trajectory Impulse | [PDF](docs/gazette/archive/acta-0003.pdf) | [Solution](docs/gazette/solutions/edition-0003.html) |
-| 2026-11-18 | 2 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0002.pdf) | [Solution](docs/gazette/solutions/edition-0002.html) |
-| 2026-11-17 | 1 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0001.pdf) | [Solution](docs/gazette/solutions/edition-0001.html) |
-
-### November 2026 — domain focus
-```mermaid
-pie showData title Editions by domain
-  "Fluids" : 2
-  "Thermal" : 2
-  "Aerospace" : 1
-```
-<!-- ACTA:END -->
+## License
+MIT, see [LICENSE](LICENSE).

@@ -1,1 +1,2 @@
+# Legacy v1 scripts only. The package itself: pip install -e ".[dev]"
 Pillow>=10.0
