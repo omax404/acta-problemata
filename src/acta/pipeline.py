@@ -17,7 +17,19 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
-from . import deliver, ingest, legibility, originality, pages, readme_widget, render, style, synthesize, video
+from . import (
+    deliver,
+    ingest,
+    legibility,
+    originality,
+    pages,
+    readme_widget,
+    render,
+    rotation,
+    style,
+    synthesize,
+    video,
+)
 from . import ledger as L
 from .diagrams import render_diagram
 from .math_guard import MathGuardError, VerifiedFormula, verify_formula
@@ -107,7 +119,10 @@ def acquire_content(repo_root: Path, cfg: dict, led: dict, today: date,
     notes: list[str] = []
     if not force_vault:
         domain = _target_domain(cfg, today)
-        src = ingest.fetch_source(domain, led, today, repo_root, cfg.get("source_order"))
+        rcfg = rotation.load_cfg(cfg=cfg)
+        ok = rotation.csb_allowed(led["history"], today, rcfg)
+        skip = frozenset() if ok else frozenset({rotation.CSB_SOURCE_ID})
+        src = ingest.fetch_source(domain, led, today, repo_root, cfg.get("source_order"), skip)
         if src:
             try:
                 case = synthesize.synthesize(src.text, src.domain or domain,

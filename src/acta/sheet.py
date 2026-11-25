@@ -104,8 +104,10 @@ def render_sheet(data: dict, repo_root: Path, out_pdf: Path) -> None:
 
 def load_problem(repo_root: Path, ref: str) -> dict:
     files = sorted((repo_root / "data" / "bank").glob("*.json"))
-    if ref == "today":                      # same rotation as pick_edition.py
-        return json.loads(files[(datetime.now(UTC).timetuple().tm_yday - 1) % len(files)].read_text(encoding="utf-8"))
+    if ref == "today":                      # same rotation policy as pick_edition.py (acta.rotation)
+        from . import rotation
+        bank = [json.loads(f.read_text(encoding="utf-8")) for f in files]
+        return rotation.pick(bank, datetime.now(UTC).date(), rotation.load_cfg(repo_root))
     for f in files:
         p = json.loads(f.read_text(encoding="utf-8"))
         if ref in (p["slug"], str(p.get("id"))):

@@ -131,10 +131,13 @@ def _inbox(led: dict, today: date, repo_root: Path | None) -> list[SourceDoc]:
     return []
 
 
-def _listing(led: dict, today: date, repo_root: Path | None) -> list[SourceDoc]:
+def _listing(led: dict, today: date, repo_root: Path | None,
+             exclude: frozenset = frozenset()) -> list[SourceDoc]:
     """Registry entries with mode=listing AND enabled=true: follow links matching link_pattern."""
     root = repo_root or Path(__file__).resolve().parents[2]
     for s in S.load_registry(root):
+        if s["id"] in exclude:                      # e.g. fail-csb once its 1-in-3 quota is used
+            continue
         if not (s["enabled"] and s["mode"] == "listing" and s.get("listing_url") and s.get("link_pattern")):
             continue
         cache = root / "build" / "cache"
@@ -161,9 +164,9 @@ def _listing(led: dict, today: date, repo_root: Path | None) -> list[SourceDoc]:
 
 
 def fetch_source(domain: str, led: dict, today: date, repo_root: Path | None = None,
-                 order: list[str] | None = None) -> SourceDoc | None:
+                 order: list[str] | None = None, exclude: frozenset = frozenset()) -> SourceDoc | None:
     registry = {"inbox": lambda: _inbox(led, today, repo_root),
-                "listing": lambda: _listing(led, today, repo_root),
+                "listing": lambda: _listing(led, today, repo_root, exclude),
                 "market": lambda: _market(domain, led, today, repo_root),
                 "ntrs": lambda: _ntrs(domain, led, today),
                 "arxiv": lambda: _arxiv(led, today)}

@@ -181,6 +181,17 @@ VERIFIED**; `acta leaderboard` builds `docs/leaderboard.html` (counts per proble
 daily workflow refreshes it. Entries hold a public `handle` (optional pseudonym) + problem + date: never a real
 name or e-mail (handles that look like an e-mail or URL are dropped to anonymous).
 
+### Moroccan focus (`rotation` in config.json)
+
+```json
+"rotation": {"prefer_lang": "fr", "prefer_region": "MA", "csb_max_per_window": 1, "csb_window_days": 3}
+```
+
+Today's bank problem (`acta sheet today`, `acta carousel today`, `pick_edition.py`) prefers French, Moroccan-sector
+problems (p01–p30 and any new `data/bank` entry; `region_code` defaults to `MA`). CSB-derived cases (`track: "csb"`
+or a csb.gov source) appear on at most `csb_max_per_window` days out of every `csb_window_days` (default 1 in 3);
+the live pipeline applies the same cap to the `fail-csb` source via the ledger.
+
 <!-- ACTA:BEGIN -->
 ![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
 

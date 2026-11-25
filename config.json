@@ -7,6 +7,7 @@
   "source_order": ["inbox", "listing", "market", "ntrs", "arxiv"],
   "name_companies": false,
   "pages_base_url": "",
+  "rotation": {"prefer_lang": "fr", "prefer_region": "MA", "csb_max_per_window": 1, "csb_window_days": 3},
   "video": {"enabled": false, "gif": false},
   "llm": {
     "provider_order": ["gemini", "groq", "openai"],
