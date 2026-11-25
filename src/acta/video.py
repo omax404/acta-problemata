@@ -108,7 +108,7 @@ def maybe_render(edition: dict, repo_root: Path, out_stem: Path, cfg: dict) -> d
     """Pipeline entry point: never raises, returns None when disabled/unavailable/failed."""
     vcfg = cfg.get("video", {})
     off = os.environ.get("ACTA_VIDEO", "").lower() in ("0", "off", "false", "no")
-    if off or not vcfg.get("enabled", True):
+    if off or not vcfg.get("enabled", False):
         return None
     if find_cli() is None:
         log.info("video: hyperframes not installed — skipping motion clip")

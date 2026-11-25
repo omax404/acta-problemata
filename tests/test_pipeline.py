@@ -104,6 +104,9 @@ def test_delivery_failure_never_loses_the_edition(repo, monkeypatch):
 
     monkeypatch.setattr(deliver, "send_email", boom)
     monkeypatch.setattr(deliver, "send_printer", boom)
+    cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
+    cfg["printer"] = {"enabled": True}                              # printer is opt-in now
+    (repo / "config.json").write_text(json.dumps(cfg), encoding="utf-8")
     s = pipeline.run(repo, force_vault=True)
     led = json.loads((repo / "data" / "ledger.json").read_text(encoding="utf-8"))
     assert led["streak"] == 1 and led["edition_number"] == 1      # published + recorded
@@ -143,3 +146,17 @@ def test_bank_fallback_when_no_live_source(repo, monkeypatch):
     assert s["origin"] == "bank"
     assert s["case_id"].startswith("bank-")
 
+
+
+def test_video_and_printer_are_off_by_default(repo, monkeypatch):
+    """Scope cut: code kept, but neither runs unless config.json enables it."""
+    from acta import deliver, video
+    cfg = json.loads((repo / "config.json").read_text(encoding="utf-8"))
+    assert cfg["video"]["enabled"] is False and cfg["printer"]["enabled"] is False
+    called = []
+    monkeypatch.setattr(deliver, "send_printer", lambda *a, **k: called.append("printer"))
+    monkeypatch.setattr(video, "render_video", lambda *a, **k: called.append("video"))
+    monkeypatch.setenv("ACTA_HYPERFRAMES", "hyperframes")
+    monkeypatch.delenv("ACTA_VIDEO", raising=False)
+    s = pipeline.run(repo, force_vault=True)
+    assert called == [] and s["video"] is None

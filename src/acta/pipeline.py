@@ -203,7 +203,8 @@ def build_edition(content: Content, vf: VerifiedFormula, cfg: dict, *, edition_n
 
 
 def publish(repo_root: Path, led: dict, today: date, content: Content, edition: dict,
-            vf: VerifiedFormula, pdf: Path, repo_slug: str, media: dict | None = None) -> list[str]:
+            vf: VerifiedFormula, pdf: Path, repo_slug: str, media: dict | None = None,
+            cfg: dict | None = None) -> list[str]:
     """Record + pages + README, then best-effort delivery. Returns delivery errors."""
     n = edition["edition_number"]
     entry = {"edition": n, "date": today.isoformat(), "id": content.case_id,
@@ -214,8 +215,10 @@ def publish(repo_root: Path, led: dict, today: date, content: Content, edition: 
     L.save(repo_root / "data" / "ledger.json", led)          # persisted BEFORE delivery
     readme_widget.update_readme(repo_root, led, today, repo_slug)
     errors = []
-    for name, send in (("email", lambda: deliver.send_email(pdf, edition, media=media)),
-                       ("printer", lambda: deliver.send_printer(pdf))):
+    routes = [("email", lambda: deliver.send_email(pdf, edition, media=media))]
+    if (cfg or {}).get("printer", {}).get("enabled", False):      # off by default (scope cut); code kept
+        routes.append(("printer", lambda: deliver.send_printer(pdf)))
+    for name, send in routes:
         try:
             send()
         except Exception as exc:  # noqa: BLE001 - delivery must never cost us the edition
@@ -273,7 +276,7 @@ def run(repo_root: Path, dry_run: bool = False, force_vault: bool = False) -> di
     media = timed("video", video.maybe_render, edition, repo_root,
                   repo_root / "build" / "media" / f"acta-{edition_no:04d}", cfg)
     delivery_errors = [] if dry_run else timed(
-        "publish", publish, repo_root, led, today, content, edition, vf, pdf, repo_slug, media)
+        "publish", publish, repo_root, led, today, content, edition, vf, pdf, repo_slug, media, cfg)
 
     total = round(time.perf_counter() - t0, 2)
     summary = {"edition": edition_no, "date": today.isoformat(), "origin": content.origin,

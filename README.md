@@ -192,6 +192,12 @@ problems (p01–p30 and any new `data/bank` entry; `region_code` defaults to `MA
 or a csb.gov source) appear on at most `csb_max_per_window` days out of every `csb_window_days` (default 1 in 3);
 the live pipeline applies the same cap to the `fail-csb` source via the ledger.
 
+### Optional delivery (off by default)
+
+Motion clip and printer delivery are scope cuts: the code stays, but `config.json` ships with
+`"video": {"enabled": false}` and `"printer": {"enabled": false}`. Set them to `true` (plus `PRINTER_HOST` /
+`PRINTER_QUEUE`, or the HyperFrames CLI for video) to bring them back.
+
 <!-- ACTA:BEGIN -->
 ![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-5-8a6d3b)
 
