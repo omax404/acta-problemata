@@ -1,7 +1,7 @@
 {
-  "edition_number": 5,
-  "streak": 5,
-  "last_run_date": "2026-11-21",
+  "edition_number": 6,
+  "streak": 1,
+  "last_run_date": "2026-11-25",
   "history": [
     {
       "edition": 1,
@@ -47,12 +47,21 @@
       "headline": "Pasteurisation Heat Exchanger Thermal Duty Verification",
       "pdf": "docs/gazette/archive/acta-0005.pdf",
       "solution": "solutions/edition-0005.html"
+    },
+    {
+      "edition": 6,
+      "date": "2026-11-25",
+      "id": "bank-fuite-air",
+      "domain": "Mechanical",
+      "headline": "Compressed Air Network Orifice Leak Cost Estimation",
+      "pdf": "docs/gazette/archive/acta-0006.pdf",
+      "solution": "solutions/edition-0006.html"
     }
   ],
   "seen": {
     "bank-pompage": "2026-11-20",
     "bank-echangeur": "2026-11-21",
-    "bank-fuite-air": "2026-11-19",
+    "bank-fuite-air": "2026-11-25",
     "bank-mco-unites": "2026-11-19"
   }
 }
