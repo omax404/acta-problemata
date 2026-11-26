@@ -1,0 +1,14 @@
+{
+  "edition": 7,
+  "date": "2026-11-26",
+  "unit": "m/s",
+  "result": 0.174,
+  "full_precision": 0.17430336990595613,
+  "symbolic": "J * k / m",
+  "variables": {
+    "J": 25.0,
+    "k": 4.448222,
+    "m": 638.0
+  },
+  "significant_figures": 3
+}
