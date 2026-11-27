@@ -1,7 +1,7 @@
 {
-  "edition_number": 7,
-  "streak": 2,
-  "last_run_date": "2026-11-26",
+  "edition_number": 8,
+  "streak": 3,
+  "last_run_date": "2026-11-27",
   "history": [
     {
       "edition": 1,
@@ -65,10 +65,19 @@
       "headline": "Mars Climate Orbiter Unit Mismatch Trajectory Impulse",
       "pdf": "docs/gazette/archive/acta-0007.pdf",
       "solution": "solutions/edition-0007.html"
+    },
+    {
+      "edition": 8,
+      "date": "2026-11-27",
+      "id": "bank-pompage",
+      "domain": "Fluids",
+      "headline": "Pumping Line Head Loss Exceeds Operating Margin",
+      "pdf": "docs/gazette/archive/acta-0008.pdf",
+      "solution": "solutions/edition-0008.html"
     }
   ],
   "seen": {
-    "bank-pompage": "2026-11-20",
+    "bank-pompage": "2026-11-27",
     "bank-echangeur": "2026-11-21",
     "bank-fuite-air": "2026-11-25",
     "bank-mco-unites": "2026-11-26"
