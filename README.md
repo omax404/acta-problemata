@@ -140,13 +140,14 @@ acta request --url <page> --email you@x.com    # link + email in, PDF out
 Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflow `request.yml`. See `extras/README.md`.
 
 <!-- ACTA:BEGIN -->
-![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-8-8a6d3b)
+![streak](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/omax404/acta-problemata/main/badges/streak.json) ![editions](https://img.shields.io/badge/editions-9-8a6d3b)
 
-**Current streak: 3 day(s) · 8 editions issued.**
+**Current streak: 4 day(s) · 9 editions issued.**
 
 ### Recent broadsides
 | Date | № | Domain | Headline | Read | Verify |
 |---|---|---|---|---|---|
+| 2026-11-28 | 9 | Thermal | Pasteurisation Heat Exchanger Thermal Duty Verification | [PDF](docs/gazette/archive/acta-0009.pdf) | [Solution](docs/gazette/solutions/edition-0009.html) |
 | 2026-11-27 | 8 | Fluids | Pumping Line Head Loss Exceeds Operating Margin | [PDF](docs/gazette/archive/acta-0008.pdf) | [Solution](docs/gazette/solutions/edition-0008.html) |
 | 2026-11-26 | 7 | Aerospace | Mars Climate Orbiter Unit Mismatch Trajectory Impulse | [PDF](docs/gazette/archive/acta-0007.pdf) | [Solution](docs/gazette/solutions/edition-0007.html) |
 | 2026-11-25 | 6 | Mechanical | Compressed Air Network Orifice Leak Cost Estimation | [PDF](docs/gazette/archive/acta-0006.pdf) | [Solution](docs/gazette/solutions/edition-0006.html) |
@@ -160,7 +161,7 @@ Web form: `docs/request.html` -> Cloudflare Worker (`extras/worker/`) -> workflo
 ```mermaid
 pie showData title Editions by domain
   "Fluids" : 3
-  "Thermal" : 2
+  "Thermal" : 3
   "Aerospace" : 2
   "Mechanical" : 1
 ```

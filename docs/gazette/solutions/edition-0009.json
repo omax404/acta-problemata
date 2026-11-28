@@ -1,0 +1,15 @@
+{
+  "edition": 9,
+  "date": "2026-11-28",
+  "unit": "kW",
+  "result": 527.0,
+  "full_precision": 526.62,
+  "symbolic": "m * cp * (T2 - T1)",
+  "variables": {
+    "m": 2.0,
+    "cp": 3.93,
+    "T2": 72.0,
+    "T1": 5.0
+  },
+  "significant_figures": 3
+}
